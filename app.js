@@ -2370,6 +2370,12 @@ function setupBoardFocusSystem() {
     wrapper.appendChild(targetEl);
     targetEl.classList.add('in-focus-mode');
 
+    // Planche Repérer : en plein écran, on lui donne une largeur adaptée à l'écran
+    // (dans le schéma, elle est étirée sur toute la largeur des 3 planches du dessous)
+    if (targetId === 'transversal-reperage') {
+      ['width', 'min-width', 'max-width'].forEach(prop => targetEl.style.setProperty(prop, '1500px', 'important'));
+    }
+
     // Sauvegarder les styles transversaux d'alignement pour pouvoir les restituer fidèlement
     if (targetId === 'block-besoin-1') {
       try {
@@ -2456,7 +2462,9 @@ function setupBoardFocusSystem() {
       naturalW = 1480;
     } else if (currentFocusedBoard === 'block-besoin-4') {
       naturalW = 2966;
-    } else if (currentFocusedBoard === 'transversal-prevention' || currentFocusedBoard === 'transversal-reperage') {
+    } else if (currentFocusedBoard === 'transversal-reperage') {
+      naturalW = 1500; // largeur donnée à la planche Repérer en plein écran
+    } else if (currentFocusedBoard === 'transversal-prevention') {
       naturalW = 4552;
     } else {
       naturalW = targetEl.offsetWidth || targetEl.scrollWidth || 1570;
@@ -2526,6 +2534,11 @@ function setupBoardFocusSystem() {
       boardEl.classList.remove('in-focus-mode');
       boardEl.style.transform = '';
       boardEl.style.transformOrigin = '';
+
+      // Planche Repérer : on lui rend sa largeur du schéma
+      if (targetId === 'transversal-reperage' && typeof syncTopBlocksWidth === 'function') {
+        syncTopBlocksWidth();
+      }
 
       // Restaurer immédiatement la marge transversale et les hauteurs transversales de B1
       if (targetId === 'block-besoin-1') {
@@ -2968,7 +2981,7 @@ function syncTopBlocksWidth() {
   // Largeur rigoureusement identique aux 3 besoins réunis (B3 1570px + B1 1380px + B2 1570px + gaps 32px = 4552px)
   const exactWidth = '4552px';
   [prev, rep].forEach(el => {
-    if (el) {
+    if (el && !el.classList.contains('in-focus-mode')) {
       el.style.setProperty('width', exactWidth, 'important');
       el.style.setProperty('min-width', exactWidth, 'important');
       el.style.setProperty('max-width', exactWidth, 'important');

@@ -505,3 +505,6 @@ body.mode-synthetic-view .legend-side-window { display: none !important; }
 }
 .synth-map .sm-click:hover .t-box { fill: var(--rouge); }
 .synth-map .sm-click.open-btn:hover rect { fill: var(--rouge); }
+
+/* Planche Repérer en plein écran : on masque la barre « Repérer / Ouvrir » qui fait doublon */
+#transversal-reperage.in-focus-mode .board-collapsed-summary { display: none !important; }
