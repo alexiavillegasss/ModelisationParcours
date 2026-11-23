@@ -1,0 +1,495 @@
+/* ==========================================================================
+   THÈME DAC VAR OUEST
+   Habillage visuel aux couleurs de la charte du DAC.
+   Ce fichier est chargé APRÈS styles.css : il ne modifie que l'apparence
+   (couleurs, police, arrondis, ombres). Toute la logique du schéma et le
+   code couleur des étapes (légende) restent ceux de styles.css.
+   Pour revenir à l'ancien visuel : retirer la ligne theme-dac.css de index.html.
+   ========================================================================== */
+
+:root {
+  /* Charte DAC */
+  --dac-blue-dark: #3766ae;
+  --dac-blue-light: #73bed7;
+  --dac-yellow: #f8b52f;
+  --dac-red: #ea5f45;
+
+  /* Déclinaisons utiles (même teinte, plus foncée / plus claire) */
+  --dac-navy: #24467a;          /* bleu foncé profond pour les titres */
+  --dac-blue-hover: #2d5795;
+  --dac-blue-soft: #eaf1fa;     /* fond bleu très léger */
+  --dac-blue-soft-2: #f4f8fd;
+  --dac-sky-soft: #e8f5fa;
+  --dac-yellow-soft: #fef6e2;
+  --dac-yellow-text: #8a5a00;   /* jaune lisible sur blanc */
+  --dac-red-soft: #fdece8;
+  --dac-red-hover: #d64d34;
+  --dac-ink: #1d2b45;           /* texte principal */
+  --dac-muted: #5b6b85;         /* texte secondaire */
+  --dac-line: #d9e3f0;          /* bordures */
+
+  /* Police de la charte */
+  --font-main: 'Open Sans', -apple-system, 'Segoe UI', sans-serif;
+  --font-title: 'Open Sans', -apple-system, 'Segoe UI', sans-serif;
+
+  /* Couleurs des 4 grands besoins (charte DAC) */
+  --gb-domicile: var(--dac-yellow);
+  --gb-filiere: var(--dac-blue-dark);
+  --gb-relais: var(--dac-red);
+  --gb-etablissement: var(--dac-navy);
+}
+
+html body {
+  font-family: var(--font-main);
+  color: var(--dac-ink);
+  background-color: var(--dac-blue-soft-2);
+}
+
+/* --------------------------------------------------------------------------
+   1. BARRE DU HAUT
+   -------------------------------------------------------------------------- */
+html body .top-control-bar {
+  background: #ffffff;
+  border-bottom: none;
+  padding: 8px 20px 8px 22px;
+  min-height: 60px;
+  box-shadow: 0 1px 0 var(--dac-line);
+}
+
+html body .app-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  padding-left: 12px;
+  border-left: 4px solid var(--dac-blue-dark);
+}
+html body .app-title {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--dac-navy);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+html body .app-logo::after {
+  content: "Modélisation des grands besoins · Var Ouest";
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--dac-muted);
+  letter-spacing: 0.01em;
+}
+
+/* Logo DAC complet, en haut à droite */
+html body .ctrl-right::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 54px;
+  margin-left: 10px;
+  padding-left: 14px;
+  border-left: 1px solid var(--dac-line);
+  background: url("assets/logo_dac_complet.png") no-repeat right center / contain;
+  flex-shrink: 0;
+}
+
+/* Recherche */
+html body .ctrl-search input {
+  font-family: var(--font-main);
+  border: 1.5px solid var(--dac-line);
+  border-radius: 999px;
+  background: var(--dac-blue-soft-2);
+  color: var(--dac-ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+html body .ctrl-search input:focus {
+  border-color: var(--dac-blue-dark);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(55, 102, 174, 0.15);
+  outline: none;
+}
+
+/* Boutons de la barre */
+html body .ctrl-btn {
+  font-family: var(--font-main);
+  border: 1.5px solid var(--dac-line);
+  border-radius: 999px;
+  color: var(--dac-navy);
+  background: #ffffff;
+  font-weight: 700;
+}
+html body .ctrl-btn:hover {
+  border-color: var(--dac-blue-dark);
+  background: var(--dac-blue-soft);
+  color: var(--dac-blue-dark);
+}
+html body .zoom-tools {
+  border-radius: 999px;
+}
+html body .btn-wizard,
+html body .btn-wizard.active {
+  background: var(--dac-red) !important;
+  border: 1.5px solid var(--dac-red) !important;
+  color: #ffffff !important;
+  box-shadow: 0 3px 10px rgba(234, 95, 69, 0.35) !important;
+}
+html body .btn-wizard:hover {
+  background: var(--dac-red-hover) !important;
+  border-color: var(--dac-red-hover) !important;
+}
+html body .btn-export {
+  background: var(--dac-blue-dark) !important;
+  border-color: var(--dac-blue-dark) !important;
+  color: #ffffff !important;
+}
+html body .btn-export:hover {
+  background: var(--dac-blue-hover) !important;
+}
+
+/* Bandeau 4 couleurs de la charte */
+html body .dac-signature-bar {
+  height: 5px;
+}
+
+/* --------------------------------------------------------------------------
+   2. NAVIGATION PAR PLANCHE
+   -------------------------------------------------------------------------- */
+html body .planches-nav-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--dac-line);
+  box-shadow: 0 4px 14px rgba(36, 70, 122, 0.06);
+  padding: 7px 20px;
+}
+html body .planches-nav-label {
+  color: var(--dac-muted);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+html body .nav-planche-btn {
+  font-family: var(--font-main);
+  background: #ffffff;
+  border: 1.5px solid var(--dac-line);
+  color: var(--dac-navy);
+  font-weight: 700;
+  padding: 5px 14px;
+}
+html body .nav-planche-btn:hover {
+  border-color: var(--dac-blue-dark);
+  background: var(--dac-blue-soft);
+}
+html body .nav-planche-btn.active {
+  background: var(--dac-blue-dark);
+  border-color: var(--dac-blue-dark);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(55, 102, 174, 0.35);
+}
+/* Pastilles de couleur des grands besoins */
+html body .nav-dot {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+html body .nav-dot.dot-all { background: var(--dac-blue-light) !important; }
+html body .nav-dot.dot-prev { background: var(--dac-blue-light) !important; }
+html body .nav-dot.dot-rep { background: var(--dac-blue-light) !important; }
+html body .nav-dot.dot-b3 { background: var(--gb-domicile) !important; }
+html body .nav-dot.dot-b1 { background: var(--gb-filiere) !important; }
+html body .nav-dot.dot-b2 { background: var(--gb-relais) !important; }
+html body .nav-dot.dot-b4 { background: var(--gb-etablissement) !important; }
+html body .nav-planche-btn.active .nav-dot { box-shadow: 0 0 0 2px #ffffff; }
+
+html body .nav-mode-btn {
+  font-family: var(--font-main);
+  border-radius: 999px !important;
+  border: 1.5px solid var(--dac-line) !important;
+  background: #ffffff;
+  color: var(--dac-navy);
+}
+html body .nav-mode-btn.active-mode {
+  background: var(--dac-navy) !important;
+  border-color: var(--dac-navy) !important;
+  color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. FOND DU SCHÉMA ET PLANCHES
+   -------------------------------------------------------------------------- */
+/* À l'intérieur du schéma, on garde les polices d'origine : les cartes ont des
+   largeurs calculées au millimètre, une police plus large les ferait déborder.
+   Seuls les grands titres passent en Open Sans. */
+html body .poster-canvas {
+  --font-main: 'Inter', -apple-system, sans-serif;
+  --font-title: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+html body .poster-canvas .roof-arrow-bar,
+html body .poster-canvas .roof-text,
+html body .poster-canvas .b5-section-bar,
+html body .poster-canvas .b1-section-bar,
+html body .poster-canvas .b5-hdr-dark-pill,
+html body .poster-canvas .b1-hdr-dark-pill,
+html body .poster-canvas .bcs-card-title {
+  font-family: 'Open Sans', -apple-system, sans-serif !important;
+}
+
+html body .poster-viewport {
+  background-color: var(--dac-blue-soft-2);
+  background-image:
+    radial-gradient(rgba(55, 102, 174, 0.16) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* Grands bandeaux-titres des planches */
+html body .roof-arrow-bar {
+  font-family: var(--font-title);
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 18px rgba(36, 70, 122, 0.18);
+}
+
+/* Bandeaux de thème (Volet social, Soins palliatifs…) */
+html body .b5-section-bar,
+html body .b1-section-bar {
+  background: var(--dac-blue-dark) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 3px 8px rgba(55, 102, 174, 0.25) !important;
+  font-family: var(--font-title);
+  letter-spacing: 0.08em;
+}
+
+/* Étiquettes sombres (« Besoins identifiés », « Acteurs… ») */
+html body .b5-hdr-dark-pill,
+html body .b1-hdr-dark-pill {
+  background: var(--dac-navy) !important;
+  font-family: var(--font-title);
+}
+
+/* --------------------------------------------------------------------------
+   4. VUE SYNTHÉTIQUE (cartes des planches)
+   -------------------------------------------------------------------------- */
+html body .board-collapsed-summary {
+  font-family: var(--font-main);
+}
+html body .bcs-card-title {
+  font-family: var(--font-title);
+  color: var(--dac-navy);
+}
+html body .bcs-action-btn {
+  background: var(--dac-blue-dark);
+  border-color: var(--dac-blue-dark);
+  font-family: var(--font-main);
+}
+html body .bcs-action-btn:hover,
+html body .board-collapsed-summary:hover .bcs-action-btn {
+  background: var(--dac-red);
+  border-color: var(--dac-red);
+}
+
+/* --------------------------------------------------------------------------
+   5. BOUTON FLOTTANT « ORIENTER PAR BESOIN »
+   -------------------------------------------------------------------------- */
+html body .float-wizard-trigger {
+  background: var(--dac-red);
+  border: 3px solid #ffffff;
+  color: #ffffff;
+  font-family: var(--font-title);
+  box-shadow: 0 10px 28px rgba(234, 95, 69, 0.45), 0 2px 6px rgba(29, 43, 69, 0.2);
+}
+html body .float-wizard-trigger:hover {
+  background: var(--dac-red-hover);
+  box-shadow: 0 14px 32px rgba(234, 95, 69, 0.5), 0 2px 6px rgba(29, 43, 69, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   6. LÉGENDE
+   -------------------------------------------------------------------------- */
+html body .legend-side-window {
+  border: 1px solid var(--dac-line) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 40px rgba(36, 70, 122, 0.2), 0 2px 8px rgba(36, 70, 122, 0.08) !important;
+  font-family: var(--font-main);
+}
+html body .legend-window-header {
+  background: var(--dac-blue-soft) !important;
+  border-bottom: 1px solid var(--dac-line) !important;
+  position: relative;
+}
+html body .legend-window-header::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 4px;
+  background: linear-gradient(90deg,
+    var(--dac-blue-dark) 0 25%, var(--dac-blue-light) 25% 50%,
+    var(--dac-yellow) 50% 75%, var(--dac-red) 75% 100%);
+}
+html body .legend-window-title {
+  color: var(--dac-navy) !important;
+  font-family: var(--font-title);
+}
+
+/* --------------------------------------------------------------------------
+   7. FENÊTRES (fiches, flyers)
+   -------------------------------------------------------------------------- */
+html body .modal-container {
+  border-radius: 16px;
+  overflow: hidden;
+  font-family: var(--font-main);
+}
+html body .modal-header {
+  border-bottom: 1px solid var(--dac-line);
+}
+html body .modal-header h3 {
+  color: var(--dac-navy);
+  font-family: var(--font-title);
+}
+
+/* --------------------------------------------------------------------------
+   8. ASSISTANT « ORIENTER PAR BESOIN »
+   -------------------------------------------------------------------------- */
+html body .pathway-wizard {
+  border: 1px solid var(--dac-line);
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -14px 44px rgba(36, 70, 122, 0.25);
+  font-family: var(--font-main);
+  overflow: hidden;
+}
+html body .wizard-header {
+  position: relative;
+  background: #ffffff;
+  border-bottom: 1px solid var(--dac-line);
+}
+html body .wizard-header::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--dac-blue-dark) 0 25%, var(--dac-blue-light) 25% 50%,
+    var(--dac-yellow) 50% 75%, var(--dac-red) 75% 100%);
+}
+html body .wizard-icon-badge {
+  background: var(--dac-red);
+  box-shadow: 0 4px 10px rgba(234, 95, 69, 0.35);
+}
+html body .wizard-title {
+  color: var(--dac-navy);
+  font-family: var(--font-title);
+}
+html body .wizard-subtitle {
+  color: var(--dac-muted);
+}
+html body .wizard-action-btn {
+  border-radius: 999px;
+  border-color: var(--dac-line);
+  color: var(--dac-navy);
+  font-family: var(--font-main);
+}
+
+/* Onglets des 4 grands besoins */
+html body .wizard-timeline-container {
+  background: var(--dac-blue-soft-2);
+}
+html body .wizard-step {
+  font-family: var(--font-main);
+}
+html body .wizard-step.step-b3.active { background: var(--gb-domicile); }
+html body .wizard-step.step-b3.active .step-title,
+html body .wizard-step.step-b3.active .step-sub { color: #3d2a00; }
+html body .wizard-step.step-b3.active .step-num { background: #ffffff; color: var(--dac-yellow-text); }
+html body .wizard-step.step-b1.active { background: var(--gb-filiere); }
+html body .wizard-step.step-b1.active .step-num { color: var(--gb-filiere); }
+html body .wizard-step.step-b2.active { background: var(--gb-relais); }
+html body .wizard-step.step-b2.active .step-num { color: var(--gb-relais); }
+html body .wizard-step.step-b4.active { background: var(--gb-etablissement); }
+html body .wizard-step.step-b4.active .step-num { color: var(--gb-etablissement); }
+
+html body .wizard-step-badge {
+  background: var(--dac-blue-soft);
+  color: var(--dac-blue-dark);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+html body .wizard-prompt-text {
+  color: var(--dac-navy);
+  font-family: var(--font-title);
+}
+html body .wizard-back-link {
+  color: var(--dac-blue-dark);
+}
+html body .wizard-option-btn {
+  border-radius: 14px;
+  border-color: var(--dac-line);
+  font-family: var(--font-main);
+}
+html body .wizard-option-btn:hover {
+  box-shadow: 0 8px 20px rgba(36, 70, 122, 0.12);
+}
+html body .btn-scenario-texts strong {
+  color: var(--dac-navy);
+  font-family: var(--font-title);
+}
+html body .result-cta-btn {
+  background: var(--dac-blue-dark);
+  border-color: var(--dac-blue-dark);
+  border-radius: 999px;
+  font-family: var(--font-main);
+}
+html body .result-cta-btn:hover {
+  background: var(--dac-blue-hover);
+}
+html body .result-sec-btn {
+  border-radius: 999px;
+  color: var(--dac-navy);
+  border-color: var(--dac-line);
+  font-family: var(--font-main);
+}
+
+/* Éléments propres à « Orienter par besoin » */
+html body .ob-search-input {
+  border-radius: 999px;
+  border-color: var(--dac-line);
+  background: var(--dac-blue-soft-2);
+  padding: 10px 16px;
+}
+html body .ob-search-input:focus {
+  border-color: var(--dac-blue-dark);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(55, 102, 174, 0.15);
+}
+html body .ob-theme {
+  border-radius: 0 14px 14px 0;
+}
+html body .ob-sb-btn {
+  border-radius: 12px;
+  border-color: var(--dac-line);
+}
+html body .ob-sb-label,
+html body .ob-struct-texts strong,
+html body .ob-result-title {
+  color: var(--dac-ink);
+}
+html body .ob-result {
+  border-radius: 16px;
+  border-color: var(--dac-line);
+}
+html body .ob-struct-btn {
+  border-radius: 12px;
+}
+html body .ob-count-empty {
+  color: var(--dac-red-hover);
+  background: var(--dac-red-soft);
+}
+
+/* Cartes des 4 grands besoins dans l'assistant : liseré de couleur en haut */
+html body .wizard-option-btn.ob-gb-btn {
+  border-top: 5px solid var(--ob-color);
+}
+
+/* Liseré de la couleur du grand besoin sous chaque grand bandeau de planche */
+html body .roof-b3 { box-shadow: inset 0 -5px 0 var(--gb-domicile), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }
+html body .roof-b1 { box-shadow: inset 0 -5px 0 var(--dac-blue-light), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }
+html body .roof-b2 { box-shadow: inset 0 -5px 0 var(--gb-relais), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }
+html body .roof-b4 { box-shadow: inset 0 -5px 0 var(--gb-etablissement), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }

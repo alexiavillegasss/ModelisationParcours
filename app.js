@@ -493,6 +493,9 @@ function setupZoomAndPan() {
 
   }
 
+  // Rendue accessible aux autres parties du code (vue synthétique / détaillée)
+  window.updateNavButtons = updateNavButtons;
+
 
 
   function highlightBoard(el) {
@@ -1727,7 +1730,7 @@ function setupReperageInteractivity() {
     setTimeout(applySyntheticZoom, 30);
     setTimeout(applySyntheticZoom, 120);
 
-    updateNavButtons('all');
+    if (typeof window.updateNavButtons === 'function') window.updateNavButtons('all');
     if (typeof updateContextualLegend === 'function') {
       updateContextualLegend('all');
     }
@@ -1757,7 +1760,7 @@ function setupReperageInteractivity() {
     if (typeof alignB3Connectors === 'function') {
       alignB3Connectors();
     }
-    updateNavButtons('all');
+    if (typeof window.updateNavButtons === 'function') window.updateNavButtons('all');
     if (typeof updateContextualLegend === 'function') {
       updateContextualLegend('all');
     }

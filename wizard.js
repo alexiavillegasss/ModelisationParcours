@@ -20,8 +20,10 @@
       dataId: 'besoin-3',
       titre: 'Maintien à domicile',
       icone: '🏠',
-      couleur: '#059669',
-      fond: '#ecfdf5',
+      couleur: '#f8b52f',   // jaune DAC
+      texte: '#8a5a00',
+      surCouleur: '#3d2a00',
+      fond: '#fef6e2',
       descParDefaut: "La personne est au domicile et cherche à tout mettre en place pour pouvoir y rester le plus longtemps possible."
     },
     {
@@ -29,8 +31,10 @@
       dataId: 'besoin-1',
       titre: 'Offre de soins de la filière gériatrique',
       icone: '🏥',
-      couleur: '#2563eb',
-      fond: '#eff6ff',
+      couleur: '#3766ae',   // bleu foncé DAC
+      texte: '#3766ae',
+      surCouleur: '#ffffff',
+      fond: '#eaf1fa',
       descParDefaut: "Filière intra et extra hospitalière en réponse aux différents besoins de santé et de soins."
     },
     {
@@ -38,8 +42,10 @@
       dataId: 'besoin-2',
       titre: 'Relais en ville',
       icone: '🤝',
-      couleur: '#ea580c',
-      fond: '#fff7ed',
+      couleur: '#ea5f45',   // rouge DAC
+      texte: '#c2412b',
+      surCouleur: '#ffffff',
+      fond: '#fdece8',
       descParDefaut: "La personne est hospitalisée et cherche un relais, un retour à domicile sécurisé."
     },
     {
@@ -47,8 +53,10 @@
       dataId: 'besoin-4',
       titre: 'Entrée en établissement',
       icone: '🏢',
-      couleur: '#334155',
-      fond: '#f1f5f9',
+      couleur: '#24467a',   // bleu nuit (dérivé du bleu DAC)
+      texte: '#24467a',
+      surCouleur: '#ffffff',
+      fond: '#eef2f8',
       descParDefaut: "Lorsque le maintien à domicile n'est plus possible en sécurité."
     }
   ];
@@ -107,6 +115,11 @@
     if (!filtre) return true;
     const cible = normaliser(sb.label + ' ' + sb.theme + ' ' + sb.structures.map(s => s.nom + ' ' + s.detail).join(' '));
     return normaliser(filtre).split(' ').filter(Boolean).every(mot => cible.includes(mot));
+  }
+
+  // Variables CSS de couleur d'un grand besoin
+  function varsCss(b) {
+    return `--ob-color:${b.couleur}; --ob-text:${b.texte || b.couleur}; --ob-on:${b.surCouleur || '#ffffff'}; --ob-bg:${b.fond}`;
   }
 
   function echapper(str) {
@@ -425,7 +438,7 @@
   function puceSousBesoin(sb, avecPlanche) {
     const vide = sb.structures.length === 0;
     return `
-      <button class="ob-sb-btn${vide ? ' ob-sb-empty' : ''}" data-sb="${sb._index}" style="--ob-color:${sb.besoin.couleur}">
+      <button class="ob-sb-btn${vide ? ' ob-sb-empty' : ''}" data-sb="${sb._index}" style="${varsCss(sb.besoin)}">
         <span class="ob-sb-label">${echapper(sb.label)}</span>
         <span class="ob-sb-meta">
           ${avecPlanche ? `<span class="ob-sb-planche">${sb.besoin.icone} ${echapper(sb.besoin.titre)} · ${echapper(sb.theme)}</span>` : ''}
@@ -472,7 +485,7 @@
       ${enTete(1, 'Quel est le grand besoin de la personne ?')}
       <div class="wizard-options-grid starter-grid">
         ${catalogue().map((b, i) => `
-          <button class="wizard-option-btn starter-btn ob-gb-btn" data-gb="${i}" style="--ob-color:${b.couleur}; --ob-bg:${b.fond}">
+          <button class="wizard-option-btn starter-btn ob-gb-btn" data-gb="${i}" style="${varsCss(b)}">
             <span class="btn-scenario-icon">${b.icone}</span>
             <div class="btn-scenario-texts">
               <strong>${echapper(b.titre)}</strong>
@@ -534,7 +547,7 @@
         const sbs = t.sousBesoins.filter(sb => correspond(sb, q));
         if (!sbs.length) return '';
         return `
-          <section class="ob-theme" style="--ob-color:${besoin.couleur}; --ob-bg:${besoin.fond}">
+          <section class="ob-theme" style="${varsCss(besoin)}">
             <h5 class="ob-theme-title">${echapper(t.nom)}</h5>
             <div class="ob-sb-grid">${sbs.map(sb => puceSousBesoin(sb, false)).join('')}</div>
           </section>`;
@@ -588,7 +601,7 @@
 
     box.innerHTML = `
       ${enTete(3, 'Les structures à mobiliser', { action: 'liste', texte: `Autres besoins : ${echapper(sb.besoin.titre)}` })}
-      <div class="ob-result" style="--ob-color:${sb.besoin.couleur}; --ob-bg:${sb.besoin.fond}">
+      <div class="ob-result" style="${varsCss(sb.besoin)}">
         <div class="ob-result-head">
           <span class="ob-result-path">${sb.besoin.icone} ${echapper(sb.besoin.titre)} &rsaquo; ${echapper(sb.theme)}</span>
           <h3 class="ob-result-title">${echapper(sb.label)}</h3>

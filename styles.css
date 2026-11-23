@@ -16295,7 +16295,7 @@ body.mode-synthetic-view #block-besoin-4 {
   margin-top: 6px;
   font-size: 0.66rem;
   font-weight: 800;
-  color: var(--ob-color, #2563eb);
+  color: var(--ob-text, var(--ob-color, #2563eb));
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -16328,7 +16328,7 @@ body.mode-synthetic-view #block-besoin-4 {
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--ob-color, #2563eb);
+  color: var(--ob-text, var(--ob-color, #2563eb));
 }
 
 .ob-sb-grid {
@@ -16361,7 +16361,7 @@ body.mode-synthetic-view #block-besoin-4 {
 .ob-sb-count {
   font-size: 0.62rem;
   font-weight: 800;
-  color: var(--ob-color, #2563eb);
+  color: var(--ob-text, var(--ob-color, #2563eb));
   background: #f1f5f9;
   border-radius: 999px;
   padding: 1px 7px;
@@ -16377,7 +16377,7 @@ body.mode-synthetic-view #block-besoin-4 {
   padding: 14px 16px;
   background: #ffffff;
 }
-.ob-result-path { font-size: 0.68rem; font-weight: 700; color: var(--ob-color, #2563eb); text-transform: uppercase; letter-spacing: 0.03em; }
+.ob-result-path { font-size: 0.68rem; font-weight: 700; color: var(--ob-text, var(--ob-color, #2563eb)); text-transform: uppercase; letter-spacing: 0.03em; }
 .ob-result-title { margin: 4px 0 10px; font-family: var(--font-title, inherit); font-size: 1.02rem; font-weight: 800; color: #0f172a; }
 .ob-result-hint { font-size: 0.72rem; color: #64748b; margin: 0 0 8px; }
 
@@ -16402,7 +16402,7 @@ body.mode-synthetic-view #block-besoin-4 {
   height: 22px;
   border-radius: 50%;
   background: var(--ob-color, #2563eb);
-  color: #ffffff;
+  color: var(--ob-on, #ffffff);
   font-size: 0.68rem;
   font-weight: 800;
   display: flex;
@@ -16412,7 +16412,7 @@ body.mode-synthetic-view #block-besoin-4 {
 .ob-struct-texts { flex: 1; display: flex; flex-direction: column; gap: 2px; }
 .ob-struct-texts strong { font-size: 0.78rem; color: #0f172a; }
 .ob-struct-texts small { font-size: 0.66rem; color: #475569; }
-.ob-struct-cta { font-size: 0.66rem; font-weight: 800; color: var(--ob-color, #2563eb); white-space: nowrap; }
+.ob-struct-cta { font-size: 0.66rem; font-weight: 800; color: var(--ob-text, var(--ob-color, #2563eb)); white-space: nowrap; }
 
 .ob-tools, .ob-followup { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .ob-followup { display: block; }
