@@ -1,0 +1,467 @@
+/* ==========================================================================
+   ORIENTER PAR BESOIN : écran plein, simple, séparé du schéma
+   Chargé après styles.css et theme-dac.css.
+   ========================================================================== */
+
+/* ---------- Le panneau devient un écran plein ---------- */
+html body .pathway-wizard.ob-fullscreen {
+  position: fixed;
+  inset: 0;
+  left: 0;
+  width: 100%;
+  max-height: none;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: #f4f8fd;
+  z-index: 11000;               /* sous les fiches / flyers (30000) */
+  transform: translateY(24px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.28s;
+  display: flex;
+  flex-direction: column;
+}
+html body .pathway-wizard.ob-fullscreen.open {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+body.ob-is-open { overflow: hidden; }
+
+/* On masque ce qui n'est plus utile dans la version simple */
+html body .pathway-wizard.ob-fullscreen .wizard-timeline-container,
+html body .pathway-wizard.ob-fullscreen #wizard-btn-collapse,
+html body .pathway-wizard.ob-fullscreen #wizard-btn-reset,
+html body .pathway-wizard.ob-fullscreen .wizard-subtitle {
+  display: none !important;
+}
+
+/* En-tête */
+html body .pathway-wizard.ob-fullscreen .wizard-header {
+  background: #ffffff;
+  padding: 16px max(24px, calc((100% - 920px) / 2));
+  border-bottom: 1px solid #d9e3f0;
+  flex-shrink: 0;
+}
+html body .pathway-wizard.ob-fullscreen .wizard-title {
+  font-size: 1.15rem;
+}
+html body .pathway-wizard.ob-fullscreen #wizard-btn-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Corps : colonne centrée, lisible */
+html body .pathway-wizard.ob-fullscreen .wizard-body {
+  flex: 1;
+  max-height: none;
+  overflow-y: auto;
+  padding: 28px 24px 60px;
+}
+html body .pathway-wizard.ob-fullscreen .wizard-question-box {
+  max-width: 920px;
+  margin: 0 auto;
+  font-family: 'Open Sans', -apple-system, 'Segoe UI', sans-serif;
+  color: #1d2b45;
+}
+
+/* ---------- Éléments communs ---------- */
+.ob-screen { animation: obFade 0.25s ease; }
+@keyframes obFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.ob-question {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #24467a;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.ob-hint {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+  color: #5b6b85;
+}
+.ob-empty {
+  font-size: 1rem;
+  color: #5b6b85;
+  text-align: center;
+  padding: 18px;
+}
+
+/* Fil d'Ariane */
+.ob-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+.ob-crumb {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  color: #3766ae;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ob-crumb:hover { text-decoration: underline; }
+.ob-crumb-sep { color: #9aa9bf; }
+.ob-crumb-current { color: #5b6b85; font-weight: 600; }
+
+/* ---------- Écran 1 : accueil ---------- */
+.ob-home { text-align: center; padding-top: 18px; }
+.ob-home .ob-question { font-size: 2rem; margin-bottom: 22px; }
+
+.ob-search-big {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+  color: #3766ae;
+}
+.ob-search-big svg {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.ob-search-big input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px 22px 18px 58px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  color: #1d2b45;
+  background: #ffffff;
+  border: 2px solid #d9e3f0;
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(36, 70, 122, 0.08);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.ob-search-big input:focus {
+  outline: none;
+  border-color: #3766ae;
+  box-shadow: 0 0 0 5px rgba(55, 102, 174, 0.15), 0 8px 24px rgba(36, 70, 122, 0.08);
+}
+.ob-search-results {
+  max-width: 680px;
+  margin: 14px auto 0;
+  text-align: left;
+}
+
+.ob-or {
+  margin: 34px 0 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9aa9bf;
+}
+
+.ob-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+@media (max-width: 720px) {
+  .ob-tiles { grid-template-columns: 1fr; }
+}
+.ob-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 24px 24px 22px 26px;
+  background: #ffffff;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(36, 70, 122, 0.08);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.ob-tile::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 8px;
+  background: var(--ob-color);
+}
+.ob-tile:hover,
+.ob-tile:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--ob-color);
+  box-shadow: 0 14px 30px rgba(36, 70, 122, 0.14);
+  outline: none;
+}
+.ob-tile-icon {
+  font-size: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--ob-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.ob-tile-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1d2b45;
+}
+.ob-tile-text {
+  font-size: 0.95rem;
+  color: #5b6b85;
+  line-height: 1.4;
+}
+
+/* ---------- Listes de besoins (écran 2 et résultats de recherche) ---------- */
+.ob-screen-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.ob-head-icon {
+  flex-shrink: 0;
+  font-size: 1.9rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--ob-bg);
+  border: 2px solid var(--ob-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ob-group { margin-bottom: 22px; }
+.ob-group-title {
+  margin: 0 0 8px 4px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ob-text, #3766ae);
+}
+.ob-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ob-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 15px 18px;
+  background: #ffffff;
+  border: 1.5px solid #e3eaf4;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease;
+}
+.ob-row:hover,
+.ob-row:focus-visible {
+  border-color: var(--ob-color);
+  box-shadow: 0 6px 16px rgba(36, 70, 122, 0.1);
+  transform: translateX(2px);
+  outline: none;
+}
+.ob-row-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ob-color);
+}
+.ob-row-texts { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.ob-row-label { font-size: 1.02rem; font-weight: 700; color: #1d2b45; line-height: 1.35; }
+.ob-row-sub { font-size: 0.82rem; color: #5b6b85; }
+.ob-row-arrow {
+  flex-shrink: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ob-text, #3766ae);
+}
+
+/* ---------- Écran 3 : qui contacter ---------- */
+.ob-answer-head {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 22px 26px;
+  border-left: 8px solid var(--ob-color);
+  box-shadow: 0 6px 20px rgba(36, 70, 122, 0.07);
+  margin-bottom: 26px;
+}
+.ob-answer-kicker {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ob-text, #3766ae);
+}
+.ob-answer-title {
+  margin: 6px 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1d2b45;
+  line-height: 1.3;
+}
+
+.ob-section-title {
+  margin: 26px 0 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #24467a;
+}
+.ob-steps {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  position: relative;
+}
+/* Fil vertical qui relie les étapes */
+.ob-steps::before {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 24px;
+  bottom: 24px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--ob-bg);
+}
+.ob-steps li { position: relative; margin-bottom: 10px; }
+.ob-struct {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 18px 14px 12px;
+  background: #ffffff;
+  border: 1.5px solid #e3eaf4;
+  border-radius: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.ob-struct:hover,
+.ob-struct:focus-visible {
+  border-color: var(--ob-color);
+  box-shadow: 0 8px 20px rgba(36, 70, 122, 0.1);
+  outline: none;
+}
+.ob-struct-num {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ob-color);
+  color: var(--ob-on, #ffffff);
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 5px #f4f8fd;
+}
+.ob-struct-body { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.ob-struct-step {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5b6b85;
+}
+.ob-struct-name { font-size: 1.05rem; font-weight: 700; color: #1d2b45; line-height: 1.3; }
+.ob-struct-detail { font-size: 0.88rem; color: #5b6b85; }
+.ob-struct-cta {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--ob-bg);
+  color: var(--ob-text, #3766ae);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.ob-struct:hover .ob-struct-cta { background: var(--ob-color); color: var(--ob-on, #ffffff); }
+
+.ob-tools {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ob-tools-label { font-size: 0.9rem; font-weight: 700; color: #24467a; margin-right: 2px; }
+.ob-chip {
+  font-size: 0.85rem;
+  color: #24467a;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.ob-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 1px solid #d9e3f0;
+}
+.ob-btn {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.ob-btn-ghost {
+  background: #ffffff;
+  border: 1.5px solid #d9e3f0;
+  color: #24467a;
+}
+.ob-btn-ghost:hover { border-color: #3766ae; background: #eaf1fa; }
+.ob-btn-primary {
+  margin-left: auto;
+  background: #3766ae;
+  border: 1.5px solid #3766ae;
+  color: #ffffff;
+}
+.ob-btn-primary:hover { background: #2d5795; }
+
+@media (max-width: 640px) {
+  .ob-home .ob-question { font-size: 1.5rem; }
+  .ob-question { font-size: 1.3rem; }
+  .ob-struct-cta { display: none; }
+  .ob-btn-primary { margin-left: 0; }
+}
+
+.ob-section-title + .ob-list { margin-top: 12px; }

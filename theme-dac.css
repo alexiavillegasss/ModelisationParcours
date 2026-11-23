@@ -447,47 +447,6 @@ html body .result-sec-btn {
   font-family: var(--font-main);
 }
 
-/* Éléments propres à « Orienter par besoin » */
-html body .ob-search-input {
-  border-radius: 999px;
-  border-color: var(--dac-line);
-  background: var(--dac-blue-soft-2);
-  padding: 10px 16px;
-}
-html body .ob-search-input:focus {
-  border-color: var(--dac-blue-dark);
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(55, 102, 174, 0.15);
-}
-html body .ob-theme {
-  border-radius: 0 14px 14px 0;
-}
-html body .ob-sb-btn {
-  border-radius: 12px;
-  border-color: var(--dac-line);
-}
-html body .ob-sb-label,
-html body .ob-struct-texts strong,
-html body .ob-result-title {
-  color: var(--dac-ink);
-}
-html body .ob-result {
-  border-radius: 16px;
-  border-color: var(--dac-line);
-}
-html body .ob-struct-btn {
-  border-radius: 12px;
-}
-html body .ob-count-empty {
-  color: var(--dac-red-hover);
-  background: var(--dac-red-soft);
-}
-
-/* Cartes des 4 grands besoins dans l'assistant : liseré de couleur en haut */
-html body .wizard-option-btn.ob-gb-btn {
-  border-top: 5px solid var(--ob-color);
-}
-
 /* Liseré de la couleur du grand besoin sous chaque grand bandeau de planche */
 html body .roof-b3 { box-shadow: inset 0 -5px 0 var(--gb-domicile), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }
 html body .roof-b1 { box-shadow: inset 0 -5px 0 var(--dac-blue-light), 0 6px 18px rgba(36, 70, 122, 0.18) !important; }

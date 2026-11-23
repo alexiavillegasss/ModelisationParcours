@@ -1,11 +1,14 @@
 // ========================================================
 // ORIENTER PAR BESOIN
-// Assistant d'orientation : grand besoin -> besoin d'entrée -> structures
+// Écran simple, séparé du schéma :
+//   1. De quoi la personne a-t-elle besoin ? (recherche ou 4 grandes tuiles)
+//   2. Quel est son besoin précis ? (liste simple)
+//   3. Qui contacter ? (structures, dans l'ordre du parcours)
 //
-// Les besoins d'entrée (sous-besoins) et les structures ne sont PAS saisis
-// ici : ils sont lus directement dans le schéma (première colonne de chaque
-// planche). Quand une ligne est ajoutée ou modifiée dans le schéma,
-// l'assistant se met à jour automatiquement.
+// Les besoins et les structures ne sont PAS saisis ici : ils sont lus
+// directement dans le schéma (première colonne de chaque planche).
+// Quand une ligne est ajoutée ou modifiée dans le schéma, l'assistant se
+// met à jour automatiquement.
 // ========================================================
 
 (function () {
@@ -13,65 +16,61 @@
 
   // --------------------------------------------------------
   // 1. Les 4 grands besoins (dans l'ordre du schéma)
+  //    "phrase" = texte court affiché sur la tuile, à modifier librement
   // --------------------------------------------------------
   const GRANDS_BESOINS = [
     {
       blockId: 'block-besoin-3',
-      dataId: 'besoin-3',
       titre: 'Maintien à domicile',
+      phrase: 'La personne vit chez elle et souhaite y rester.',
       icone: '🏠',
       couleur: '#f8b52f',   // jaune DAC
       texte: '#8a5a00',
       surCouleur: '#3d2a00',
-      fond: '#fef6e2',
-      descParDefaut: "La personne est au domicile et cherche à tout mettre en place pour pouvoir y rester le plus longtemps possible."
+      fond: '#fef6e2'
     },
     {
       blockId: 'block-besoin-1',
-      dataId: 'besoin-1',
-      titre: 'Offre de soins de la filière gériatrique',
+      titre: 'Filière gériatrique',
+      phrase: "La personne a besoin d'un avis, d'un bilan ou de soins à l'hôpital.",
       icone: '🏥',
       couleur: '#3766ae',   // bleu foncé DAC
       texte: '#3766ae',
       surCouleur: '#ffffff',
-      fond: '#eaf1fa',
-      descParDefaut: "Filière intra et extra hospitalière en réponse aux différents besoins de santé et de soins."
+      fond: '#eaf1fa'
     },
     {
       blockId: 'block-besoin-2',
-      dataId: 'besoin-2',
       titre: 'Relais en ville',
+      phrase: "La personne sort de l'hôpital et rentre à domicile.",
       icone: '🤝',
       couleur: '#ea5f45',   // rouge DAC
       texte: '#c2412b',
       surCouleur: '#ffffff',
-      fond: '#fdece8',
-      descParDefaut: "La personne est hospitalisée et cherche un relais, un retour à domicile sécurisé."
+      fond: '#fdece8'
     },
     {
       blockId: 'block-besoin-4',
-      dataId: 'besoin-4',
       titre: 'Entrée en établissement',
+      phrase: "Rester à domicile n'est plus possible.",
       icone: '🏢',
       couleur: '#24467a',   // bleu nuit (dérivé du bleu DAC)
       texte: '#24467a',
       surCouleur: '#ffffff',
-      fond: '#eef2f8',
-      descParDefaut: "Lorsque le maintien à domicile n'est plus possible en sécurité."
+      fond: '#eef2f8'
     }
   ];
 
   // --------------------------------------------------------
-  // 2. État de l'assistant
+  // 2. État
   // --------------------------------------------------------
   const state = {
     isOpen: false,
-    isCollapsed: false,
-    catalogue: null,        // besoins lus dans le schéma
-    besoin: null,           // grand besoin sélectionné
-    sousBesoin: null,       // besoin d'entrée sélectionné
-    filtre: '',
-    boardAffiche: null      // planche actuellement zoomée par l'assistant
+    catalogue: null,
+    ecran: 'accueil',   // accueil | liste | reponse
+    besoin: null,
+    sousBesoin: null,
+    boardAffiche: null
   };
 
   // --------------------------------------------------------
@@ -81,7 +80,6 @@
     return (str || '').replace(/\s+/g, ' ').trim();
   }
 
-  // Texte d'un élément en remplaçant les <br> par des espaces
   function texte(el) {
     if (!el) return '';
     const clone = el.cloneNode(true);
@@ -90,7 +88,7 @@
   }
 
   // "MAINTIEN À DOMICILE — VOLET SOCIAL" -> "Volet social"
-  function joliTheme(str) {
+  function joliTexte(str) {
     let t = nettoyer(str);
     if (t.includes('—')) t = nettoyer(t.split('—').pop());
     if (t === t.toUpperCase()) {
@@ -111,27 +109,23 @@
       .trim();
   }
 
-  function correspond(sb, filtre) {
-    if (!filtre) return true;
-    const cible = normaliser(sb.label + ' ' + sb.theme + ' ' + sb.structures.map(s => s.nom + ' ' + s.detail).join(' '));
-    return normaliser(filtre).split(' ').filter(Boolean).every(mot => cible.includes(mot));
-  }
-
-  // Variables CSS de couleur d'un grand besoin
-  function varsCss(b) {
-    return `--ob-color:${b.couleur}; --ob-text:${b.texte || b.couleur}; --ob-on:${b.surCouleur || '#ffffff'}; --ob-bg:${b.fond}`;
+  function correspond(sb, recherche) {
+    if (!recherche) return true;
+    const cible = normaliser(sb.label + ' ' + sb.theme + ' ' + sb.besoin.titre + ' ' + sb.structures.map(s => s.nom + ' ' + s.detail).join(' '));
+    return normaliser(recherche).split(' ').filter(Boolean).every(mot => cible.includes(mot));
   }
 
   function echapper(str) {
     return (str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
+  function varsCss(b) {
+    return `--ob-color:${b.couleur}; --ob-text:${b.texte}; --ob-on:${b.surCouleur}; --ob-bg:${b.fond}`;
+  }
+
   // --------------------------------------------------------
   // 4. Lecture du schéma
   // --------------------------------------------------------
-
-  // Nom + précision d'une carte structure.
-  // Ex : <div class="sch-card"><span>CCAS</span><span>Ateliers collectifs</span></div>
   function lireCarte(card) {
     const parts = [];
     let courant = '';
@@ -156,19 +150,18 @@
     };
   }
 
-  // Toutes les structures (cartes cliquables) d'une ligne, sans doublon
-  function structuresDeLigne(ligne, extraDetail) {
+  function structuresDeLigne(ligne, avecCritereB4) {
     const vues = new Set();
     const liste = [];
     ligne.querySelectorAll('.sch-card').forEach(card => {
       const s = lireCarte(card);
       if (!s.nom) return;
-      if (extraDetail) {
+      if (avecCritereB4) {
         const piste = card.closest('.b4-track-top, .b4-track-bottom');
         const crit = piste ? texte(piste.querySelector('.b4-track-text-group')) : '';
         if (crit) s.detail = s.detail ? s.detail + ' · ' + crit : crit;
       }
-      // Même structure dans deux colonnes différentes = deux étapes différentes : on garde les deux
+      // Même structure dans deux colonnes = deux étapes différentes : on garde les deux
       const col = card.closest('[style*="grid-column"]');
       const cle = s.id + '|' + s.nom + '|' + s.detail + '|' + (col ? col.style.gridColumn : '');
       if (vues.has(cle)) return;
@@ -178,33 +171,29 @@
     return liste;
   }
 
-  // Outils / étapes non cliquables affichés sur la ligne (ex : "Auto-évaluation : Solitest")
   function outilsDeLigne(ligne) {
     const vus = new Set();
     const liste = [];
-    ligne.querySelectorAll('.b5-pill:not(.sch-card), .b1-pill:not(.sch-card), .b5-vt-badge').forEach(p => {
+    ligne.querySelectorAll('.b5-pill:not(.sch-card), .b1-pill:not(.sch-card), .b5-vt-badge, .vt-on-arrow').forEach(p => {
       const t = texte(p);
-      // On ignore les petites pastilles "OUI" / "NON"
       if (t && t.length > 3 && !vus.has(t)) { vus.add(t); liste.push(t); }
     });
     return liste;
   }
 
-  // Planches "matrice" (Maintien à domicile, Filière gériatrique, Relais en ville)
   function lirePlancheMatrice(block, gb) {
     const themes = [];
     let theme = null;
-    const elements = block.querySelectorAll('.b5-section-bar, .b1-section-bar, .b5-crit, .b1-crit');
-    elements.forEach(el => {
+    block.querySelectorAll('.b5-section-bar, .b1-section-bar, .b5-crit, .b1-crit').forEach(el => {
       if (el.matches('.b5-section-bar, .b1-section-bar')) {
-        theme = { nom: joliTheme(texte(el)), sousBesoins: [] };
+        theme = { nom: joliTexte(texte(el)), sousBesoins: [] };
         themes.push(theme);
         return;
       }
       const label = texte(el);
       const ligne = el.closest('.b5-row, .b1-row') || el.parentElement;
 
-      // Ligne sans libellé = suite de la ligne précédente (même besoin sur 2 lignes)
+      // Ligne sans libellé = suite de la ligne précédente
       if (!label) {
         const precedent = theme && theme.sousBesoins[theme.sousBesoins.length - 1];
         if (precedent) {
@@ -230,17 +219,16 @@
         outils: outilsDeLigne(ligne)
       });
     });
-    return themes.filter(t => t.sousBesoins.length > 0);
+    return themes;
   }
 
-  // Planche "Entrée en établissement" : profils -> niveau d'autonomie -> établissement
   function lirePlancheEtablissement(block, gb) {
     const themes = [];
     block.querySelectorAll('.b4-tree-group').forEach(groupe => {
       const nomProfil = texte(groupe.querySelector('.b4-profil-name'));
       const sousProfil = texte(groupe.querySelector('.b4-profil-sub'));
       const theme = {
-        nom: nomProfil ? (sousProfil ? `${nomProfil} — ${sousProfil}` : nomProfil) : 'Profil',
+        nom: nomProfil ? (sousProfil ? `${nomProfil} (${sousProfil})` : nomProfil) : 'Profil',
         sousBesoins: []
       };
       groupe.querySelectorAll('.b4-branch-row').forEach(ligne => {
@@ -252,14 +240,13 @@
           besoin: gb,
           lignes: [ligne],
           structures: structuresDeLigne(ligne, true),
-          outils: Array.from(ligne.querySelectorAll('.vt-on-arrow')).map(texte).filter((v, i, a) => v && a.indexOf(v) === i)
+          outils: outilsDeLigne(ligne)
         });
       });
-      if (theme.sousBesoins.length) themes.push(theme);
+      themes.push(theme);
     });
 
-    // Types de lits en EHPAD
-    const lits = { nom: 'Types de lits en EHPAD', sousBesoins: [] };
+    const lits = { nom: 'Types de lits en EHPAD', estLits: true, sousBesoins: [] };
     block.querySelectorAll('.b4-lit-row-unified').forEach(ligne => {
       const label = texte(ligne.querySelector('.b4-lit-crit-text'));
       if (!label) return;
@@ -272,26 +259,68 @@
         outils: Array.from(ligne.querySelectorAll('.b4-decision-med-badge')).map(texte).filter(Boolean)
       });
     });
-    if (lits.sousBesoins.length) themes.push(lits);
+    themes.push(lits);
     return themes;
   }
 
-  // Étapes du parcours (colonnes du haut : Prévention, Informations, Évaluation…)
-  // Calculées d'après la position de la carte sous les en-têtes de colonnes.
+  function criteresEtablissement() {
+    const block = document.getElementById('block-besoin-4');
+    if (!block) return [];
+    return Array.from(block.querySelectorAll('.eval-titre')).map(texte).filter(Boolean);
+  }
+
+  function construireCatalogue() {
+    return GRANDS_BESOINS.map(gb => {
+      const besoin = Object.assign({}, gb, { themes: [] });
+      const block = document.getElementById(gb.blockId);
+      if (block) {
+        besoin.themes = (gb.blockId === 'block-besoin-4'
+          ? lirePlancheEtablissement(block, besoin)
+          : lirePlancheMatrice(block, besoin))
+          // Pour l'utilisateur, on ne montre que les besoins qui ont au moins une structure
+          .map(t => Object.assign(t, { sousBesoins: t.sousBesoins.filter(sb => sb.structures.length > 0) }))
+          .filter(t => t.sousBesoins.length > 0);
+      }
+      return besoin;
+    });
+  }
+
+  function catalogue() {
+    if (!state.catalogue) {
+      state.catalogue = construireCatalogue();
+      tousLesSousBesoins().forEach((sb, i) => { sb._index = i; });
+    }
+    return state.catalogue;
+  }
+
+  function tousLesSousBesoins() {
+    const liste = [];
+    (state.catalogue || []).forEach(b => b.themes.forEach(t => t.sousBesoins.forEach(sb => liste.push(sb))));
+    return liste;
+  }
+
+  // --------------------------------------------------------
+  // 5. Étapes du parcours (colonnes du schéma) pour ranger la réponse
+  // --------------------------------------------------------
   function colonnesEtapes(block) {
     const entete = block.querySelector('.b5-col-headers, .b1-col-headers');
     if (!entete) return [];
     const feuilles = [];
     entete.querySelectorAll('.b5-ch-pill, .b1-ch-pill, .b5-sub-pill, .b1-sub-pill').forEach(el => {
       const estSous = el.matches('.b5-sub-pill, .b1-sub-pill');
-      // Un en-tête qui a des sous-colonnes n'est pas une feuille
-      if (!estSous) {
+      let nom = joliTexte(texte(el));
+      if (estSous) {
+        // "Programmées" seul n'est pas clair : on le préfixe par l'en-tête parent s'il est court
+        const parent = el.closest('.b5-ch-green-wrap, .b5-ch-red-wrap, .b1-ch-blue-wrap');
+        const titreParent = parent ? joliTexte(texte(parent.querySelector('.b5-ch-pill, .b1-ch-pill'))) : '';
+        if (titreParent && titreParent.length <= 20) nom = `${titreParent} – ${nom}`;
+      } else {
         const wrap = el.parentElement;
-        if (wrap && wrap.querySelector('.b5-sub-pill, .b1-sub-pill') && wrap !== entete) return;
+        if (wrap && wrap !== entete && wrap.querySelector('.b5-sub-pill, .b1-sub-pill')) return;
       }
       const r = el.getBoundingClientRect();
       if (!r.width) return;
-      feuilles.push({ nom: joliTheme(texte(el)), gauche: r.left, droite: r.right });
+      feuilles.push({ nom, gauche: r.left, droite: r.right });
     });
     return feuilles.sort((a, b) => a.gauche - b.gauche);
   }
@@ -310,70 +339,31 @@
     return meilleure;
   }
 
-  // Regroupe les structures d'un besoin par étape du parcours (dans l'ordre des colonnes)
-  function grouperParEtape(sb) {
+  // Structures triées dans l'ordre du parcours, chacune avec son étape
+  function structuresOrdonnees(sb) {
     const block = document.getElementById(sb.besoin.blockId);
+    // Les cartes doivent être visibles pour mesurer leur position : on déplie la planche si besoin
+    if (block && block.classList.contains('is-collapsed') && typeof window.toggleBoardCollapse === 'function') {
+      try { window.toggleBoardCollapse(sb.besoin.blockId, false); } catch (e) { /* sans gravité */ }
+    }
     const colonnes = block && sb.besoin.blockId !== 'block-besoin-4' ? colonnesEtapes(block) : [];
-    const groupes = [];
-    sb.structures.forEach(s => {
-      const idx = etapeDeCarte(s.el, colonnes);
-      const nom = idx === null ? '' : colonnes[idx].nom;
-      const ordre = idx === null ? 999 : idx;
-      let g = groupes.find(x => x.nom === nom);
-      if (!g) { g = { nom, ordre, structures: [] }; groupes.push(g); }
-      g.structures.push(s);
-    });
-    groupes.sort((a, b) => a.ordre - b.ordre);
-    return groupes;
-  }
-
-  // Critères à évaluer avant une entrée en établissement
-  function criteresEtablissement() {
-    const block = document.getElementById('block-besoin-4');
-    if (!block) return [];
-    return Array.from(block.querySelectorAll('.eval-titre')).map(texte).filter(Boolean);
-  }
-
-  function construireCatalogue() {
-    const initial = window.APP_INITIAL_DATA && window.APP_INITIAL_DATA.besoins ? window.APP_INITIAL_DATA.besoins : [];
-    return GRANDS_BESOINS.map(gb => {
-      const data = initial.find(b => b.id === gb.dataId);
-      const besoin = Object.assign({}, gb, {
-        desc: (data && data.note_contexte) || gb.descParDefaut,
-        themes: []
-      });
-      const block = document.getElementById(gb.blockId);
-      if (block) {
-        besoin.themes = gb.blockId === 'block-besoin-4'
-          ? lirePlancheEtablissement(block, besoin)
-          : lirePlancheMatrice(block, besoin);
-      }
-      return besoin;
-    });
-  }
-
-  function catalogue() {
-    // Relu à chaque ouverture : le schéma peut avoir été modifié
-    if (!state.catalogue) state.catalogue = construireCatalogue();
-    return state.catalogue;
-  }
-
-  function tousLesSousBesoins() {
-    const liste = [];
-    catalogue().forEach(b => b.themes.forEach(t => t.sousBesoins.forEach(sb => liste.push(sb))));
-    return liste;
-  }
-
-  function nbSousBesoins(besoin) {
-    return besoin.themes.reduce((n, t) => n + t.sousBesoins.length, 0);
+    return sb.structures
+      .map((s, ordreSchema) => {
+        const idx = etapeDeCarte(s.el, colonnes);
+        return Object.assign({}, s, {
+          etape: idx === null ? '' : colonnes[idx].nom,
+          rang: idx === null ? 999 : idx,
+          ordreSchema
+        });
+      })
+      .sort((a, b) => a.rang - b.rang || a.ordreSchema - b.ordreSchema);
   }
 
   // --------------------------------------------------------
-  // 5. Navigation dans le schéma
+  // 6. Lien avec le schéma (bouton « Voir sur le schéma »)
   // --------------------------------------------------------
   function allerSurPlanche(blockId) {
     if (!blockId) return;
-    // Déjà zoomé sur cette planche ? (sinon zoomOnBoard reviendrait à la vue d'ensemble)
     const navActif = document.querySelector('.nav-planche-btn.active');
     const dejaAffichee = navActif ? navActif.dataset.target === blockId : state.boardAffiche === blockId;
     if (dejaAffichee) return;
@@ -393,248 +383,224 @@
     document.querySelectorAll('.wizard-row-highlight').forEach(el => el.classList.remove('wizard-row-highlight'));
   }
 
-  function surlignerLigne(sb) {
+  function montrerSurSchema(sb) {
+    fermerPanneau(false);
     effacerSurbrillance();
     allerSurPlanche(sb.besoin.blockId);
     const lignes = (sb.lignes || []).filter(Boolean);
-    if (!lignes.length) return;
     lignes.forEach(l => l.classList.add('wizard-row-highlight'));
-    if (sb.structures.length) {
-      const canvas = document.getElementById('poster-canvas');
-      if (canvas) canvas.classList.add('canvas-focused-mode');
-      sb.structures.forEach(s => s.el && s.el.classList.add('wizard-highlight'));
+    const canvas = document.getElementById('poster-canvas');
+    if (canvas) canvas.classList.add('canvas-focused-mode');
+    sb.structures.forEach(s => s.el && s.el.classList.add('wizard-highlight'));
+    if (lignes.length) {
+      setTimeout(() => {
+        try { lignes[0].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' }); } catch (e) { /* sans gravité */ }
+      }, 450);
     }
-    setTimeout(() => {
-      try {
-        lignes[0].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
-      } catch (e) { /* sans gravité */ }
-    }, 450);
-  }
-
-  function activerOnglet(blockId) {
-    document.querySelectorAll('.wizard-step').forEach(stepEl => {
-      const cible = 'block-' + (stepEl.dataset.target || '');
-      stepEl.classList.remove('completed');
-      stepEl.classList.toggle('active', cible === blockId);
-    });
   }
 
   // --------------------------------------------------------
-  // 6. Affichage
+  // 7. Affichage
   // --------------------------------------------------------
   function boite() {
     return document.getElementById('wizard-question-box');
   }
 
-  function enTete(etape, question, retour) {
-    return `
-      <div class="wizard-prompt-row">
-        <span class="wizard-step-badge">Étape ${etape} sur 3</span>
-        <h4 class="wizard-prompt-text">${question}</h4>
-        ${retour ? `<button class="wizard-back-link" data-action="${retour.action}">&larr; ${retour.texte}</button>` : ''}
-      </div>`;
+  function filAriane() {
+    const morceaux = [`<button class="ob-crumb" data-action="accueil">Accueil</button>`];
+    if (state.besoin) {
+      morceaux.push(state.ecran === 'liste'
+        ? `<span class="ob-crumb-current">${echapper(state.besoin.titre)}</span>`
+        : `<button class="ob-crumb" data-action="liste">${echapper(state.besoin.titre)}</button>`);
+    }
+    if (state.ecran === 'reponse' && state.sousBesoin) {
+      morceaux.push(`<span class="ob-crumb-current">${echapper(state.sousBesoin.label)}</span>`);
+    }
+    return `<nav class="ob-breadcrumb" aria-label="Fil d'Ariane">${morceaux.join('<span class="ob-crumb-sep">›</span>')}</nav>`;
   }
 
-  function puceSousBesoin(sb, avecPlanche) {
-    const vide = sb.structures.length === 0;
+  function ligneBesoin(sb, avecGrandBesoin) {
     return `
-      <button class="ob-sb-btn${vide ? ' ob-sb-empty' : ''}" data-sb="${sb._index}" style="${varsCss(sb.besoin)}">
-        <span class="ob-sb-label">${echapper(sb.label)}</span>
-        <span class="ob-sb-meta">
-          ${avecPlanche ? `<span class="ob-sb-planche">${sb.besoin.icone} ${echapper(sb.besoin.titre)} · ${echapper(sb.theme)}</span>` : ''}
-          ${vide
-            ? '<span class="ob-sb-count ob-count-empty">À compléter</span>'
-            : `<span class="ob-sb-count">${sb.structures.length} structure${sb.structures.length > 1 ? 's' : ''}</span>`}
+      <button class="ob-row" data-sb="${sb._index}" style="${varsCss(sb.besoin)}">
+        <span class="ob-row-dot"></span>
+        <span class="ob-row-texts">
+          <span class="ob-row-label">${echapper(sb.label)}</span>
+          ${avecGrandBesoin ? `<span class="ob-row-sub">${sb.besoin.icone} ${echapper(sb.besoin.titre)} · ${echapper(sb.theme)}</span>` : ''}
         </span>
+        <span class="ob-row-arrow" aria-hidden="true">›</span>
       </button>`;
   }
 
-  function indexer() {
-    tousLesSousBesoins().forEach((sb, i) => { sb._index = i; });
-  }
-
-  function brancherClics(conteneur) {
+  function brancher(conteneur) {
     conteneur.querySelectorAll('[data-sb]').forEach(btn => {
       btn.addEventListener('click', () => {
         const sb = tousLesSousBesoins()[parseInt(btn.dataset.sb, 10)];
-        if (sb) afficherResultat(sb);
+        if (sb) afficherReponse(sb);
       });
+    });
+    conteneur.querySelectorAll('[data-gb]').forEach(btn => {
+      btn.addEventListener('click', () => afficherListe(catalogue()[parseInt(btn.dataset.gb, 10)]));
     });
     conteneur.querySelectorAll('[data-action]').forEach(btn => {
       btn.addEventListener('click', () => {
         const a = btn.dataset.action;
         if (a === 'accueil') afficherAccueil();
-        if (a === 'liste' && state.besoin) afficherSousBesoins(state.besoin);
-        if (a === 'schema') replierAssistant(true);
-        if (a === 'recommencer') resetWizard();
+        if (a === 'liste' && state.besoin) afficherListe(state.besoin);
+        if (a === 'schema' && state.sousBesoin) montrerSurSchema(state.sousBesoin);
       });
     });
   }
 
-  // ---------- Étape 1 : choix du grand besoin ----------
+  function haut() {
+    const corps = document.querySelector('#pathway-wizard .wizard-body');
+    if (corps) corps.scrollTop = 0;
+  }
+
+  // ---------- Écran 1 : accueil ----------
   function afficherAccueil() {
     const box = boite();
     if (!box) return;
+    state.ecran = 'accueil';
     state.besoin = null;
     state.sousBesoin = null;
-    effacerSurbrillance();
-    activerOnglet(null);
-    indexer();
+    catalogue();
 
     box.innerHTML = `
-      ${enTete(1, 'Quel est le grand besoin de la personne ?')}
-      <div class="wizard-options-grid starter-grid">
-        ${catalogue().map((b, i) => `
-          <button class="wizard-option-btn starter-btn ob-gb-btn" data-gb="${i}" style="${varsCss(b)}">
-            <span class="btn-scenario-icon">${b.icone}</span>
-            <div class="btn-scenario-texts">
-              <strong>${echapper(b.titre)}</strong>
-              <small>${echapper(b.desc)}</small>
-              <span class="ob-gb-count">${nbSousBesoins(b)} besoins d'entrée</span>
-            </div>
-            <span class="btn-arrow">&rarr;</span>
-          </button>
-        `).join('')}
-      </div>
-      <div class="ob-search-zone">
-        <label class="ob-search-label" for="ob-search-all">Ou cherchez directement un besoin, dans les 4 grands besoins :</label>
-        <input id="ob-search-all" class="ob-search-input" type="search" placeholder="Ex : isolement, chute, Alzheimer, tutelle, aidant…" autocomplete="off">
-        <div id="ob-search-results" class="ob-sb-grid"></div>
+      <div class="ob-screen ob-home">
+        <h2 class="ob-question">De quoi la personne a-t-elle besoin ?</h2>
+        <div class="ob-search-big">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
+          <input id="ob-search" type="search" placeholder="Tapez un mot : chute, aidant, tutelle, Alzheimer, sortie d'hôpital…" autocomplete="off">
+        </div>
+        <div id="ob-search-results" class="ob-list ob-search-results"></div>
+
+        <div id="ob-tiles-zone">
+          <p class="ob-or">ou choisissez une situation</p>
+          <div class="ob-tiles">
+            ${catalogue().map((b, i) => `
+              <button class="ob-tile" data-gb="${i}" style="${varsCss(b)}">
+                <span class="ob-tile-icon">${b.icone}</span>
+                <span class="ob-tile-title">${echapper(b.titre)}</span>
+                <span class="ob-tile-text">${echapper(b.phrase)}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
       </div>
     `;
+    brancher(box);
+    haut();
 
-    box.querySelectorAll('[data-gb]').forEach(btn => {
-      btn.addEventListener('click', () => afficherSousBesoins(catalogue()[parseInt(btn.dataset.gb, 10)]));
-    });
-
-    const input = document.getElementById('ob-search-all');
+    const input = document.getElementById('ob-search');
     const res = document.getElementById('ob-search-results');
+    const tuiles = document.getElementById('ob-tiles-zone');
     input.addEventListener('input', () => {
       const q = input.value.trim();
-      if (q.length < 2) { res.innerHTML = ''; return; }
+      if (q.length < 2) {
+        res.innerHTML = '';
+        tuiles.style.display = '';
+        return;
+      }
+      tuiles.style.display = 'none';
       const trouves = tousLesSousBesoins().filter(sb => correspond(sb, q));
       res.innerHTML = trouves.length
-        ? trouves.slice(0, 30).map(sb => puceSousBesoin(sb, true)).join('')
-        : '<p class="ob-empty-msg">Aucun besoin ne correspond à cette recherche.</p>';
-      brancherClics(res);
+        ? trouves.slice(0, 25).map(sb => ligneBesoin(sb, true)).join('')
+        : `<p class="ob-empty">Aucun résultat pour « ${echapper(q)} ». Essayez un autre mot, ou choisissez une situation.</p>`;
+      brancher(res);
     });
+    setTimeout(() => input.focus(), 250);
   }
 
-  // ---------- Étape 2 : besoins d'entrée du grand besoin ----------
-  function afficherSousBesoins(besoin) {
+  // ---------- Écran 2 : besoins précis ----------
+  function afficherListe(besoin) {
     const box = boite();
     if (!box || !besoin) return;
+    state.ecran = 'liste';
     state.besoin = besoin;
     state.sousBesoin = null;
-    effacerSurbrillance();
-    activerOnglet(besoin.blockId);
-    allerSurPlanche(besoin.blockId);
-    indexer();
+
+    const themes = besoin.themes.filter(t => !t.estLits);
+    const multiThemes = themes.length > 1;
 
     box.innerHTML = `
-      ${enTete(2, `${besoin.icone} ${echapper(besoin.titre)} : quel est le besoin de la personne ?`, { action: 'accueil', texte: 'Changer de grand besoin' })}
-      <input id="ob-search-board" class="ob-search-input" type="search" placeholder="Filtrer les besoins de cette planche…" autocomplete="off" value="${echapper(state.filtre)}">
-      <div id="ob-themes" class="ob-themes"></div>
+      ${filAriane()}
+      <div class="ob-screen" style="${varsCss(besoin)}">
+        <div class="ob-screen-head">
+          <span class="ob-head-icon">${besoin.icone}</span>
+          <div>
+            <h2 class="ob-question">Quel est le besoin précis ?</h2>
+            <p class="ob-hint">${echapper(besoin.titre)} · ${echapper(besoin.phrase)}</p>
+          </div>
+        </div>
+        ${themes.map(t => `
+          <section class="ob-group">
+            ${multiThemes ? `<h3 class="ob-group-title">${echapper(t.nom)}</h3>` : ''}
+            <div class="ob-list">${t.sousBesoins.map(sb => ligneBesoin(sb, false)).join('')}</div>
+          </section>
+        `).join('')}
+      </div>
     `;
-
-    const zone = document.getElementById('ob-themes');
-    const input = document.getElementById('ob-search-board');
-
-    const dessiner = () => {
-      const q = input.value.trim();
-      state.filtre = q;
-      const html = besoin.themes.map(t => {
-        const sbs = t.sousBesoins.filter(sb => correspond(sb, q));
-        if (!sbs.length) return '';
-        return `
-          <section class="ob-theme" style="${varsCss(besoin)}">
-            <h5 class="ob-theme-title">${echapper(t.nom)}</h5>
-            <div class="ob-sb-grid">${sbs.map(sb => puceSousBesoin(sb, false)).join('')}</div>
-          </section>`;
-      }).join('');
-      zone.innerHTML = html || '<p class="ob-empty-msg">Aucun besoin ne correspond à ce filtre.</p>';
-      brancherClics(zone);
-    };
-
-    input.addEventListener('input', dessiner);
-    dessiner();
-    brancherClics(box.querySelector('.wizard-prompt-row'));
+    brancher(box);
+    haut();
   }
 
-  // ---------- Étape 3 : structures ----------
-  function afficherResultat(sb) {
+  // ---------- Écran 3 : qui contacter ----------
+  function afficherReponse(sb) {
     const box = boite();
     if (!box) return;
+    state.ecran = 'reponse';
     state.besoin = sb.besoin;
     state.sousBesoin = sb;
-    activerOnglet(sb.besoin.blockId);
-    surlignerLigne(sb);
 
-    const groupes = grouperParEtape(sb);
-    const avecEtapes = groupes.some(g => g.nom);
-    let numero = 0;
-    const carteStructure = s => {
-      const i = sb.structures.indexOf(s);
-      numero += 1;
-      return `
-              <button class="ob-struct-btn" data-struct="${i}">
-                <span class="ob-struct-num">${numero}</span>
-                <span class="ob-struct-texts">
-                  <strong>${echapper(s.nom)}</strong>
-                  ${s.detail ? `<small>${echapper(s.detail)}</small>` : ''}
-                </span>
-                <span class="ob-struct-cta">Voir la fiche &rarr;</span>
-              </button>`;
-    };
-    const listeStructures = avecEtapes
-      ? groupes.map(g => `
-          <div class="ob-etape">
-            <h6 class="ob-etape-title">${g.nom ? echapper(g.nom) : 'Autres'}</h6>
-            <div class="ob-struct-list">${g.structures.map(carteStructure).join('')}</div>
-          </div>`).join('')
-      : `<div class="ob-struct-list">${sb.structures.map(carteStructure).join('')}</div>`;
-
+    const structures = structuresOrdonnees(sb);
     const estEtablissement = sb.besoin.blockId === 'block-besoin-4';
+    const versEhpad = estEtablissement && sb.structures.some(s => /^ehpad-permanent/.test(s.id));
+    const themeLits = versEhpad ? sb.besoin.themes.find(t => t.estLits) : null;
     const criteres = estEtablissement ? criteresEtablissement() : [];
-    const ouvreEhpad = estEtablissement && sb.structures.some(s => /^ehpad-permanent/.test(s.id));
-    const themeLits = ouvreEhpad ? sb.besoin.themes.find(t => t.nom === 'Types de lits en EHPAD') : null;
 
     box.innerHTML = `
-      ${enTete(3, 'Les structures à mobiliser', { action: 'liste', texte: `Autres besoins : ${echapper(sb.besoin.titre)}` })}
-      <div class="ob-result" style="${varsCss(sb.besoin)}">
-        <div class="ob-result-head">
-          <span class="ob-result-path">${sb.besoin.icone} ${echapper(sb.besoin.titre)} &rsaquo; ${echapper(sb.theme)}</span>
-          <h3 class="ob-result-title">${echapper(sb.label)}</h3>
+      ${filAriane()}
+      <div class="ob-screen" style="${varsCss(sb.besoin)}">
+        <div class="ob-answer-head">
+          <span class="ob-answer-kicker">${sb.besoin.icone} ${echapper(sb.besoin.titre)}</span>
+          <h2 class="ob-answer-title">${echapper(sb.label)}</h2>
         </div>
 
-        ${sb.structures.length ? `
-          <p class="ob-result-hint">Cliquez sur une structure pour ouvrir sa fiche ou son flyer.${avecEtapes ? " Elles sont rangées par étape du parcours, dans l'ordre des colonnes du schéma." : ''}</p>
-          ${listeStructures}
-        ` : `
-          <p class="ob-empty-msg">Aucune structure n'est encore renseignée dans le schéma pour ce besoin.</p>
-        `}
+        <h3 class="ob-section-title">Qui contacter ?</h3>
+        ${structures.length > 1 ? '<p class="ob-hint">Dans l\'ordre du parcours. Cliquez sur une structure pour voir sa fiche et ses contacts.</p>' : '<p class="ob-hint">Cliquez sur la structure pour voir sa fiche et ses contacts.</p>'}
+        <ol class="ob-steps">
+          ${structures.map((s, i) => `
+            <li>
+              <button class="ob-struct" data-struct="${sb.structures.indexOf(sb.structures.find(x => x.el === s.el))}">
+                <span class="ob-struct-num">${i + 1}</span>
+                <span class="ob-struct-body">
+                  ${s.etape && (i === 0 || structures[i - 1].etape !== s.etape) ? `<span class="ob-struct-step">${echapper(s.etape)}</span>` : ''}
+                  <span class="ob-struct-name">${echapper(s.nom)}</span>
+                  ${s.detail ? `<span class="ob-struct-detail">${echapper(s.detail)}</span>` : ''}
+                </span>
+                <span class="ob-struct-cta">Voir la fiche</span>
+              </button>
+            </li>
+          `).join('')}
+        </ol>
+
+        ${themeLits && themeLits.sousBesoins.length ? `
+          <h3 class="ob-section-title">Préciser le type de lit en EHPAD</h3>
+          <div class="ob-list">${themeLits.sousBesoins.map(x => ligneBesoin(x, false)).join('')}</div>
+        ` : ''}
 
         ${sb.outils.length ? `
-          <div class="ob-tools">
-            <span class="ob-tools-label">Outils et étapes repérés sur cette ligne :</span>
-            ${sb.outils.map(o => `<span class="ob-tool-chip">${echapper(o)}</span>`).join('')}
-          </div>` : ''}
-
-        ${themeLits ? `
-          <div class="ob-followup">
-            <span class="ob-tools-label">Préciser le type de lit en EHPAD :</span>
-            <div class="ob-sb-grid">${themeLits.sousBesoins.map(x => puceSousBesoin(x, false)).join('')}</div>
-          </div>` : ''}
+          <div class="ob-tools"><span class="ob-tools-label">Outils utiles :</span>${sb.outils.map(o => `<span class="ob-chip">${echapper(o)}</span>`).join('')}</div>
+        ` : ''}
 
         ${criteres.length ? `
-          <div class="ob-tools">
-            <span class="ob-tools-label">Critères à évaluer avant toute entrée en établissement :</span>
-            ${criteres.map(c => `<span class="ob-tool-chip">${echapper(c)}</span>`).join('')}
-          </div>` : ''}
+          <div class="ob-tools"><span class="ob-tools-label">À évaluer avant toute entrée :</span>${criteres.map(c => `<span class="ob-chip">${echapper(c)}</span>`).join('')}</div>
+        ` : ''}
 
-        <div class="result-actions ob-result-actions">
-          <button class="result-cta-btn" data-action="schema">Voir la ligne sur le schéma</button>
-          <button class="result-sec-btn" data-action="recommencer">↺ Nouvelle orientation</button>
+        <div class="ob-actions">
+          <button class="ob-btn ob-btn-ghost" data-action="liste">‹ Autre besoin</button>
+          <button class="ob-btn ob-btn-ghost" data-action="schema">Voir sur le schéma</button>
+          <button class="ob-btn ob-btn-primary" data-action="accueil">Nouvelle recherche</button>
         </div>
       </div>
     `;
@@ -645,23 +611,24 @@
         if (s && s.el) s.el.click();
       });
     });
-    brancherClics(box);
+    brancher(box);
+    haut();
   }
 
   // --------------------------------------------------------
-  // 7. Ouverture / fermeture du panneau
+  // 8. Ouverture / fermeture
   // --------------------------------------------------------
-  function replierAssistant(replier) {
+  function fermerPanneau(effacer) {
     const wizardContainer = document.getElementById('pathway-wizard');
-    const icone = document.getElementById('wizard-collapse-icon');
+    const toggleBtn = document.getElementById('btn-toggle-wizard');
+    const floatBtn = document.getElementById('btn-float-wizard');
     if (!wizardContainer) return;
-    state.isCollapsed = typeof replier === 'boolean' ? replier : !state.isCollapsed;
-    wizardContainer.classList.toggle('collapsed', state.isCollapsed);
-    if (icone) {
-      icone.innerHTML = state.isCollapsed
-        ? '<polyline points="18 15 12 9 6 15"/>'
-        : '<polyline points="6 9 12 15 18 9"/>';
-    }
+    state.isOpen = false;
+    wizardContainer.classList.remove('open', 'collapsed');
+    document.body.classList.remove('ob-is-open');
+    if (toggleBtn) toggleBtn.classList.remove('active');
+    if (floatBtn) floatBtn.style.display = 'flex';
+    if (effacer !== false) effacerSurbrillance();
   }
 
   function openWizard() {
@@ -671,32 +638,24 @@
     if (!wizardContainer) return;
 
     state.isOpen = true;
-    wizardContainer.classList.add('open');
-    replierAssistant(false);
+    wizardContainer.classList.add('open', 'ob-fullscreen');
+    wizardContainer.classList.remove('collapsed');
+    document.body.classList.add('ob-is-open');
     if (toggleBtn) toggleBtn.classList.add('active');
     if (floatBtn) floatBtn.style.display = 'none';
+    effacerSurbrillance();
 
-    if (!state.besoin) {
+    // Si on revient du schéma, on retrouve la même réponse ; sinon on repart de l'accueil
+    if (state.ecran === 'accueil' || !state.besoin) {
       state.catalogue = null; // relecture du schéma
       afficherAccueil();
     }
   }
 
   function closeWizard() {
-    const wizardContainer = document.getElementById('pathway-wizard');
-    const toggleBtn = document.getElementById('btn-toggle-wizard');
-    const floatBtn = document.getElementById('btn-float-wizard');
-    if (!wizardContainer) return;
-
-    state.isOpen = false;
-    wizardContainer.classList.remove('open', 'collapsed');
-    if (toggleBtn) toggleBtn.classList.remove('active');
-    if (floatBtn) floatBtn.style.display = 'flex';
-    effacerSurbrillance();
+    fermerPanneau(true);
   }
 
-  // Petite protection : certains boutons appellent la fonction deux fois
-  // (attribut onclick + écouteur), ce qui ouvrait puis refermait aussitôt.
   let dernierBasculement = 0;
   function toggleWizard() {
     const maintenant = Date.now();
@@ -707,49 +666,40 @@
 
   function resetWizard() {
     state.catalogue = null;
-    state.besoin = null;
-    state.sousBesoin = null;
-    state.filtre = '';
-    state.boardAffiche = null;
     afficherAccueil();
-    if (typeof window.zoomOnBoard === 'function') window.zoomOnBoard('all');
   }
 
   function initPathwayWizard() {
     const wizardContainer = document.getElementById('pathway-wizard');
     if (!wizardContainer) return;
+    wizardContainer.classList.add('ob-fullscreen');
 
-    const collapseBtn = document.getElementById('wizard-btn-collapse');
     const closeBtn = document.getElementById('wizard-btn-close');
     const resetBtn = document.getElementById('wizard-btn-reset');
     const toggleBtn = document.getElementById('btn-toggle-wizard');
     const floatBtn = document.getElementById('btn-float-wizard');
 
-    // Les boutons qui ont déjà un onclick dans le HTML ne reçoivent pas d'écouteur en plus
     if (toggleBtn && !toggleBtn.getAttribute('onclick')) toggleBtn.addEventListener('click', toggleWizard);
     if (floatBtn && !floatBtn.getAttribute('onclick')) floatBtn.addEventListener('click', openWizard);
-    if (collapseBtn) collapseBtn.addEventListener('click', () => replierAssistant());
     if (closeBtn) closeBtn.addEventListener('click', closeWizard);
     if (resetBtn) resetBtn.addEventListener('click', resetWizard);
 
-    // Les 4 onglets colorés = accès direct à un grand besoin
-    document.querySelectorAll('.wizard-step').forEach(stepEl => {
-      stepEl.addEventListener('click', () => {
-        const blockId = 'block-' + (stepEl.dataset.target || '');
-        const besoin = catalogue().find(b => b.blockId === blockId);
-        if (besoin) {
-          state.filtre = '';
-          afficherSousBesoins(besoin);
-        }
-      });
+    // Échap ferme l'écran d'orientation
+    // Échap : ferme d'abord la fiche si elle est ouverte, sinon l'écran d'orientation
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      const fiche = document.querySelector('#pdf-modal.open');
+      if (fiche) {
+        const fermer = document.getElementById('pdf-modal-close');
+        if (fermer) fermer.click();
+        return;
+      }
+      if (state.isOpen) closeWizard();
     });
 
     afficherAccueil();
   }
 
-  // --------------------------------------------------------
-  // 8. Démarrage + fonctions accessibles depuis le HTML
-  // --------------------------------------------------------
   window.initPathwayWizard = initPathwayWizard;
   window.openWizard = openWizard;
   window.closeWizard = closeWizard;
