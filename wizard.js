@@ -23,7 +23,7 @@
       blockId: 'block-besoin-3',
       titre: 'Maintien à domicile',
       phrase: 'La personne vit chez elle et souhaite y rester.',
-      icone: '🏠',
+      icone: 'house',
       couleur: '#f8b52f',   // jaune DAC
       texte: '#8a5a00',
       surCouleur: '#3d2a00',
@@ -33,7 +33,7 @@
       blockId: 'block-besoin-1',
       titre: 'Filière gériatrique',
       phrase: "La personne a besoin d'un avis, d'un bilan ou de soins à l'hôpital.",
-      icone: '🏥',
+      icone: 'cross',
       couleur: '#3766ae',   // bleu foncé DAC
       texte: '#3766ae',
       surCouleur: '#ffffff',
@@ -43,7 +43,7 @@
       blockId: 'block-besoin-2',
       titre: 'Relais en ville',
       phrase: "La personne sort de l'hôpital et rentre à domicile.",
-      icone: '🤝',
+      icone: 'house',
       couleur: '#ea5f45',   // rouge DAC
       texte: '#c2412b',
       surCouleur: '#ffffff',
@@ -53,13 +53,26 @@
       blockId: 'block-besoin-4',
       titre: 'Entrée en établissement',
       phrase: "Rester à domicile n'est plus possible.",
-      icone: '🏢',
+      icone: 'building',
       couleur: '#24467a',   // bleu nuit (dérivé du bleu DAC)
       texte: '#24467a',
       surCouleur: '#ffffff',
       fond: '#eef2f8'
     }
   ];
+
+  // --------------------------------------------------------
+  // Pictos : les mêmes que dans l'animation « Parcours Personnes âgées »
+  // --------------------------------------------------------
+  const PICTOS = {
+    house: '<path d="M5 23 24 7l19 16M10 19v22h28V19M20 41V29h8v12" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    cross: '<path d="M18 5h12v13h13v12H30v13H18V30H5V18h13z" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linejoin="round"/>',
+    building: '<path d="M4 43h40M9 43V7h22v36M31 17h9v26M15 14h3M22 14h3M15 21h3M22 21h3M15 28h3M22 28h3M17 43v-7h6v7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+
+  function picto(nom, classe) {
+    return `<svg class="ob-picto ${classe || ''}" viewBox="0 0 48 48" aria-hidden="true">${PICTOS[nom] || ''}</svg>`;
+  }
 
   // --------------------------------------------------------
   // 2. État
@@ -425,7 +438,7 @@
         <span class="ob-row-dot"></span>
         <span class="ob-row-texts">
           <span class="ob-row-label">${echapper(sb.label)}</span>
-          ${avecGrandBesoin ? `<span class="ob-row-sub">${sb.besoin.icone} ${echapper(sb.besoin.titre)} · ${echapper(sb.theme)}</span>` : ''}
+          ${avecGrandBesoin ? `<span class="ob-row-sub">${picto(sb.besoin.icone, 'ob-picto-inline')} ${echapper(sb.besoin.titre)} · ${echapper(sb.theme)}</span>` : ''}
         </span>
         <span class="ob-row-arrow" aria-hidden="true">›</span>
       </button>`;
@@ -479,7 +492,7 @@
           <div class="ob-tiles">
             ${catalogue().map((b, i) => `
               <button class="ob-tile" data-gb="${i}" style="${varsCss(b)}">
-                <span class="ob-tile-icon">${b.icone}</span>
+                <span class="ob-tile-icon">${picto(b.icone)}</span>
                 <span class="ob-tile-title">${echapper(b.titre)}</span>
                 <span class="ob-tile-text">${echapper(b.phrase)}</span>
               </button>
@@ -526,7 +539,7 @@
       ${filAriane()}
       <div class="ob-screen" style="${varsCss(besoin)}">
         <div class="ob-screen-head">
-          <span class="ob-head-icon">${besoin.icone}</span>
+          <span class="ob-head-icon">${picto(besoin.icone)}</span>
           <div>
             <h2 class="ob-question">Quel est le besoin précis ?</h2>
             <p class="ob-hint">${echapper(besoin.titre)} · ${echapper(besoin.phrase)}</p>
@@ -562,7 +575,7 @@
       ${filAriane()}
       <div class="ob-screen" style="${varsCss(sb.besoin)}">
         <div class="ob-answer-head">
-          <span class="ob-answer-kicker">${sb.besoin.icone} ${echapper(sb.besoin.titre)}</span>
+          <span class="ob-answer-kicker">${picto(sb.besoin.icone, 'ob-picto-inline')} ${echapper(sb.besoin.titre)}</span>
           <h2 class="ob-answer-title">${echapper(sb.label)}</h2>
         </div>
 

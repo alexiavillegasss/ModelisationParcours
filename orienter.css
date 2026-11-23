@@ -465,3 +465,15 @@ html body .pathway-wizard.ob-fullscreen .wizard-question-box {
 }
 
 .ob-section-title + .ob-list { margin-top: 12px; }
+
+/* Pictos au trait (mêmes que l'animation Parcours PA) */
+.ob-picto { display: block; width: 32px; height: 32px; color: var(--ob-text, #3766ae); }
+.ob-picto-inline { display: inline-block; width: 16px; height: 16px; vertical-align: -3px; margin-right: 2px; }
+.ob-tile-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 0;
+}
+.ob-tile-icon .ob-picto { width: 34px; height: 34px; }
+.ob-head-icon { border-radius: 50%; font-size: 0; }
