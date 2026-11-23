@@ -218,18 +218,21 @@ html body .nav-mode-btn.active-mode {
 /* À l'intérieur du schéma, on garde les polices d'origine : les cartes ont des
    largeurs calculées au millimètre, une police plus large les ferait déborder.
    Seuls les grands titres passent en Open Sans. */
-html body .poster-canvas {
+/* (les planches gardent aussi ces polices quand elles sont ouvertes en plein écran) */
+html body .poster-canvas,
+html body .block-besoin,
+html body .transversal-block {
   --font-main: 'Inter', -apple-system, sans-serif;
   --font-title: 'Montserrat', sans-serif;
   font-family: 'Inter', -apple-system, sans-serif;
 }
-html body .poster-canvas .roof-arrow-bar,
-html body .poster-canvas .roof-text,
-html body .poster-canvas .b5-section-bar,
-html body .poster-canvas .b1-section-bar,
-html body .poster-canvas .b5-hdr-dark-pill,
-html body .poster-canvas .b1-hdr-dark-pill,
-html body .poster-canvas .bcs-card-title {
+html body .roof-arrow-bar,
+html body .roof-text,
+html body .b5-section-bar,
+html body .b1-section-bar,
+html body .b5-hdr-dark-pill,
+html body .b1-hdr-dark-pill,
+html body .bcs-card-title {
   font-family: 'Open Sans', -apple-system, sans-serif !important;
 }
 
@@ -532,3 +535,8 @@ html body #transversal-reperage.in-focus-mode .roof-reperage .roof-text {
 html body #transversal-reperage.in-focus-mode { margin-top: 26px !important; }
 /* Carte d'ensemble : « D'HOSPITALISATION » est plus long que l'ancien « EN VILLE » */
 .synth-map tspan.sm-long { font-size: 21px; }
+
+/* Flèches de ligne qui n'aboutissent sur aucune structure (voir fleches.js) */
+html body .fleche-sans-cible .b5-arrow-line,
+html body .fleche-sans-cible .b1-arrow-line,
+html body .fleche-sans-cible { visibility: hidden !important; }

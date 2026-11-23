@@ -2081,7 +2081,8 @@ function alignB3Connectors() {
   const cRect = container.getBoundingClientRect();
   if (cRect.width === 0 || cRect.height === 0) return;
 
-  const scale = (typeof getCanvasScale === 'function' ? getCanvasScale() : 1) || 1;
+  // Échelle réelle de la planche (fonctionne aussi en plein écran, où la planche a son propre zoom)
+  const scale = (container.offsetWidth > 0 ? cRect.width / container.offsetWidth : (typeof getCanvasScale === 'function' ? getCanvasScale() : 1)) || 1;
   const w = cRect.width / scale;
   const h = cRect.height / scale;
 
@@ -2145,10 +2146,23 @@ function alignB3Connectors() {
 
   let paths = [];
 
-  // Traçage sans triangle flèche (lignes directes épurées fidèles au schéma)
-  const addPath = (d, stroke = '#334155', width = 2) => {
-    paths.push(`<path d="${d}" stroke="${stroke}" stroke-width="${width}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`);
+  // Traçage des liaisons :
+  //  - les segments trop courts (cartes collées l'une à l'autre) ne sont pas dessinés,
+  //    sinon ils apparaissent comme de petits tirets parasites ;
+  //  - les liaisons qui arrivent sur une carte reçoivent une pointe de flèche.
+  const addPath = (d, opts = {}) => {
+    const stroke = opts.stroke || '#334155';
+    const width = opts.width || 2;
+    const m = /^M\s*([-\d.]+)\s+([-\d.]+)\s+([HV])\s*([-\d.]+)\s*$/.exec(d.trim());
+    let fleche = false;
+    if (m) {
+      const longueur = Math.abs(parseFloat(m[4]) - parseFloat(m[m[3] === 'H' ? 1 : 2]));
+      if (longueur < 8) return;              // stub invisible : on ne le dessine pas
+      fleche = opts.fleche !== false && longueur >= 16;
+    }
+    paths.push(`<path d="${d}" stroke="${stroke}" stroke-width="${width}" fill="none" stroke-linecap="round" stroke-linejoin="round"${fleche ? ' marker-end="url(#b5-arrow-head)"' : ''}/>`);
   };
+  const versBadge = { fleche: false };
 
   // 1. Problématiques sociales -> 2 lignes horizontales : CCAS et CMS
   if (critSoc && ccasSoc) {
@@ -2170,7 +2184,7 @@ function alignB3Connectors() {
     const xCusp = xSpine - r;
 
     // Tige horizontale issue du texte vers la pointe de l'accolade
-    addPath(`M ${xStemStart.toFixed(1)} ${yCusp.toFixed(1)} H ${xCusp.toFixed(1)}`);
+    addPath(`M ${xStemStart.toFixed(1)} ${yCusp.toFixed(1)} H ${xCusp.toFixed(1)}`, versBadge);
 
     // Accolade { en courbes de Bézier
     const braceD = `M ${(xSpine + r).toFixed(1)} ${yTop.toFixed(1)} ` +
@@ -2187,17 +2201,17 @@ function alignB3Connectors() {
 
     // Branche médiane traversant bNonCms vers cmsApa
     const yNonCms = bNonCms.midY;
-    addPath(`M ${xSpine.toFixed(1)} ${yNonCms.toFixed(1)} H ${(bNonCms.left - 2).toFixed(1)}`);
+    addPath(`M ${xSpine.toFixed(1)} ${yNonCms.toFixed(1)} H ${(bNonCms.left - 2).toFixed(1)}`, versBadge);
     addPath(`M ${bNonCms.right.toFixed(1)} ${yNonCms.toFixed(1)} H ${(cmsApa.left - 2).toFixed(1)}`);
 
     // Branche inférieure traversant bNonClic vers clicInfo
-    addPath(`M ${(xSpine + r).toFixed(1)} ${yBot.toFixed(1)} H ${(bNonClic.left - 2).toFixed(1)}`);
+    addPath(`M ${(xSpine + r).toFixed(1)} ${yBot.toFixed(1)} H ${(bNonClic.left - 2).toFixed(1)}`, versBadge);
     addPath(`M ${bNonClic.right.toFixed(1)} ${yBot.toFixed(1)} H ${(clicInfo.left - 2).toFixed(1)}`);
   }
 
   // 3. Retraites flow (Haut)
   if (retPrev && badgeOui && retInfo) {
-    addPath(`M ${retPrev.right.toFixed(1)} ${retPrev.midY.toFixed(1)} H ${(badgeOui.left - 2).toFixed(1)}`);
+    addPath(`M ${retPrev.right.toFixed(1)} ${retPrev.midY.toFixed(1)} H ${(badgeOui.left - 2).toFixed(1)}`, versBadge);
     addPath(`M ${badgeOui.right.toFixed(1)} ${badgeOui.midY.toFixed(1)} H ${(retInfo.left - 2).toFixed(1)}`);
   } else if (retPrev && retInfo) {
     addPath(`M ${retPrev.right.toFixed(1)} ${retPrev.midY.toFixed(1)} H ${(retInfo.left - 2).toFixed(1)}`);
@@ -2231,7 +2245,7 @@ function alignB3Connectors() {
   // 4. Descente Carsat vers Cerfa & CMS vers Service Instruction APAD
   if (retInfo && cerfa) {
     const xDrop = cerfa.midX;
-    addPath(`M ${xDrop.toFixed(1)} ${retInfo.bottom.toFixed(1)} V ${(cerfa.top - 2).toFixed(1)}`);
+    addPath(`M ${xDrop.toFixed(1)} ${retInfo.bottom.toFixed(1)} V ${(cerfa.top - 2).toFixed(1)}`, versBadge);
   }
   if (cerfa && srvInst) {
     addPath(`M ${cerfa.midX.toFixed(1)} ${cerfa.bottom.toFixed(1)} V ${(srvInst.top - 2).toFixed(1)}`);
@@ -2253,13 +2267,13 @@ function alignB3Connectors() {
     addPath(`M ${clicInfo.right.toFixed(1)} ${clicInfo.midY.toFixed(1)} H ${(clicRec.left - 2).toFixed(1)}`);
   }
   if (clicRec && rev) {
-    addPath(`M ${clicRec.right.toFixed(1)} ${clicRec.midY.toFixed(1)} H ${(rev.left - 2).toFixed(1)}`);
+    addPath(`M ${clicRec.right.toFixed(1)} ${clicRec.midY.toFixed(1)} H ${(rev.left - 2).toFixed(1)}`, versBadge);
   } else {
     if (clicRec && clicEv) {
       addPath(`M ${clicRec.right.toFixed(1)} ${clicRec.midY.toFixed(1)} H ${(clicEv.left - 2).toFixed(1)}`);
     }
     if (clicEv && rev) {
-      addPath(`M ${clicEv.right.toFixed(1)} ${clicEv.midY.toFixed(1)} H ${(rev.left - 2).toFixed(1)}`);
+      addPath(`M ${clicEv.right.toFixed(1)} ${clicEv.midY.toFixed(1)} H ${(rev.left - 2).toFixed(1)}`, versBadge);
     }
   }
 
@@ -2507,6 +2521,10 @@ function setupBoardFocusSystem() {
     wrapper.style.maxWidth = `${scaledW}px`;
     wrapper.style.height = `${scaledH}px`;
     wrapper.style.margin = '0 auto';
+
+    // Redessiner les flèches calculées en JavaScript à la nouvelle échelle
+    if (typeof alignB3Connectors === 'function') alignB3Connectors();
+    if (typeof alignB4Connectors === 'function') alignB4Connectors();
 
     // Mettre à jour le texte du bouton d'ajustement
     const zoomLabel = document.getElementById('bfo-zoom-label');
