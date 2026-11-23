@@ -37,7 +37,7 @@ window.APP_INITIAL_DATA = {
     {
       "id": "besoin-2",
       "numero": 2,
-      "titre": "Besoin 2 : Relais en ville (Sortie d'hospitalisation)",
+      "titre": "Besoin 2 : Sortie d'hospitalisation",
       "description": "Accès aux aides, services et soins des PA de 60 ans et + dans le cadre d'une sortie d'hospitalisation.",
       "note_contexte": "La personne est hospitalisée et cherche un relai, un retour à domicile sécurisé.",
       "color": "#ea580c",

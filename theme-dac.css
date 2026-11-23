@@ -530,3 +530,5 @@ html body #transversal-reperage.in-focus-mode .roof-reperage .roof-text {
   letter-spacing: 0.03em !important;
 }
 html body #transversal-reperage.in-focus-mode { margin-top: 26px !important; }
+/* Carte d'ensemble : « D'HOSPITALISATION » est plus long que l'ancien « EN VILLE » */
+.synth-map tspan.sm-long { font-size: 21px; }

@@ -307,7 +307,7 @@ function setupZoomAndPan() {
       // 4. Offre de soins de la filière gériatrique
       'block-besoin-1': ['geriatrie-amb', 'geriatrie-hosp', 'geriatrie-ssr'],
 
-      // 5. Relais en ville en sortie d'hospitalisation
+      // 5. Sortie d'hospitalisation
       'block-besoin-2': ['prev', 'info', 'aides', 'coord', 'soins', 'eval', 'trans'],
 
       // 6. Entrée en établissement
@@ -344,7 +344,7 @@ function setupZoomAndPan() {
         'transversal-reperage': 'Repérer',
         'block-besoin-3': 'Maintien à domicile',
         'block-besoin-1': 'Filière gériatrique',
-        'block-besoin-2': 'Relais en ville',
+        'block-besoin-2': 'Sortie d\'hospitalisation',
         'block-besoin-4': 'Entrée en établissement'
       };
       if (boardId && BOARD_NAMES[boardId]) {
@@ -1350,7 +1350,7 @@ function openDrawer(struct) {
 
     'besoin-1': 'Offre de soin de la filière gériatrique',
 
-    'besoin-2': "Relais en ville en sortie d'hospitalisation",
+    'besoin-2': "Sortie d'hospitalisation",
 
     'besoin-3': 'Maintien à domicile',
 
@@ -2323,7 +2323,7 @@ function setupBoardFocusSystem() {
 
   const titles = {
     'block-besoin-1': 'OFFRE DE SOINS DE LA FILIÈRE GÉRIATRIQUE',
-    'block-besoin-2': 'RELAIS EN VILLE',
+    'block-besoin-2': 'SORTIE D\'HOSPITALISATION',
     'block-besoin-3': 'MAINTIEN À DOMICILE',
     'block-besoin-4': 'ENTRÉE EN ÉTABLISSEMENT',
     'transversal-prevention': 'PRÉVENTION',

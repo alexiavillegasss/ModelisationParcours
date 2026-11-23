@@ -43,7 +43,7 @@
     },
     {
       blockId: 'block-besoin-2',
-      titre: 'Relais en ville',
+      titre: 'Sortie d\'hospitalisation',
       image: 'assets/illustrations/relais.svg',   // illustration de l'animation Parcours PA
       phrase: "La personne sort de l'hôpital et rentre à domicile.",
       icone: 'house',
