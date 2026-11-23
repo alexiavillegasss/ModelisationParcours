@@ -159,6 +159,8 @@
       }
     });
     if (nettoyer(courant)) parts.push(nettoyer(courant));
+    // Carte affichée avec un sigle (CCAS, CLIC…) : on garde le nom complet pour l'utilisateur
+    if (card.dataset.nomComplet) parts[0] = card.dataset.nomComplet;
     return {
       id: card.dataset.id || '',
       nom: parts[0] || texte(card),
@@ -358,6 +360,8 @@
 
   // Structures triées dans l'ordre du parcours, chacune avec son étape
   function structuresOrdonnees(sb) {
+    // Thème replié dans le schéma : on le déplie pour pouvoir mesurer les colonnes
+    if (window.lisibilite) window.lisibilite.deplierPour(sb.lignes);
     const block = document.getElementById(sb.besoin.blockId);
     // Les cartes doivent être visibles pour mesurer leur position : on déplie la planche si besoin
     if (block && block.classList.contains('is-collapsed') && typeof window.toggleBoardCollapse === 'function') {
@@ -402,6 +406,7 @@
 
   function montrerSurSchema(sb) {
     fermerPanneau(false);
+    if (window.lisibilite) window.lisibilite.deplierPour(sb.lignes);
     effacerSurbrillance();
     allerSurPlanche(sb.besoin.blockId);
     const lignes = (sb.lignes || []).filter(Boolean);

@@ -1,0 +1,157 @@
+/* ==========================================================================
+   LISIBILITÉ DES PLANCHES (voir aussi lisibilite.js)
+   Chargé en dernier. Chaque bloc peut être supprimé indépendamment.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. En-têtes de colonnes (Prévention, Informations, Évaluation…) toujours
+      visibles quand on descend dans une planche
+   -------------------------------------------------------------------------- */
+html body .b5-col-headers,
+html body .b1-col-headers {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 40 !important;
+  background: rgba(244, 248, 253, 0.97);
+  box-shadow: 0 8px 12px -10px rgba(36, 70, 122, 0.45);
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Thèmes repliables
+   -------------------------------------------------------------------------- */
+html body .theme-repliable > .b5-section-bar,
+html body .theme-repliable > .b1-section-bar {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: filter 0.15s ease;
+}
+html body .theme-repliable > .b5-section-bar:hover,
+html body .theme-repliable > .b1-section-bar:hover { filter: brightness(1.08); }
+html body .theme-repliable > .b5-section-bar:focus-visible,
+html body .theme-repliable > .b1-section-bar:focus-visible { outline: 3px solid #f8b52f; outline-offset: 2px; }
+
+.theme-toggle-info {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.95;
+}
+.theme-toggle-info .theme-count {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  padding: 1px 9px;
+}
+.theme-chevron { display: inline-block; transition: transform 0.2s ease; }
+.theme-replie .theme-chevron { transform: rotate(-90deg); }
+
+/* Contenu masqué quand le thème est replié */
+html body .theme-replie > :not(.b5-section-bar):not(.b1-section-bar) { display: none !important; }
+html body .theme-replie { height: auto !important; min-height: 0 !important; }
+
+/* --------------------------------------------------------------------------
+   3. Lecture d'une ligne au survol : la ligne s'éclaire, le reste s'estompe
+   -------------------------------------------------------------------------- */
+html body .b5-row,
+html body .b1-row,
+html body .b4-branch-row {
+  transition: opacity 0.18s ease, background-color 0.18s ease;
+  border-radius: 8px;
+}
+html body .b5-row:hover,
+html body .b1-row:hover,
+html body .b4-branch-row:hover {
+  background-color: rgba(248, 181, 47, 0.14);
+  box-shadow: 0 0 0 2px rgba(248, 181, 47, 0.35);
+}
+html body .block-besoin:has(.b5-row:hover) .b5-row:not(:hover),
+html body .block-besoin:has(.b1-row:hover) .b1-row:not(:hover),
+html body .block-besoin:has(.b4-branch-row:hover) .b4-branch-row:not(:hover) {
+  opacity: 0.35;
+}
+/* Pas d'effet de survol pendant que l'assistant surligne une ligne */
+html body .canvas-focused-mode .b5-row:not(:hover),
+html body .canvas-focused-mode .b1-row:not(:hover) { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   5. Taille de texte minimale pour les petites pastilles
+   -------------------------------------------------------------------------- */
+html body .block-besoin .b5-vt-badge { font-size: 0.62rem !important; }
+html body .block-besoin #b5-badge-cerfa span { font-size: 0.56rem !important; }
+
+/* --------------------------------------------------------------------------
+   6. Légende : bande compacte sous la barre des planches
+   -------------------------------------------------------------------------- */
+html body.legende-en-bande .top-persistent-legend {
+  display: flex !important;
+  position: relative !important;
+  inset: auto !important;
+  height: auto !important;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff !important;
+  border-bottom: 1px solid #d9e3f0;
+  padding: 4px 16px;
+  z-index: 90;
+  font-family: 'Open Sans', -apple-system, 'Segoe UI', sans-serif;
+}
+html body.legende-en-bande .persistent-legend-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 10px;
+}
+html body.legende-en-bande .legend-strip-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #5b6b85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+html body.legende-en-bande .legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #24467a;
+  background: #f4f8fd;
+  border: 1px solid #e3eaf4;
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+/* La bande n'a pas de sens en vue synthétique */
+html body.legende-en-bande.mode-synthetic-view .top-persistent-legend { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   7. Bloc « Perte d'autonomie » aéré : un peu d'espace entre les cartes
+      pour que les flèches entre étapes soient visibles
+   -------------------------------------------------------------------------- */
+html body #b5-autonomie-flow-container .sch-card {
+  width: auto !important;
+  max-width: calc(100% - 18px) !important;
+  margin-left: 9px !important;
+  margin-right: 9px !important;
+  box-sizing: border-box !important;
+}
+html body #b5-autonomie-flow-container .b5-row-double > .sch-card {
+  justify-self: stretch;
+}
+
+/* Le bouton flottant « Légende » fait doublon avec la bande : on le cache */
+html body.legende-en-bande #float-legend-trigger { display: none !important; }

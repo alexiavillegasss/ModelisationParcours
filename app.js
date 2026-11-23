@@ -803,6 +803,7 @@ function openStructureFlyer(idOrStruct, card) {
   if (!title && card) {
     title = card.querySelector('.card-title')?.textContent.trim() || 
             card.querySelector('.card-sigle')?.textContent.trim() || 
+            card.dataset.nomComplet ||
             card.textContent.trim();
   }
   if (!title && id) {
@@ -1125,7 +1126,8 @@ function setupSearch() {
 
     // 3. Recherche dans les structures / cartes (nom, fiche descriptive, critères)
     allCards.forEach(card => {
-      const cardText = card.textContent;
+      // nom complet conservé dans data-nom-complet quand la carte affiche un sigle (lisibilite.js)
+      const cardText = card.textContent + ' ' + (card.dataset.nomComplet || '');
       const id = card.dataset.id || '';
       const struct = (window.appData && appData.structures) ? appData.structures.find(s => s.id === id) : null;
       const fullText = cardText + ' ' + (struct ? (struct.nom + ' ' + struct.description + ' ' + (struct.criteres || '')) : '');
@@ -2278,13 +2280,14 @@ function alignB3Connectors() {
   }
 
   // 6. APAD -> APA -> DAC -> Service social APA (ligne parfaitement horizontale continue)
-  const yApaLine = apad ? apad.midY : (cmsApa ? cmsApa.midY : 0);
+  // (la ligne reste à l'intérieur de la hauteur des cartes reliées)
+  const borne = (v, c) => Math.min(Math.max(v, c.top + 8), c.bottom - 8);
   if (apad && apa) {
-    const y = yApaLine || apa.midY;
+    const y = borne(apad.midY, apa);
     addPath(`M ${apad.right.toFixed(1)} ${y.toFixed(1)} H ${(apa.left - 2).toFixed(1)}`);
   }
   if (apa && dacApa && ssApa) {
-    const y = yApaLine || apa.midY;
+    const y = dacApa.midY;
     addPath(`M ${apa.right.toFixed(1)} ${y.toFixed(1)} H ${(dacApa.left - 2).toFixed(1)}`);
     addPath(`M ${dacApa.right.toFixed(1)} ${y.toFixed(1)} H ${(ssApa.left - 2).toFixed(1)}`);
   }
@@ -2409,6 +2412,17 @@ function setupBoardFocusSystem() {
       } catch (err) {
         console.warn('Erreur non-bloquante sauvegarde styles B1 focus:', err);
       }
+    }
+
+    // Planche ouverte seule : on retire les espaces qui servent à l'aligner sur les
+    // planches voisines dans le schéma (ils sont recalculés en quittant le plein écran)
+    if (/^block-besoin-[123]$/.test(targetId)) {
+      targetEl.style.removeProperty('min-height');
+      targetEl.querySelectorAll('.b5-thematics-group, .b1-thematics-group').forEach(g => g.style.removeProperty('margin-top'));
+      targetEl.querySelectorAll('[class*="-theme-"]').forEach(t => {
+        t.style.removeProperty('height');
+        t.style.removeProperty('min-height');
+      });
     }
 
     // Mettre à jour le titre
@@ -2806,6 +2820,7 @@ function getElementTrueHeight(el) {
   let childrenHeight = 0;
   Array.from(el.children).forEach(child => {
     const style = window.getComputedStyle(child);
+    if (style.display === 'none') return; // éléments masqués (thème replié) : pas de marge comptée
     const mt = parseFloat(style.marginTop) || 0;
     const mb = parseFloat(style.marginBottom) || 0;
     const h = Math.max(child.offsetHeight, child.scrollHeight);
@@ -2870,7 +2885,8 @@ function syncThematicsAlignment() {
       const h1 = getElementTrueHeight(el1);
       const h2 = el2 ? getElementTrueHeight(el2) : 0;
       // Au moins 155px pour handicap afin que C360 soit totalement aéré et visible sans chevauchement, et 165px pour précarité (3 lignes)
-      const minBase = (t === 'handicap') ? 155 : ((t === 'precarite') ? 165 : 85);
+      const replie = el5.classList.contains('theme-replie');
+      const minBase = replie ? 0 : ((t === 'handicap') ? 155 : ((t === 'precarite') ? 165 : 85));
       const maxH = Math.max(h5, h1, h2, minBase);
 
       el5.style.setProperty('height', maxH + 'px', 'important');
@@ -2895,6 +2911,10 @@ function syncThematicsAlignment() {
   if (b2Group) void b2Group.offsetHeight;
 
   // 3. Harmonisation de la hauteur globale des blocs
+  b1.style.minHeight = '';
+  b3.style.minHeight = '';
+  if (b2) b2.style.minHeight = '';
+  void b3.offsetHeight;
   const totalMaxH = Math.max(b3.offsetHeight, b1.offsetHeight, b2 ? b2.offsetHeight : 0);
   b1.style.minHeight = totalMaxH + 'px';
   b3.style.minHeight = totalMaxH + 'px';
