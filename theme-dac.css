@@ -508,3 +508,25 @@ body.mode-synthetic-view .legend-side-window { display: none !important; }
 
 /* Planche Repérer en plein écran : on masque la barre « Repérer / Ouvrir » qui fait doublon */
 #transversal-reperage.in-focus-mode .board-collapsed-summary { display: none !important; }
+
+/* Planche Repérer : pictos des profils (mêmes que l'animation Parcours PA) */
+html body .reperage-profil-card .rep-p-icon,
+html body .rep-p-icon {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important;
+  background: #e7eef8 !important;
+  color: #3766ae !important;
+  flex-shrink: 0;
+}
+html body .rep-p-icon svg.rep-p-picto {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* Planche Repérer en plein écran : titre sur une seule ligne, plus discret */
+html body #transversal-reperage.in-focus-mode .roof-reperage .roof-text {
+  font-size: 1.15rem !important;
+  letter-spacing: 0.03em !important;
+}
+html body #transversal-reperage.in-focus-mode { margin-top: 26px !important; }
