@@ -1,0 +1,7214 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html lang="fr">
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+  <meta charset="UTF-8">
+
+
+
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+
+
+  <title>Schéma Interactif : Modélisation des Parcours Personnes Âgées (Var 83)</title>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="styles.css">
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+
+
+
+
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+
+
+
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- BARRE DE CONTRÔLE SUPÉRIEURE (ZOOM, RECHERCHE, EXPORT) -->
+
+
+
+
+
+
+
+  <header class="top-control-bar">
+
+
+
+
+
+
+
+    <div class="ctrl-left">
+
+
+
+
+
+
+
+      <div class="app-logo">
+
+
+
+
+
+
+
+        <span class="app-title">Modélisation des Parcours Personnes Âgées</span>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Recherche instantanée -->
+
+
+
+
+
+
+
+    <div class="ctrl-search">
+
+
+
+
+
+
+
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+
+
+
+
+
+
+
+      <input type="text" id="schema-search" placeholder="Rechercher une structure dans le schéma (ex: HDJ, PASA, DAC, Monalisa, Urgences, HAD, CLIC...)...">
+
+
+
+
+
+
+
+      <span id="search-counter" class="search-count" style="display: none;">0 trouvé</span>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="ctrl-right">
+
+
+
+
+
+
+
+      <!-- Outils Zoom Panoramique -->
+
+
+
+
+
+
+
+      <div class="zoom-tools">
+
+
+
+
+
+
+
+        <button id="btn-zoom-out" class="ctrl-btn" title="Dézoomer">
+
+
+
+
+
+
+
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <span id="zoom-level">100%</span>
+
+
+
+
+
+
+
+        <button id="btn-zoom-in" class="ctrl-btn" title="Zoomer">
+
+
+
+
+
+
+
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button id="btn-zoom-fit" class="ctrl-btn" title="Ajuster à l'écran">
+
+
+
+
+
+
+
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+
+
+
+
+
+
+
+          Ajuster à l'écran
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Assistant Parcours Guidé -->
+
+
+
+
+
+
+
+      <button id="btn-toggle-wizard" class="ctrl-btn btn-wizard" title="Lancer le parcours guidé d'orientation" onclick="window.toggleWizard && window.toggleWizard()">
+
+
+
+
+
+
+
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+
+
+
+
+
+
+          <circle cx="12" cy="12" r="10"/>
+
+
+
+
+
+
+
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+
+
+
+
+
+
+
+        </svg>
+
+
+
+
+
+
+
+        <span>Parcours guidé</span>
+
+
+
+
+
+
+
+      </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <button id="btn-export-csv" class="ctrl-btn btn-export" title="Exporter la base de données en Excel / CSV">
+
+
+
+
+
+
+
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+
+
+
+
+
+
+
+        Export Excel (CSV)
+
+
+
+
+
+
+
+      </button>
+
+
+
+
+
+
+
+      <button id="btn-export-json" class="ctrl-btn" title="Exporter la base JSON">JSON</button>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <!-- BANDE SIGNATURE 4 COULEURS OFFICIELLES DU DAC -->
+
+
+
+
+
+
+
+  <div class="dac-signature-bar"></div>
+
+
+
+
+
+
+
+  <!-- BARRE DE NAVIGATION RAPIDE PAR PLANCHE (ZOOM AU CLIC) -->
+
+
+
+
+
+
+
+  <nav class="planches-nav-bar" id="planches-nav-bar">
+
+
+
+
+
+
+
+    <div class="planches-nav-inner">
+
+
+
+
+
+
+
+      <span class="planches-nav-label">
+
+
+
+
+
+
+
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+
+
+
+
+
+
+
+        Zoomer par planche :
+
+
+
+
+
+
+
+      </span>
+
+
+
+
+
+
+
+      <div class="planches-nav-buttons">
+
+
+
+
+
+
+
+        <button class="nav-planche-btn active" data-target="all" title="Vue d'ensemble de tout le schéma">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-all"></span> <span class="nav-btn-text">Vue d'ensemble</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-prev" data-target="transversal-prevention" title="Zoomer sur Agir en prévention">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-prev"></span> <span class="nav-btn-text">Prévention</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-rep" data-target="transversal-reperage" title="Zoomer sur Repérer">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-rep"></span> <span class="nav-btn-text">Repérer</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-b3" data-target="block-besoin-3" title="Zoomer sur le Maintien à domicile">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-b3"></span> <span class="nav-btn-text">Maintien à domicile</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-b1" data-target="block-besoin-1" title="Zoomer sur l'offre de soin de la filière gériatrique">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-b1"></span> <span class="nav-btn-text">Offre de soin de la filière gériatrique</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-b2" data-target="block-besoin-2" title="Zoomer sur le relais en ville en sortie d'hospitalisation">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-b2"></span> <span class="nav-btn-text">Relais en ville en sortie d'hospitalisation</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-b4" data-target="block-besoin-4" title="Zoomer sur l'entrée en établissement">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-b4"></span> <span class="nav-btn-text">Entrée en établissement</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button class="nav-planche-btn btn-nav-legend" data-target="pathway-legend" title="Voir la légende des couleurs et du schéma">
+
+
+
+
+
+
+
+          <span class="nav-dot dot-legend"></span> <span class="nav-btn-text">Légende</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="nav-collapse-actions">
+
+
+
+
+
+
+
+        <button id="btn-collapse-all" class="nav-mode-btn" title="Vue synthétique">
+
+
+
+
+
+
+
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/></svg>
+
+
+
+
+
+
+
+          <span>Vue synthétique</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button id="btn-expand-all" class="nav-mode-btn active-mode" title="Vue détaillée">
+
+
+
+
+
+
+
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+
+
+
+
+
+
+
+          <span>Vue détaillée</span>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- CONTENEUR DU POSTER SCHÉMATIQUE -->
+
+
+
+
+
+
+
+  <div class="poster-viewport" id="poster-viewport">
+
+
+
+
+
+
+
+    <div class="poster-canvas" id="poster-canvas">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- LE GRAND SCHÉMA EN 4 BLOCS HORIZONTAUX JUXTAPOSÉS -->
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+      <div class="poster-layout-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <!-- NIVEAU 1 : ACTEURS DE LA PRÉVENTION (TRANSVERSAL TOUT EN HAUT CHAPEAUTANT TOUT)   -->
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <section class="transversal-block transversal-prevention" id="transversal-prevention">
+
+
+
+
+
+
+
+          <div class="roof-arrow-bar roof-prevention">
+
+
+
+
+
+
+
+            <span class="arrow-left">&larr;</span>
+
+
+
+
+
+
+
+            <span class="roof-text">PRÉVENTION EN SANTÉ : SENSIBILISATION, DÉPISTAGE ET ATELIERS </span>
+
+
+
+
+
+
+
+            <button class="btn-roof-focus" data-target="transversal-prevention" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="transversal-prevention" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+
+
+
+            <span class="arrow-right">&rarr;</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
+
+
+
+
+
+
+
+          <div class="board-collapsed-summary bcs-card-horizontal" data-target="transversal-prevention" title="Cliquer pour ouvrir cet encadré">
+
+            <div class="bcs-horiz-left">
+
+              <img src="assets/prevention.svg" alt="Prévention">
+
+              <div class="bcs-horiz-title">AGIR EN PRÉVENTION</div>
+
+            </div>
+
+            <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+
+              <span>Ouvrir</span>
+
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+
+            </button>
+
+          </div>
+
+<!-- VUE OUVERTE (Détaillée) -->
+
+
+
+
+
+
+
+          <div class="board-collapsible-content">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="prevention-main-layout">
+
+
+
+
+
+
+
+            <!-- 1. Colonne Titre / Hero Prévention avec le sigle officiel (comme la loupe pour le repérage) -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- 2. Grille des 8 cartes d'acteurs de la prévention -->
+
+
+
+
+
+
+
+            <div style="display: flex; flex-direction: column;">
+
+
+
+
+
+
+
+              
+
+
+
+
+
+
+
+              <div class="prevention-cards-grid">
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="ccas-prev">
+
+
+
+
+
+
+
+                <div class="card-title">CCAS</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Mise en avant différentes campagnes de prévention</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="cpam-prev">
+
+
+
+
+
+
+
+                <div class="card-title">CPAM</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Programmes de prévention<br>Dépistages organisés<br>Centre d'examens de santé</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="pfr-repit">
+
+
+
+
+
+
+
+                <div class="card-title">PFR</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Évènements, conférence, forum</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="sad-mixte-rep">
+
+
+
+
+
+
+
+                <div class="card-title">SAD Mixte (Varef)</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Utilisation d'outils pour la prévention et le repérage : Présage, ICOPE, mini ZARIT et APA</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="clic-niv1-prev">
+
+
+
+
+
+
+
+                <div class="card-title">CLIC (niveau1)</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Ateliers collectifs</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="aa83">
+
+
+
+
+
+
+
+                <div class="card-title">Activité physique adaptée</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Ateliers APA sport-santé, équilibre et mobilité</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="crt-prev" title="Cliquer pour afficher la carte interactive des CRT du territoire et leurs flyers">
+
+
+
+
+
+
+
+                <div class="card-title">CRT:</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Forum de prévention &bull; <em>Carte &amp; Flyers interactifs</em></div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="sch-card card-pink" data-id="cpts-prev">
+
+
+
+
+
+
+
+                <div class="card-title">CPTS:</div>
+
+
+
+
+
+
+
+                <div class="card-detail">Sensibilisation au dépistage, réalisation de bilans et ateliers de prévention</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <!-- NIVEAU 2 : LE REPÉRAGE (JUSTE EN DESSOUS DE LA PRÉVENTION)                         -->
+
+
+
+
+
+
+
+        <!-- CRITÈRES ET IDENTIFICATION DES DIFFÉRENTS PROFILS (EXACTEMENT COMME SUR LE SCHÉMA) -->
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <section class="transversal-block transversal-reperage" id="transversal-reperage">
+
+
+
+
+
+
+
+          <div class="roof-arrow-bar roof-reperage">
+
+
+
+
+
+
+
+            <span class="arrow-left">&larr;</span>
+
+
+
+
+
+
+
+            <span class="roof-text">REPÉRER : DÉTECTION PRÉCOCE DES FRAGILITÉS, IDENTIFICATION DES PROFILS ET CRITÈRES D'ORIENTATION </span>
+
+
+
+
+
+
+
+            <button class="btn-roof-focus" data-target="transversal-reperage" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="transversal-reperage" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+
+
+
+            <span class="arrow-right">&rarr;</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
+
+
+
+
+
+
+
+          <div class="board-collapsed-summary bcs-card-horizontal" data-target="transversal-reperage" title="Cliquer pour ouvrir cet encadré">
+
+            <div class="bcs-horiz-left">
+
+              <img src="assets/reperer.svg" alt="Repérer">
+
+              <div class="bcs-horiz-title">REPÉRER</div>
+
+            </div>
+
+            <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+
+              <span>Ouvrir</span>
+
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+
+            </button>
+
+          </div>
+
+<!-- VUE OUVERTE (Détaillée) -->
+
+
+
+
+
+
+
+          <div class="board-collapsible-content">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="reperage-main-layout">
+
+
+
+
+
+
+
+            <!-- 1. Colonne Titre / Hero à gauche -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- 2. Colonne Centrale : Qui repère ? -->
+
+
+
+
+
+
+
+            <div class="reperage-qui-col" style="display: flex; flex-direction: column;">
+
+
+
+
+
+
+
+              <div class="dac-pill-header pill-dac-red">JE REPÈRE</div>
+
+
+
+
+
+
+
+              <div class="qui-panel-card">
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+                <div class="qui-panel-body">
+
+
+
+
+
+
+
+                  <div class="qui-item"><span class="qui-dot"></span> <span>Une personne de <strong>son entourage</strong></span></div>
+
+
+
+
+
+
+
+                  <div class="qui-item"><span class="qui-dot"></span> <span>Son <strong>représentant légal</strong></span></div>
+
+
+
+
+
+
+
+                  <div class="qui-item"><span class="qui-dot"></span> <span>Un <strong>professionnel</strong> (médical, soignant, social, médico-social)</span></div>
+
+
+
+
+
+
+
+                  <div class="qui-item"><span class="qui-dot"></span> <span><strong>Tout citoyen</strong> (veille citoyenne)</span></div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- 3. Colonne des 3 Profils (Pills blanches avec icônes) -->
+
+
+
+
+
+
+
+            <div class="reperage-profils-col">
+
+
+
+
+
+
+
+              <div class="dac-pill-header pill-dac-blue">JE SUIS</div>
+
+
+
+
+
+
+
+              <div class="reperage-profil-card" id="rep-profil-1">
+
+
+
+
+
+
+
+                <div class="rep-p-icon">
+
+
+
+
+
+
+
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+
+
+
+
+
+
+
+                    <circle cx="12" cy="4" r="2.5"/>
+
+
+
+
+
+
+
+                    <path d="M10 8h4l1 7h-2v5h-2v-5H9l-1-7z"/>
+
+
+
+
+
+
+
+                    <line x1="17" y1="10" x2="17" y2="21" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+
+
+
+
+
+
+
+                  </svg>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="rep-p-content">
+
+
+
+
+
+
+
+                  <div class="rep-p-tag">PROFIL 1</div>
+
+
+
+
+
+
+
+                  <div class="rep-p-name">Personnes âgées robustes, pré-fragiles et fragiles</div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="reperage-profil-card" id="rep-profil-2">
+
+
+
+
+
+
+
+                <div class="rep-p-icon">
+
+
+
+
+
+
+
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2">
+
+
+
+
+
+
+
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+
+
+
+
+
+
+
+                    <circle cx="9" cy="7" r="4"/>
+
+
+
+
+
+
+
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+
+
+
+
+
+
+
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+
+
+
+
+
+
+
+                  </svg>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="rep-p-content">
+
+
+
+
+
+
+
+                  <div class="rep-p-tag">PROFIL 2</div>
+
+
+
+
+
+
+
+                  <div class="rep-p-name">Personnes âgées à profil gériatrique</div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="reperage-profil-card" id="rep-profil-3">
+
+
+
+
+
+
+
+                <div class="rep-p-icon">
+
+
+
+
+
+
+
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+
+
+
+
+
+
+
+                    <circle cx="12" cy="4" r="2"/>
+
+
+
+
+
+
+
+                    <path d="M9 8v4h6m-6 0l2 6h4l2-4m-2 4a3 3 0 1 1-6 0"/>
+
+
+
+
+
+
+
+                  </svg>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="rep-p-content">
+
+
+
+
+
+
+
+                  <div class="rep-p-tag">PROFIL 3</div>
+
+
+
+
+
+
+
+                  <div class="rep-p-name">Personne Handicapée Vieillissante (PHV)</div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- 4. Colonne Droite : Critères d'alerte et d'évaluation -->
+
+
+
+
+
+
+
+            <div class="reperage-criteres-col">
+
+
+
+
+
+
+
+              <div class="dac-pill-header pill-dac-cyan">J'IDENTIFIE</div>
+
+
+
+
+
+
+
+              <!-- Critères Profil 1 -->
+
+
+
+
+
+
+
+              <div class="crit-card card-crit-1">
+
+
+
+
+
+
+
+                <div class="crit-card-header">Un ou plusieurs <strong>critères de fragilité :</strong></div>
+
+
+
+
+
+
+
+                <ul class="crit-card-list">
+
+
+
+
+
+
+
+                  <li>Capacités physiologiques de réserve préservées ou diminuées</li>
+
+
+
+
+
+
+
+                  <li>Mécanismes d'adaptation au stress plus ou moins efficaces</li>
+
+
+
+
+
+
+
+                  <li>Possibilités de perte d'autonomie</li>
+
+
+
+
+
+
+
+                </ul>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <!-- Critères Profil 2 -->
+
+
+
+
+
+
+
+              <div class="crit-card card-crit-2">
+
+
+
+
+
+
+
+                <div class="crit-card-header">Un ou plusieurs <strong>critères gériatriques :</strong></div>
+
+
+
+
+
+
+
+                <ul class="crit-card-list">
+
+
+
+
+
+
+
+                  <li>Vulnérabilité face à un événement ponctuel</li>
+
+
+
+
+
+
+
+                  <li>Effet domino ou répétitif pouvant entraîner une <strong>cascade gériatrique</strong></li>
+
+
+
+
+
+
+
+                  <li>Succession de facteurs de stress</li>
+
+
+
+
+
+
+
+                  <li>Perte d'autonomie progressive</li>
+
+
+
+
+
+
+
+                  <li>Présence d'une ou plusieurs maladies chroniques</li>
+
+
+
+
+
+
+
+                </ul>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <!-- Critères Profil 3 -->
+
+
+
+
+
+
+
+              <div class="crit-card card-crit-3">
+
+
+
+
+
+
+
+                <div class="crit-card-header">Un ou plusieurs <strong>critères de fragilité :</strong></div>
+
+
+
+
+
+
+
+                <ul class="crit-card-list">
+
+
+
+
+
+
+
+                  <li>Handicap moteur, mental, cognitif, psychique préexistant</li>
+
+
+
+
+
+
+
+                  <li>Aggravation des problèmes de santé, douleurs, fatigue ou troubles sensoriels</li>
+
+
+
+
+
+
+
+                  <li>Difficultés pour se déplacer, réaliser les actes quotidiens</li>
+
+
+
+
+
+
+
+                  <li>Besoins accrus d'aide, d'adaptation du logement et de soutien des proches aidants</li>
+
+
+
+
+
+
+
+                </ul>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- Ligne de flux d'orientation vers les parcours -->
+
+
+
+
+
+
+
+            <div class="reperage-pathway-guide">
+
+
+
+
+
+
+
+              <span class="guide-line"></span>
+
+
+
+
+
+
+
+              <span class="guide-pill">&darr; Orientation personnalisée vers les parcours d'aide, de soins et d'hébergement &darr;</span>
+
+
+
+
+
+
+
+              <span class="guide-line"></span>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <!-- NIVEAUX 3 & 4 : LES PARCOURS (BESOIN 3 A GAUCHE, BESOINS 1, 2 ET 4 A DROITE)       -->
+
+
+
+
+
+
+
+        <!-- ================================================================================== -->
+
+
+
+
+
+
+
+        <div class="poster-main-parcours-grid">
+
+
+
+
+
+
+
+          <!-- ============================================================================== -->
+
+
+
+
+
+
+
+          <!-- COLONNE GAUCHE : BESOIN 3 (Maintien à domicile)                                -->
+
+
+
+
+
+
+
+          <!-- ============================================================================== -->
+
+
+
+
+
+
+
+          <div class="parcours-col-left">
+
+            <div class="block-besoin block-b3" id="block-besoin-3">
+          <div class="roof-arrow-bar roof-b3">
+            <span class="arrow-left">&larr;</span>
+            <span class="roof-text">MAINTIEN À DOMICILE</span>
+            <button class="btn-roof-focus" data-target="block-besoin-3" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="block-besoin-3" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+            <span class="arrow-right">&rarr;</span>
+          </div>
+
+          <!-- VUE FERMÉE -->
+          <div class="board-collapsed-summary bcs-card-house" data-target="block-besoin-3" title="Cliquer pour ouvrir cet encadré">
+            <div class="bcs-house-roof">
+              <svg viewBox="0 0 380 75" preserveAspectRatio="none" class="bcs-house-roof-svg">
+                <path d="M 2 75 L 190 6 L 260 34 L 260 14 L 290 14 L 290 46 L 378 75" fill="#ffffff" stroke="#0d9488" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="bcs-house-body">
+              <div class="bcs-card-title">MAINTIEN À DOMICILE</div>
+              <div class="bcs-icons-row-center">
+                <img src="assets/informer.svg" alt="Informer">
+                <img src="assets/orienter.svg" alt="Orienter">
+                <img src="assets/accompagner.svg" alt="Accompagner">
+              </div>
+              <div class="bcs-missions-subtitle">Informer Orienter Accompagner</div>
+              <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+                <span>Ouvrir</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- VUE OUVERTE -->
+          <div class="board-collapsible-content">
+            <div class="b5-matrix-layout">
+              <!-- Colonnes colorées d'arrière-plan -->
+              <div class="b5-bg-columns" aria-hidden="true">
+                <div class="b5-bg-spacer"></div>
+                <div class="b5-bg-col bg-pink"></div>
+                <div class="b5-bg-col bg-amber"></div>
+                <div class="b5-bg-col bg-green-group">
+                  <div class="b5-bg-sub"></div>
+                  <div class="b5-bg-sub"></div>
+                  <div class="b5-bg-sub"></div>
+                  <div class="b5-bg-sub"></div>
+                </div>
+                <div class="b5-bg-col bg-purple"></div>
+                <div class="b5-bg-col bg-red-group">
+                  <div class="b5-bg-sub"></div>
+                  <div class="b5-bg-sub"></div>
+                </div>
+              </div>
+
+              <!-- En-tête supérieur avec médaillons -->
+              <div class="b5-top-medallions">
+                <div class="b5-top-crit-hdr">
+                  <div class="medallion-badge badge-gray-sm">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div class="b5-hdr-dark-pill">CRITERES D'ORIENTATION</div>
+                </div>
+                <div class="b5-top-acteurs-hdr">
+                  <div class="medallion-badge badge-gray-sm">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
+                  <div class="b5-hdr-dark-pill">ACTEURS RELAIS EN VILLE</div>
+                </div>
+              </div>
+
+              <!-- En-tête des 5 colonnes (et sous-colonnes) -->
+              <div class="b5-col-headers">
+                <div class="b5-ch-empty"></div>
+                <div class="b5-ch-pill ch-pink">PRÉVENTION</div>
+                <div class="b5-ch-pill ch-amber">BESOINS INFORMATIONS</div>
+                <div class="b5-ch-green-wrap">
+                  <div class="b5-ch-pill ch-green">BESOIN DE MISE EN PLACE DES AIDES, SERVICES ET SOINS</div>
+                  <div class="b5-ch-sub-row">
+                    <div class="b5-sub-pill sub-green">Recherche de professionnels</div>
+                    <div class="b5-sub-pill sub-green">Évaluation</div>
+                    <div class="b5-sub-pill sub-green">Instruction</div>
+                    <div class="b5-sub-pill sub-green">Plan d'aide et préconisation</div>
+                  </div>
+                </div>
+                <div class="b5-ch-pill ch-purple">COORDINATION</div>
+                <div class="b5-ch-red-wrap">
+                  <div class="b5-ch-pill ch-red">BESOIN D'ACCOMPAGNEMENT ET DE PRISE EN CHARGE AIDES, SERVICES ET SOINS</div>
+                  <div class="b5-ch-sub-row b5-ch-sub-2">
+                    <div class="b5-sub-pill sub-red">Accompagnement aides et services</div>
+                    <div class="b5-sub-pill sub-red">Prise en charge médicale</div>
+                  </div>
+                </div>
+              </div>
+
+              
+              <!-- ==================== SECTION 1 : MAINTIEN À DOMICILE (VOLET SOCIAL) ==================== -->
+              <div class="b5-section-bar">MAINTIEN À DOMICILE — VOLET SOCIAL</div>
+              <div class="b5-row">
+                <div class="b5-crit">Problématiques sociales : logement, administratif, accès aux droits, budget, isolement, maltraitance</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="ccas-prev">CCAS</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="b5-stack" style="grid-column: 3 / 4;">
+                  <div class="sch-card b5-pill b5-pill-amber" data-id="ccas-info">CCAS</div>
+                  <div class="sch-card b5-pill b5-pill-amber" data-id="uts-info">UTS</div>
+                </div>
+              </div>
+
+              <!-- Ligne 2 : APA -> Service instruction de l'APA -> Service social APA -->
+              <div class="b5-row">
+                <div class="b5-crit">Accompagnement social, coordination 60 ans et + / bénéficiaires de l'APA</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green b5-pill-wide" data-id="service-instruction-apa" style="grid-column: 5 / 8;">Service instruction de l'APA</div>
+                <div class="b5-arrow-cell" style="grid-column: 8 / 9;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="service-social-apa" style="grid-column: 9 / 10;">Service social APA</div>
+              </div>
+
+              <!-- Ligne 3 : Personne vulnérable -> Département du Var / Tribunal judiciaire -->
+              <div class="b5-row">
+                <div class="b5-crit">Personne vulnérable nécessitant une protection juridique</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green b5-pill-wide" data-id="protection-juridique" style="grid-column: 5 / 8;">Département du Var / Tribunal judiciaire</div>
+              </div>
+
+              <!-- Ligne 4 : Alzheimer -> SAD Mixte - ESA -->
+              <div class="b5-row">
+                <div class="b5-crit">Mesure de protection juridique</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-amber" data-id="protection-juridique" style="grid-column: 3 / 4;">ISTF</div>
+              </div>
+
+              <!-- Ligne 6 : Suivi évolution neurologique -> Neurologues libéraux -->
+              <div class="b5-row">
+                <div class="b5-crit">Soutien, aide et échanges et formations diverses</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-amber" data-id="reseau-monalisa" style="grid-column: 3 / 4;">Associations</div>
+              </div>
+
+              <!-- Ligne 9 : HTU-SH -> EHPAD - HTU-SH -->
+              <div class="b5-row">
+                <div class="b5-crit">Maintien à domicile 60 ans et +, bénéficiaires PCH</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="clic-niv1-prev">CLIC (niveau 1)</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-amber" data-id="clic-niv1-info" style="grid-column: 3 / 4;">CLIC</div>
+                <div class="b5-arrow-cell" style="grid-column: 4 / 5;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="clic-niv2-3" style="grid-column: 5 / 6;">CLIC</div>
+                <div class="b5-arrow-cell" style="grid-column: 6 / 8;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-pill-flow" style="grid-column: 8 / 9;">
+                  <div class="sch-card b5-pill b5-pill-purple" data-id="clic-niv2-3">CLIC</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="clic-niv2-3" style="grid-column: 9 / 10;">CLIC</div>
+              </div>
+
+              <!-- Ligne 11 : Accompagnement renforcé -> CRT (Prévention) -> CRT -->
+              <div class="b5-row">
+                <div class="b5-crit">Accès aux droits de santé et aides financières</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="cpam-prev">CPAM</div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 3 / 4;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Espace partenaire</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="prado-cpam" style="grid-column: 4 / 5;">CPAM - MISAS</div>
+              </div>
+
+              <!-- Ligne 18 : Hospitalisation à domicile -> HAD -->
+              <div class="b5-row">
+                <div class="b5-crit">Intervention d'aides à domicile et/ou auxiliaires de vie / Évaluation sécurité du logement avant retour à domicile</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 9;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire Évaluation À Domicile</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="sad-aide-maintien" style="grid-column: 9 / 10;">SAD aide</div>
+              </div>
+
+              <!-- Ligne 14 : Réadaptation post-hospitalisation -> SMR -->
+              <div class="b5-row">
+                <div class="b5-crit">Situation complexe, besoin de coordination entre les acteurs</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 8;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp" style="grid-column: 8 / 9;">DAC</div>
+              </div>
+
+              <!-- Ligne 13 : Intervention aides à domicile -> SAD aide -->
+
+              <!-- ==================== SECTION 1 BIS : MAINTIEN À DOMICILE (VOLET SOINS) ==================== -->
+              <div class="b5-section-bar">MAINTIEN À DOMICILE — VOLET SOIN</div>
+              <div class="b5-row">
+                <div class="b5-crit">Stimulation des capacités physiques et cognitives</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="aa83">Activité physique adaptée</div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 3 / 9;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Grand Âge</span></div>
+                </div>
+                <div class="b5-col-stack" style="grid-column: 9 / 10;">
+                  <div class="sch-card b5-pill b5-pill-red" data-id="ehpad-adj-maintien">Accueil de jour</div>
+                  <div class="sch-card b5-pill b5-pill-pink" data-id="ehpad-adj-maintien">EHPAD - Accueil de jour</div>
+                </div>
+              </div>
+
+              <!-- Ligne 8 : Soutien, aide et échanges -> Associations -->
+              <div class="b5-row">
+                <div class="b5-crit">Aides et soins à domicile 60 ans et + / PH</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="sad-mixte-rep">SAD Mixte (Varef)</div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 3 / 9;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire Évaluation À Domicile</span></div>
+                </div>
+                <div class="b5-pill-flow" style="grid-column: 9 / 10;">
+                  <div class="sch-card b5-pill b5-pill-red" data-id="sad-mixte-maintien">SAD mixte</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="sad-mixte-maintien" style="grid-column: 10 / 11;">SAD mixte</div>
+              </div>
+
+              <!-- Ligne 16 : Accès aux soins -> CPTS (Prévention) -> CPTS -->
+              <div class="b5-row">
+                <div class="b5-crit">Accompagnement renforcé au domicile 60 ans et + / GIR 1-4</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="crt-prev">CRT</div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 3 / 9;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="crt-volet2-maintien" style="grid-column: 9 / 10;">CRT</div>
+              </div>
+
+              <!-- Ligne 12 : Situation complexe -> DAC -->
+              <div class="b5-row">
+                <div class="b5-crit">Soins accompagnement et réhabilitation Maladie d'Alzheimer ou apparentée</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="sad-esa" style="grid-column: 10 / 11;">SAD Mixte - ESA</div>
+              </div>
+
+              <!-- Ligne 5 : Mesure de protection juridique -> ISTF -->
+              <div class="b5-row">
+                <div class="b5-crit">Suivi de l'évolution neurologique, adaptation des prescriptions</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux" style="grid-column: 10 / 11;">Neurologues libéraux</div>
+              </div>
+
+              <!-- Ligne 7 : Stimulation capacités physiques -> Activité physique adaptée -> Accueil de jour / EHPAD - Accueil de jour -->
+              <div class="b5-row">
+                <div class="b5-crit">Hébergement temporaire d'urgence 60 ans et +, sortie hospitalisation</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-pink" data-id="ehpad-temporaire-urgence" style="grid-column: 10 / 11;">EHPAD - HTU-SH</div>
+              </div>
+
+              <!-- Ligne 10 : Maintien à domicile 60 ans et +, bénéficiaires PCH -> CLIC (niveau 1) -> CLIC -> CLIC -> CLIC -> CLIC -->
+              <div class="b5-row">
+                <div class="b5-crit">Réadaptation et rééducation post-hospitalisation aiguë</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-pink" data-id="smr-geriatrique" style="grid-column: 10 / 11;">SMR</div>
+              </div>
+
+              <!-- Ligne 15 : Aides et soins à domicile 60 ans et + / PH -> SAD Mixte (Varef) -> SAD mixte -> SAD mixte -->
+              <div class="b5-row">
+                <div class="b5-crit">Accès aux soins</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="cpts-prev">CPTS</div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 3 / 4;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="cpts-relais-hosp" style="grid-column: 4 / 5;">CPTS</div>
+              </div>
+
+              <!-- Ligne 17 : Accès aux droits de santé -> CPAM (Prévention) -> CPAM - MISAS -->
+              <div class="b5-row">
+                <div class="b5-crit"></div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 4;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="cpts-relais-hosp" style="grid-column: 4 / 5;">CPTS</div>
+                <div class="b5-arrow-cell" style="grid-column: 5 / 8;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp" style="grid-column: 8 / 9;">DAC</div>
+              </div>
+
+              <!-- ==================== SECTION 2 : ADDICTOLOGIE ==================== -->
+              <div class="b5-row">
+                <div class="b5-crit">Soins de premier recours Délai -48h</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 8;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-inline-pills" style="grid-column: 8 / 9;">
+                  <div class="sch-card b5-pill b5-pill-purple" data-id="clic-niv2-3">CLIC</div>
+                  <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp">DAC</div>
+                </div>
+              </div>
+
+              <!-- Ligne 21 : Urgences / SAS83 / 1er recours -->
+              <div class="b5-row">
+                <div class="b5-crit">Hospitalisation à domicile</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-blue" data-id="had-relais-hosp" style="grid-column: 10 / 11;">HAD</div>
+              </div>
+
+              <!-- Ligne 19 : Soins palliatifs -> HAD dont ERISP + ETSP -->
+              <div class="b5-row">
+                <div class="b5-crit">Soins palliatifs</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-inline-pills" style="grid-column: 10 / 11;">
+                  <div class="sch-card b5-pill b5-pill-blue" data-id="had-relais-hosp">HAD dont ERISP</div>
+                  <div class="sch-card b5-pill b5-pill-blue" data-id="etsp-relais">ETSP</div>
+                </div>
+              </div>
+
+              <!-- Ligne 20 : Soins de premier recours Délai -48h -> CLIC + DAC -->
+              <div class="b5-row">
+                <div class="b5-crit b5-crit-urg">
+                  <div>Prise en charge médicale urgente : <strong>Urgences &rarr; IGU</strong></div>
+                  <div>Conseil médical urgent et SNP : <strong>SAS83 &rarr; Médecin régulateur / OSNP</strong></div>
+                </div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-col-stack" style="grid-column: 9 / 11;">
+                  <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux">Professionnels 1er recours (MG, IDEL, ...)</div>
+                  <div class="sch-card b5-pill b5-pill-red" data-id="sos-medecins">Centres de soins non programmés dont SOS Médecins</div>
+                </div>
+              </div>
+
+              <!-- Ligne 22 : CPTS -> DAC -->
+
+              <!-- ==================== THÉMATIQUES SOCIALES ==================== -->
+              <div class="b5-section-bar">PRÉCARITÉ</div>
+              <div class="b5-row">
+                <div class="b5-crit">Besoins liés à l'incurie et au syndrome de Diogène</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="compagnons-batisseurs" style="grid-column: 5 / 6;">Compagnons Bâtisseurs</div>
+                <div class="b5-arrow-cell" style="grid-column: 6 / 9;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="compagnons-batisseurs" style="grid-column: 9 / 10;">Compagnons Bâtisseurs</div>
+              </div>
+
+              <!-- ==================== SECTION 4 : HANDICAP ==================== -->
+              <div class="b5-section-bar">HANDICAP</div>
+              <div class="b5-row">
+                <div class="b5-crit">Reconnaissance du handicap et accès aux droits et dispositifs</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="mdph" style="grid-column: 5 / 6;">MDPH</div>
+                <div class="b5-arrow-cell" style="grid-column: 6 / 7;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="mdph" style="grid-column: 7 / 8;">MDPH</div>
+              </div>
+              <div class="b5-row">
+                <div class="b5-crit">Besoin d'information, d'orientation, de recherche de solutions et de coordination du parcours pour personne en situation de handicap en risque de rupture</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 8;"><div class="b5-arrow-line"></div></div>
+                <div class="sch-card b5-pill b5-pill-purple" data-id="c360" style="grid-column: 8 / 9;">C360</div>
+              </div>
+
+              <!-- ==================== SECTION 5 : PSYCHIATRIE ==================== -->
+              <div class="b5-section-bar">AIDANTS</div>
+              <div class="b5-row">
+                <div class="b5-crit">Solutions de répit pour les aidants</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 9;">
+                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Grand Âge</span></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-blue" data-id="pfr-repit" style="grid-column: 9 / 10;">PFR</div>
+              </div>
+              <div class="b5-row">
+                <div class="b5-crit">Accompagnement aidants personnes Maladie d'Alzheimer ou apparentée</div>
+                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
+                  <div class="b5-arrow-in"></div>
+                  <div class="sch-card b5-pill b5-pill-prev" data-id="pfr-repit">PFR</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-amber" data-id="pfr-repit" style="grid-column: 3 / 4;">PFR</div>
+              </div>
+
+              <!-- ==================== THÉMATIQUES SOINS ==================== -->
+              <div class="b5-section-bar">ADDICTOLOGIE</div>
+              <div class="b5-row">
+                <div class="b5-crit">Besoin d'information, d'orientation et de coordination du parcours de santé en addictologie afin de favoriser l'accès aux soins et la continuité de l'accompagnement</div>
+                <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-pill-flow" style="grid-column: 3 / 4;">
+                  <div class="sch-card b5-pill b5-pill-amber" data-id="arca-sud">ARCA SUD</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-green" data-id="arca-sud" style="grid-column: 4 / 5;">ARCA SUD</div>
+                <div class="b5-arrow-cell" style="grid-column: 5 / 8;"><div class="b5-arrow-line"></div></div>
+                <div class="b5-pill-flow" style="grid-column: 8 / 9;">
+                  <div class="sch-card b5-pill b5-pill-purple" data-id="arca-sud">ARCA SUD</div>
+                  <div class="b5-arrow-out"></div>
+                </div>
+                <div class="sch-card b5-pill b5-pill-red" data-id="arca-sud" style="grid-column: 9 / 10;">ARCA SUD</div>
+              </div>
+
+              <!-- ==================== SECTION 3 : PRÉCARITÉ ==================== -->
+              <div class="b5-section-bar">PSYCHIATRIE</div>
+              <div class="b5-section-placeholder"></div>
+
+              <!-- ==================== SECTION 6 : AIDANTS ==================== -->
+
+            </div>
+          </div>
+        </div> <!-- fin block-besoin-3 -->
+
+      </div> <!-- fin parcours-col-left -->
+
+
+
+          <!-- COLONNE DROITE : BESOINS 1 & 2 EN HAUT, BESOIN 4 EN DESSOUS                    -->
+
+
+
+
+
+
+
+          <!-- ============================================================================== -->
+
+
+
+
+
+
+
+          <div class="parcours-col-right">
+
+
+
+
+
+
+
+            <div class="b1-b2-row">
+
+
+
+
+
+
+
+<div class="block-besoin block-b1" id="block-besoin-1">
+
+
+
+
+
+
+
+          <div class="roof-arrow-bar roof-b1">
+
+
+
+
+
+
+
+            <span class="arrow-left">&larr;</span>
+
+
+
+
+
+
+
+            <span class="roof-text">OFFRE DE SOIN DE LA FILIÈRE GÉRIATRIQUE </span>
+
+
+
+
+
+
+
+            <button class="btn-roof-focus" data-target="block-besoin-1" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="block-besoin-1" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+
+
+
+            <span class="arrow-right">&rarr;</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
+
+
+
+
+
+
+
+          <div class="board-collapsed-summary bcs-card-hospital" data-target="block-besoin-1" title="Cliquer pour ouvrir cet encadré">
+
+            <div class="bcs-hospital-cross">
+
+              <svg viewBox="0 0 40 40" fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linejoin="round">
+
+                <path d="M 14 2 L 26 2 L 26 14 L 38 14 L 38 26 L 26 26 L 26 38 L 14 38 L 14 26 L 2 26 L 2 14 L 14 14 Z" fill="none"/>
+
+              </svg>
+
+            </div>
+
+            <div class="bcs-card-title">OFFRE DE SOIN DE LA<br>FILIÈRE GÉRIATRIQUE</div>
+
+            <div class="bcs-icons-row-center">
+
+              <img src="assets/informer.svg" alt="Informer">
+
+              <img src="assets/orienter.svg" alt="Orienter">
+
+              <img src="assets/accompagner.svg" alt="Accompagner">
+
+            </div>
+
+            <div class="bcs-missions-subtitle">Informer Orienter Accompagner</div>
+
+            <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+
+              <span>Ouvrir</span>
+
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+
+            </button>
+
+          </div>
+
+<!-- VUE OUVERTE (Détaillée) -->
+
+
+
+
+
+
+
+          <div class="board-collapsible-content">
+            <div class="b1-matrix-layout">
+              <!-- Colonnes colorées d'arrière-plan -->
+              <div class="b1-bg-columns" aria-hidden="true">
+                <div class="b1-bg-spacer"></div>
+                <!-- 1. BILAN ET PRISES EN CHARGE AMBULATOIRE -->
+                <div class="b1-bg-col bg-cyan"></div>
+                <!-- 2. HOSPITALISATION (3 sous-colonnes) -->
+                <div class="b1-bg-col bg-blue-group">
+                  <div class="b1-bg-sub"></div>
+                  <div class="b1-bg-sub"></div>
+                  <div class="b1-bg-sub"></div>
+                </div>
+                <!-- 3. SOINS DE SUITE ET RELAIS DE PRISE EN CHARGE -->
+                <div class="b1-bg-col bg-teal"></div>
+              </div>
+
+              <!-- En-tête supérieur avec médaillons -->
+              <div class="b1-top-medallions">
+                <div class="b1-top-crit-hdr">
+                  <div class="medallion-badge badge-blue-sm">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                  </div>
+                  <div class="b1-hdr-dark-pill">BESOINS DE SOINS</div>
+                </div>
+                <div class="b1-top-acteurs-hdr">
+                  <div class="medallion-badge badge-blue-sm">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 21h18M5 21V7l8-4v18M13 11h4M13 15h4M13 19h4M9 9h1M9 13h1M9 17h1"/></svg>
+                  </div>
+                  <div class="b1-hdr-dark-pill">OFFRE DE SOIN DE LA FILIÈRE GÉRIATRIQUE</div>
+                </div>
+              </div>
+
+              <!-- En-tête des 3 grandes colonnes -->
+              <div class="b1-col-headers">
+                <div class="b1-ch-empty"></div>
+
+                <!-- 1. BILAN ET PRISES EN CHARGE AMBULATOIRE -->
+                <div class="b1-ch-pill ch-cyan ch-single-header">BILAN ET PRISES EN CHARGE AMBULATOIRE</div>
+
+                <!-- 2. HOSPITALISATION -->
+                <div class="b1-ch-blue-wrap">
+                  <div class="b1-ch-pill ch-blue">HOSPITALISATION</div>
+                  <div class="b1-ch-sub-row b1-sub-3">
+                    <div class="b1-sub-pill sub-blue">Programmées</div>
+                    <div class="b1-sub-pill sub-blue">Non programmées</div>
+                    <div class="b1-sub-pill sub-blue">Avis</div>
+                  </div>
+                </div>
+
+                <!-- 3. SOINS DE SUITE ET RELAIS DE PRISE EN CHARGE -->
+                <div class="b1-ch-pill ch-teal ch-single-header">SOINS DE SUITE ET RELAIS DE PRISE EN CHARGE</div>
+              </div>
+
+              <!-- ==================== GROUPE 1 : PARCOURS HOSPITALIER GÉRIATRIQUE ==================== -->
+              <div class="b1-hospital-main-group">
+                <div class="b1-section-bar b1-bar-blue">PARCOURS HOSPITALIER GÉRIATRIQUE</div>
+
+                <!-- 1. Ambulatoire : Consultation de gériatrie -->
+                <div class="b1-row">
+                  <div class="b1-crit">Évaluation gériatrique globale, troubles de la marche et chutes, perte d'autonomie débutante</div>
+                  <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                    <div class="b1-arrow-in"></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="consult-geriatrie">Consultation de gériatrie</div>
+                  </div>
+                </div>
+
+                <!-- 2. Ambulatoire : Consultation mémoire -->
+                <div class="b1-row">
+                  <div class="b1-crit">Troubles cognitifs légers, débutants ou atypiques, suspicion de pathologie neuro-évolutive</div>
+                  <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                    <div class="b1-arrow-in"></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="consult-memoire">Consultation mémoire</div>
+                  </div>
+                </div>
+
+                <!-- 3. Ambulatoire : Hôpital de jour (HDJ) -->
+                <div class="b1-row">
+                  <div class="b1-crit">Bilan gériatrique approfondi, évaluation pluridisciplinaire (EGP), fragilité complexe</div>
+                  <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                    <div class="b1-arrow-in"></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="hdj-geriatrique">Hôpital de jour (HDJ)</div>
+                  </div>
+                </div>
+
+                <!-- 4. Ambulatoire : CEPIMM -->
+                <div class="b1-row">
+                  <div class="b1-crit">Iatrogénie médicamenteuse, conciliation et optimisation thérapeutique</div>
+                  <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                    <div class="b1-arrow-in"></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="ceppim">CEPIMM</div>
+                  </div>
+                </div>
+
+                <!-- 5. Hospitalisation Programmées -->
+                <div class="b1-row">
+                  <div class="b1-crit">Prise en charge programmée, bilan diagnostique lourd, chirurgie ou médecine programmée</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 3;"><div class="b1-arrow-line"></div></div>
+                  <div class="b1-stack" style="grid-column: 3 / 4;">
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="csg-med-chir">Court séjour gériatrique</div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="csg-med-chir">Services de médecine et de chirurgie</div>
+                  </div>
+                </div>
+
+                <!-- 6. Hospitalisation Non programmées -->
+                <div class="b1-row">
+                  <div class="b1-crit">Décompensation aiguë, rupture brutale du maintien à domicile, urgence gériatrique</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 4;"><div class="b1-arrow-line"></div></div>
+                  <div class="b1-stack" style="grid-column: 4 / 5;">
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="adnp">Admission directe non programmée (ADNP)</div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="urgences-igu">Urgences / IGU</div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="sas83-osnp">SAS83 / OSNP</div>
+                  </div>
+                </div>
+
+                <!-- 7. Hospitalisation Avis -->
+                <div class="b1-row">
+                  <div class="b1-crit">Avis gériatrique en intra-hospitalier, appui aux EHPAD, téléexpertise médicale ou appel confraternel</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 5;"><div class="b1-arrow-line"></div></div>
+                  <div class="b1-stack" style="grid-column: 5 / 6;">
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="hotline-geriatrique">Hotline gériatrique / Régulateur</div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="emg-intra">Équipes mobiles de gériatrie (EMG)</div>
+                  </div>
+                </div>
+
+                <!-- 8. Soins de suite : SMR -->
+                <div class="b1-row">
+                  <div class="b1-crit">Rééducation, réadaptation gériatrique et convalescence post-affection aiguë</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 6;"><div class="b1-arrow-line"><span class="b1-vt-badge">Via Trajectoire Sanitaire</span></div></div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="smr-geriatrique" style="grid-column: 6 / 7;">SMR Gériatrique / Polyvalent</div>
+                </div>
+
+                <!-- 9. Soins de suite : USLD -->
+                <div class="b1-row">
+                  <div class="b1-crit">Perte d'autonomie majeure, surveillance médicale continue et soins de longue durée</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 6;"><div class="b1-arrow-line"></div></div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="usld-hosp" style="grid-column: 6 / 7;">USLD (Longue durée)</div>
+                </div>
+
+                <!-- 10. Soins de suite : URCC -->
+                <div class="b1-row">
+                  <div class="b1-crit">Troubles cognitivo-comportementaux perturbant les soins, besoin d'unité adaptée (UCC)</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 6;"><div class="b1-arrow-line"></div></div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="urcc" style="grid-column: 6 / 7;">URCC</div>
+                </div>
+
+                <!-- 11. Soins de suite : Service social hospitalier -->
+                <div class="b1-row">
+                  <div class="b1-crit">Évaluation sociale hospitalière, organisation de la sortie et relais vers le domicile</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 6;"><div class="b1-arrow-line"></div></div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="service-social-hosp" style="grid-column: 6 / 7;">Service social hospitalier</div>
+                </div>
+
+                <!-- 12. Soins Palliatifs -->
+                <div class="b1-section-bar b1-bar-blue">SOINS PALLIATIFS</div>
+                <div class="b1-row">
+                  <div class="b1-crit">Accompagnement de fin de vie, prise en charge palliative complexe et soulagement de la douleur</div>
+                  <div class="b1-arrow-cell" style="grid-column: 2 / 3;"><div class="b1-arrow-line"></div></div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="lisp" style="grid-column: 3 / 4;">LISP (Lits Dédiés)</div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="usp" style="grid-column: 4 / 5;">USP (Unité Spécialisée)</div>
+                  <div class="sch-card b1-pill b1-pill-blue" data-id="emsp" style="grid-column: 5 / 6;">EMSP (Équipe Mobile)</div>
+                </div>
+
+                <!-- 13. Oncogériatrie -->
+                <div class="b1-section-bar b1-bar-blue">ONCOGÉRIATRIE</div>
+                <div class="b1-row">
+                  <div class="b1-crit">Prise en charge oncogériatrique, évaluation de la fragilité avant traitement du cancer</div>
+                  <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                    <div class="b1-arrow-in"></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="oncogeriatrie">Oncogériatrie (UCOG)</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ==================== GROUPE 2 : THÉMATIQUES TRANSVERSALES ==================== -->
+              <!-- CONTINUITÉ EXACTE AVEC MAINTIEN À DOMICILE : PRÉCARITÉ, HANDICAP, AIDANTS, ADDICTOLOGIE, PSYCHIATRIE -->
+              <div class="b1-thematics-group">
+                <!-- 1. PRÉCARITÉ -->
+                <div class="b1-theme-precarite">
+                  <div class="b1-section-bar b1-bar-blue">PRÉCARITÉ</div>
+                  <div class="b1-row b1-row-empty">
+                    <div class="b1-crit"></div>
+                    <div class="b1-empty-flow" style="grid-column: 2 / 7;"></div>
+                  </div>
+                </div>
+
+                <!-- 2. HANDICAP -->
+                <div class="b1-theme-handicap">
+                  <div class="b1-section-bar b1-bar-blue">HANDICAP</div>
+                  <div class="b1-row">
+                    <div class="b1-crit">Soins somatiques pour personnes en situation de handicap (consultations adaptées)</div>
+                    <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                      <div class="b1-arrow-in"></div>
+                      <div class="sch-card b1-pill b1-pill-blue" data-id="handiconsult83">Handiconsult53 - AVISO</div>
+                    </div>
+                  </div>
+                  <div class="b1-row b1-row-empty">
+                    <div class="b1-crit"></div>
+                    <div class="b1-empty-flow" style="grid-column: 2 / 7;"></div>
+                  </div>
+                </div>
+
+                <!-- 3. AIDANTS -->
+                <div class="b1-theme-aidants">
+                  <div class="b1-section-bar b1-bar-blue">AIDANTS</div>
+                  <div class="b1-row b1-row-empty">
+                    <div class="b1-crit"></div>
+                    <div class="b1-empty-flow" style="grid-column: 2 / 7;"></div>
+                  </div>
+                  <div class="b1-row b1-row-empty">
+                    <div class="b1-crit"></div>
+                    <div class="b1-empty-flow" style="grid-column: 2 / 7;"></div>
+                  </div>
+                </div>
+
+                <!-- 4. ADDICTOLOGIE -->
+                <div class="b1-theme-addicto">
+                  <div class="b1-section-bar b1-bar-blue">ADDICTOLOGIE</div>
+                  <div class="b1-row b1-row-empty">
+                    <div class="b1-crit"></div>
+                    <div class="b1-empty-flow" style="grid-column: 2 / 7;"></div>
+                  </div>
+                </div>
+
+                <!-- 5. PSYCHIATRIE -->
+                <div class="b1-theme-psychiatrie">
+                  <div class="b1-section-bar b1-bar-blue">PSYCHIATRIE</div>
+                  <div class="b1-row">
+                    <div class="b1-crit">Troubles psychiatriques du sujet âgé, symptômes psycho-comportementaux complexes</div>
+                    <div class="b1-pill-flow" style="grid-column: 2 / 3;">
+                      <div class="b1-arrow-in"></div>
+                      <div class="sch-card b1-pill b1-pill-blue" data-id="psychogeriatrie">Psychogériatrie</div>
+                    </div>
+                    <div class="b1-arrow-cell" style="grid-column: 3 / 5;"><div class="b1-arrow-line"></div></div>
+                    <div class="sch-card b1-pill b1-pill-blue" data-id="empsa" style="grid-column: 5 / 6;">EMPSA (Équipe mobile)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</div> <!-- fin board-collapsible-content -->
+
+
+
+        </div> <!-- fin block-besoin-1 -->
+
+
+
+<div class="block-besoin block-b2" id="block-besoin-2">
+
+
+
+
+
+
+
+          <div class="roof-arrow-bar roof-b2">
+
+
+
+
+
+
+
+            <span class="arrow-left">&larr;</span>
+
+
+
+
+
+
+
+            <span class="roof-text">RELAIS EN VILLE EN SORTIE D'HOSPITALISATION </span>
+
+
+
+
+
+
+
+            <button class="btn-roof-focus" data-target="block-besoin-2" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="block-besoin-2" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+
+
+
+            <span class="arrow-right">&rarr;</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
+
+
+
+
+
+
+
+          <div class="board-collapsed-summary bcs-card-house" data-target="block-besoin-2" title="Cliquer pour ouvrir cet encadré">
+
+            <div class="bcs-house-roof">
+
+              <svg viewBox="0 0 380 75" preserveAspectRatio="none" class="bcs-house-roof-svg">
+
+                <path d="M 2 75 L 190 6 L 260 34 L 260 14 L 290 14 L 290 46 L 378 75" fill="#ffffff" stroke="#2563eb" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+              </svg>
+
+            </div>
+
+            <div class="bcs-house-body">
+
+              <div class="bcs-card-title">RELAIS EN VILLE EN SORTIE<br>D'HOSPITALISATION</div>
+
+              <div class="bcs-icons-row-center">
+
+                <img src="assets/informer.svg" alt="Informer">
+
+                <img src="assets/orienter.svg" alt="Orienter">
+
+                <img src="assets/accompagner.svg" alt="Accompagner">
+
+              </div>
+
+              <div class="bcs-missions-subtitle">Informer Orienter Accompagner</div>
+
+              <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+
+                <span>Ouvrir</span>
+
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+
+              </button>
+
+            </div>
+
+          </div>
+
+<!-- VUE OUVERTE (Détaillée) -->
+
+
+
+
+
+
+
+          <div class="board-collapsible-content">
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- STRUCTURE EN 4 COLONNES DU BESOIN 2 -->
+
+
+
+
+
+
+
+          <div class="b2-four-columns-layout">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- LIGNE D'EN-TÊTE DES 4 COLONNES -->
+
+
+
+
+
+
+
+            <div class="b2-header-grid">
+
+
+
+
+
+
+
+              <div class="b2-hdr-col hdr-crit">
+
+
+
+
+
+
+
+                <span>CRITERES D'ORIENTATION</span>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="b2-hdr-col hdr-info">
+
+
+
+
+
+
+
+                <span class="pill-title header-yellow">BESOINS INFORMATIONS ET AIDES</span>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="b2-hdr-col hdr-services">
+
+
+
+
+
+
+
+                <span class="pill-title header-green-badge">BESOIN DE MISE EN PLACE DES AIDES ET SERVICES</span>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+              <div class="b2-hdr-col hdr-soins">
+
+
+
+
+
+
+
+                <span class="pill-title header-terracotta">BESOIN DE SOINS</span>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- CONTENEUR DES LIGNES STRICTEMENT ALIGNÉES DANS LEURS COLONNES -->
+
+
+
+
+
+
+
+                        <div class="b2-rows-container">
+
+
+
+              <!-- LIGNE 1 : Problématiques sociales -> CCAS / UTS (dans INFO) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Problématiques sociales : logement, administratif, accès aux droits, budget, isolement, maltraitance</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-target-seamless" style="justify-content: flex-start; padding: 2px 4px !important;">
+
+                  <div class="b2-arrow-head" style="flex: 0 0 12px; margin-right: 4px;"></div>
+
+                  <div class="dual-pills-vert" style="display: flex; flex-direction: column; gap: 3px; width: auto; max-width: 65px;">
+
+                    <div class="sch-card card-amber-sm" data-id="ccas-info" style="padding: 1px 6px !important; font-size: 0.78rem !important; text-align: center;">CCAS</div>
+
+                    <div class="sch-card card-amber-sm" data-id="uts-info" style="padding: 1px 6px !important; font-size: 0.78rem !important; text-align: center;">UTS</div>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell"></div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 2 : Accompagnement social APA -> Service social APA (dans SERVICES) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Accompagnement social, coordination 60 ans et + / bénéficiaires de l'APA</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="service-apa">Service social APA</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 3 : Protection juridique -> Dép. du Var / Tribunal (dans SERVICES) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Personne vulnérable nécessitant une protection juridique</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="protection-juridique">
+
+                    Département du Var<br>Tribunal judiciaire
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 4 : Accompagnement aidants Alzheimer -> SAD Mixte - ESA (dans SOINS) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Accompagnement aidants personnes Maladie d'Alzheimer ou apparentée</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="sad-esa">SAD Mixte - ESA</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 5 : Soins réhabilitation Alzheimer -> AA83 (dans INFO) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Soins accompagnement et réhabilitation Maladie d'Alzheimer ou apparentée</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-amber-sm" data-id="aa83">AA83</div>
+
+                </div>
+
+                <div class="b2-col-services-cell"></div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 6 : Suivi neurologique -> Neurologues libéraux (dans SOINS) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Suivi de l'évolution neurologique, adaptation des prescriptions.</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="pro-liberaux">Neurologues libéraux</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 7 : Solutions de répit -> PFR (dans SERVICES) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Solutions de répit pour les aidants</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire Grand Âge</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="pfr-repit">PFR</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 8 : Stimulation capacités -> Accueil de jour (dans SERVICES) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Stimulation des capacités physiques et cognitives</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire Grand Âge</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="ehpad-adj-maintien">Accueil de jour</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 9 : Soutien formations -> Associations (dans INFO) + EHPAD - Accueil de jour (dans SERVICES) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Soutien, aide et échanges et formations diverses</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-amber-sm" data-id="pfr-repit">Associations</div>
+
+                  <div class="b2-arrow-start" style="margin-left: 6px;"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-magenta" data-id="ehpad-adj-maintien">EHPAD - Accueil de jour</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 10 : HTU -> EHPAD - HTU (dans SERVICES) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Hébergement temporaire d'urgence 60 ans et +, sortie hospitalisation</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-magenta" data-id="ehpad-temporaire-urgence">EHPAD - HTU</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 11 : Maintien 60+ PCH -> CLIC (dans INFO) -> CLIC (dans SERVICES) -> CLIC (dans SOINS) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Maintien à domicile 60 ans et +, bénéficiaires PCH</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-amber-sm" data-id="clic-niv1-info">CLIC</div>
+
+                  <div class="b2-arrow-start" style="margin-left: 6px;"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="clic-niv2-3">CLIC</div>
+
+                  <div class="b2-arrow-start" style="margin-left: 6px;"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-purple-sm" data-id="clic-niv2-3">CLIC</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 12 : Accompagnement renforcé GIR 1-4 -> CRT (dans SERVICES) -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Accompagnement renforcé au domicile 60 ans et + / GIR 1-4</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="crt-relais-hosp">CRT</div>
+
+                </div>
+
+                <div class="b2-col-soins-cell"></div>
+
+              </div>
+
+
+
+              <!-- LIGNE 13 : Situation complexe -> DAC (dans SOINS) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Situation complexe, besoin de coordination entre les acteurs</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire Sanitaire</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-purple" data-id="dac-relais-hosp">DAC</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 14 : Intervention aides domicile -> SAD aide (dans SOINS) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Intervention d'aides à domicile et/ou autonomie</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire SAD</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-lime" data-id="sad-relais-hosp">SAD aide</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 15 : Réadaptation post-hospit -> SMR (dans SOINS) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Réadaptation et rééducation post-hospitalisation aigue</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire Sanitaire</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-magenta" data-id="smr-geriatrique">SMR</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 16 : Aides et soins à domicile -> SAD mixte (dans SOINS) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Aides et soins à domicile 60 ans et + / PH</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire SAD</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="sad-mixte-maintien">SAD mixte</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 17 : Accès aux soins -> CPTS (dans SOINS) avec badge Via Trajectoire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Accès aux soins</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Via Trajectoire Sanitaire</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="cpts-relais-hosp">CPTS</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 18 : Accès aux droits santé -> CPAM - MiSAS (dans SOINS) avec badge Espace partenaire sur la flèche -->
+
+              <div class="b2-grid-row">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="crit-text">Accès aux droits de santé et aides financières</div>
+
+                  <div class="b2-arrow-start"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Espace partenaire</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="cpam-prev">CPAM - MiSAS</div>
+
+                </div>
+
+              </div>
+
+
+
+            </div> <!-- fin b2-rows-container (18 lignes programmées) -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- SÉPARATEUR INTERMÉDIAIRE STRICTEMENT AU MÊME NIVEAU QUE PARCOURS NON PROGRAMMÉS -->
+
+
+
+
+
+
+
+            <div class="b2-section-title non-prog-header">SOINS NON PROGRAMMÉS &amp; 1ER RECOURS EN VILLE</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    <div class="b2-rows-container non-prog-b2-container">
+
+
+
+              <!-- LIGNE 19a : Soins de premier recours Délai -48h sur la flèche -> CLIC / DAC (EN FACE d'IGU) -->
+
+              <div class="b2-grid-row b2-row-19a">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="b2-arrow-start" style="flex: 1;"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through">
+
+                    <span class="vt-on-arrow">Soins de premier recours Délai -48h</span>
+
+                  </div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="dual-pills">
+
+                    <div class="sch-card card-purple-sm" data-id="clic-niv1-info">CLIC</div>
+
+                    <div class="sch-card card-purple-sm" data-id="dac-relais-hosp">DAC</div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 19b : Professionnels 1er recours (EN FACE de Médecin régulateur) -->
+
+              <div class="b2-grid-row b2-row-19b">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="b2-arrow-start" style="flex: 1;"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="sch-card card-salmon" data-id="pro-liberaux">Professionnels 1er recours (MG, IDEL, ...)</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- LIGNE 19c : SOS Médecins & CPTS / DAC (EN FACE d'OSNP) -->
+
+              <div class="b2-grid-row b2-row-19c">
+
+                <div class="b2-col-crit-cell">
+
+                  <div class="b2-arrow-start" style="flex: 1;"></div>
+
+                </div>
+
+                <div class="b2-col-info-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-services-cell arrow-through">
+
+                  <div class="b2-arrow-through"></div>
+
+                </div>
+
+                <div class="b2-col-soins-cell arrow-target-seamless">
+
+                  <div class="b2-arrow-head"></div>
+
+                  <div class="dual-pills">
+
+                    <div class="sch-card card-salmon" data-id="sos-medecins">SOS Médecins</div>
+
+                    <div class="sch-card card-salmon" data-id="cpts-relais-hosp">CPTS</div>
+
+                    <div class="sch-card card-purple" data-id="dac-relais-hosp">DAC</div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+            </div> <!-- fin non-prog-b2-container -->
+
+
+
+
+
+
+
+          </div> <!-- fin b2-four-columns-layout -->
+
+        
+
+
+
+<!-- ============================================================================== -->
+
+
+
+
+
+
+
+            <!-- BANDEAU DE TRANSITION & FLUX D'ORIENTATION : SORTIE D'HOSPIT & RETOUR MAD / ÉTAB -->
+
+        </div> <!-- fin board-collapsible-content -->
+
+        </div> <!-- fin block-besoin-2 -->
+
+      </div> <!-- fin b1-b2-row -->
+
+
+
+<div class="block-besoin block-b4" id="block-besoin-4">
+
+
+
+
+
+
+
+          <div class="roof-arrow-bar roof-b4">
+
+
+
+
+
+
+
+            <span class="arrow-left">&larr;</span>
+
+
+
+
+
+
+
+            <span class="roof-text">ENTRÉE EN ÉTABLISSEMENT </span>
+
+
+
+
+
+
+
+            <button class="btn-roof-focus" data-target="block-besoin-4" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
+            <button class="btn-roof-toggle" data-target="block-besoin-4" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+
+
+
+            <span class="arrow-right">&rarr;</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
+
+
+
+
+
+
+
+          <div class="board-collapsed-summary bcs-card-pediment" data-target="block-besoin-4" title="Cliquer pour ouvrir cet encadré">
+
+            <div class="bcs-pediment-roof">
+
+              <svg viewBox="0 0 600 54" preserveAspectRatio="none" class="bcs-pediment-roof-svg">
+
+                <polygon points="2,54 300,4 598,54" fill="#ffffff" stroke="#2563eb" stroke-width="3.5"/>
+
+              </svg>
+
+              <span class="bcs-pediment-title">ENTRÉE EN ÉTABLISSEMENT</span>
+
+            </div>
+
+            <div class="bcs-pediment-body">
+
+              <div class="bcs-pediment-mission">
+
+                <img src="assets/accompagner.svg" alt="Accompagner">
+
+                <span>Accompagner</span>
+
+              </div>
+
+              <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
+
+                <span>Ouvrir</span>
+
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+
+              </button>
+
+            </div>
+
+          </div>
+
+<!-- VUE OUVERTE (Détaillée) -->
+
+
+
+
+
+
+
+          <div class="board-collapsible-content">
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="b4-funnel-grid">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- ============================================================== -->
+
+
+
+
+
+
+
+            <!-- COLONNE 1 : CRITÈRES GÉNÉRAUX (Boîte blanche à gauche)          -->
+
+
+
+
+
+
+
+            <!-- ============================================================== -->
+
+
+
+
+
+
+
+            <div class="b4-col-crit-gen">
+
+
+
+
+
+
+
+              <div class="b4-hdr-section">
+
+
+
+
+
+
+
+                <div class="medallion-badge badge-gray">
+
+
+
+
+
+
+
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="b4-hdr-pill">CRITERES GENERAUX</div>
+
+
+
+
+
+
+
+                <div class="b4-sub-caption">à évaluer pour chaque PA</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="b4-eval-box">
+
+
+
+
+
+
+
+                <div class="eval-titre">Autonomie et actes de la vie quotidienne</div>
+
+
+
+
+
+
+
+                <div class="eval-txt">Capacité à réaliser les gestes essentiels (toilette, habillage, repas, déplacements, transferts, prise de médicaments), gestion administrative et budgétaire</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="b4-eval-box">
+
+
+
+
+
+
+
+                <div class="eval-titre">Sécurité, environnement</div>
+
+
+
+
+
+
+
+                <div class="eval-txt">Accessibilité, risques (chute, errance), adaptation du logement, besoin de supervision, aides techniques</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="b4-eval-box">
+
+
+
+
+
+
+
+                <div class="eval-titre">Environnement social et aidants</div>
+
+
+
+
+
+
+
+                <div class="eval-txt">Présence de proches, risque d'épuisement, soutien des services, maintien du lien social</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="b4-eval-box">
+
+
+
+
+
+
+
+                <div class="eval-titre">Santé et besoins en soins</div>
+
+
+
+
+
+
+
+                <div class="eval-txt">Pathologies, traitements, surveillance médicale, risques (chute, dénutrition, douleur, fatigue), GIR</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <div class="b4-eval-box">
+
+
+
+
+
+
+
+                <div class="eval-titre">Projet de vie et faisabilité</div>
+
+
+
+
+
+
+
+                <div class="eval-txt">Souhaits et consentement de la personne, préférences géographiques, proximité des aidants, droits, ressources financières, disponibilité des solutions</div>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <!-- ============================================================== -->
+
+            <!-- COLONNE 2 : GRANDE CARTE BLEUE FIGMA                            -->
+
+            <!-- PROFILS -> CRITÈRES D'ORIENTATION -> ÉTABLISSEMENTS             -->
+
+            <!-- ============================================================== -->
+
+
+
+            <div class="b4-main-slate-card">
+
+
+
+              <!-- En-têtes avec médaillons -->
+
+              <div class="b4-slate-card-header">
+
+                <div class="hdr-subpart hdr-profil-side">
+                  <div class="medallion-badge badge-gray-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+                  </div>
+                  <div class="b4-hdr-pill">PROFILS</div>
+                </div>
+
+                <div class="hdr-subpart hdr-crit-side">
+
+                  <div class="medallion-badge badge-gray-sm">
+
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+
+                  </div>
+
+                  <div class="b4-hdr-pill">CRITERES D'ORIENTATION</div>
+
+                </div>
+
+
+
+                <div class="hdr-subpart hdr-etab-side">
+
+                  <div class="medallion-badge badge-gray-sm">
+
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/></svg>
+
+                  </div>
+
+                  <div class="b4-hdr-pill">ETABLISSEMENTS</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- Grand bloc Personnes Âgées englobant les 4 sous-catégories sans numéros -->
+
+              <div class="b4-pa-master-block">
+                <div class="b4-pa-master-banner">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <span>PERSONNES ÂGÉES</span>
+                </div>
+
+                <div class="b4-tree-wrapper">
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- SOUS-CATÉGORIE 1 : 60 ans et +                   -->
+                  <!-- ------------------------------------------------ -->
+                  <div class="b4-tree-group">
+                    <div class="b4-profil-col">
+                      <div class="b4-profil-card">
+                        <div class="b4-profil-name">60 ans et +</div>
+                      </div>
+                    </div>
+
+                    <div class="b4-eval-arrow-conn">
+                      <span class="b4-eval-tool-badge">GIR, NPI-ES, MMSE</span>
+                    </div>
+
+                    <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
+                      <svg width="24" height="100%" viewBox="0 0 24 261" preserveAspectRatio="none" fill="none">
+                        <path d="M2 131 H12 M12 85 V243 M12 85 H22 M12 195 H22 M12 243 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                        <polygon points="20,82 24,85 20,88" fill="#334155"/>
+                        <polygon points="20,192 24,195 20,198" fill="#334155"/>
+                        <polygon points="20,240 24,243 20,246" fill="#334155"/>
+                      </svg>
+                    </div>
+
+                    <div class="b4-branches-col" style="flex: 1;">
+                      <!-- 1.1 : Autonomie globalement préservée -> Résidence autonomie / Résidence services séniors -->
+                      <div class="b4-branch-row double-dest b4-autonomie-preservée-block">
+                        <div class="b4-crit-tag b4-crit-tag-auto">Autonomie globalement préservée</div>
+                        <div class="b4-autonomie-tracks-group">
+                          <div class="b4-track-top">
+                            <div class="b4-track-text-group">
+                              <span class="txt-main-criteria">Besoin de logement avec services collectifs</span>
+                              <span class="txt-res-modestes">Ressources financières modestes</span>
+                            </div>
+                            <div class="b4-arrow-line-unified">
+                              <span class="vt-on-arrow">Via Trajectoire Grand Âge</span>
+                            </div>
+                            <div class="sch-card card-magenta" data-id="residence-autonomie">Résidence autonomie</div>
+                          </div>
+
+                          <div class="b4-track-bottom">
+                            <div class="b4-track-text-group">
+                              <span class="txt-main-criteria">Recherche de services à la carte dans un logement indépendant</span>
+                              <span class="txt-res-suffisantes">Ressources financières suffisantes</span>
+                            </div>
+                            <div class="b4-arrow-line-unified"></div>
+                            <div class="sch-card card-magenta" data-id="residence-services-seniors">Résidence services séniors</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 1.2 : Autonomie réduite : aide quotidienne -> EHPAD (AVEC FLÈCHE VERS TYPES DE LITS) -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                        <div class="b4-crit-tag">Autonomie réduite : besoin d'aide quotidienne</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Grand Âge</span>
+                        </div>
+                        <div class="ehpad-hub-wrapper">
+                          <div class="sch-card card-magenta card-ehpad-origin-hub" data-id="ehpad-permanent" style="width: 165px; flex-shrink: 0; font-weight: 900; border: 2.5px solid #be185d;">EHPAD</div>
+                          <div class="ehpad-connector-out" title="L'EHPAD donne accès aux différents types de lits"></div>
+                        </div>
+                      </div>
+
+                      <!-- 1.3 : Autonomie réduite : surveillance constante -> USLD -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                        <div class="b4-crit-tag">Autonomie réduite : besoin de surveillance médicale constante</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Grand Âge</span>
+                        </div>
+                        <div class="sch-card card-magenta" data-id="usld-etablissement" style="width: 165px; flex-shrink: 0;">USLD</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- SOUS-CATÉGORIE 2 : 65 ans et + précaire et besoin social -->
+                  <!-- ------------------------------------------------ -->
+                  <div class="b4-tree-group">
+                    <div class="b4-profil-col">
+                      <div class="b4-profil-card">
+                        <div class="b4-profil-name">65 ans et +</div>
+                        <div class="b4-profil-sub">précaire et besoin social</div>
+                      </div>
+                    </div>
+
+                    <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
+                      <svg width="24" height="100%" viewBox="0 0 24 110" preserveAspectRatio="none" fill="none">
+                        <path d="M2 55 H12 M12 55 V25 H22 M12 55 V85 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                        <polygon points="20,22 24,25 20,28" fill="#334155"/>
+                        <polygon points="20,82 24,85 20,88" fill="#334155"/>
+                      </svg>
+                    </div>
+
+                    <div class="b4-branches-col" style="flex: 1;">
+                      <!-- 2.1 : Famille gouvernante (Précarité) -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie pour vivre en collocation : PA en précarité financière, accompagnement social et médical</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">SIAO</span>
+                        </div>
+                        <div class="sch-card card-magenta" data-id="habitat-inclusif" style="width: 165px; flex-shrink: 0;">Famille gouvernante</div>
+                      </div>
+
+                      <!-- 2.2 : Habitat inclusif -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie pour occuper un espace de vie privatif et projet de vie partagée</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">SIAO</span>
+                        </div>
+                        <div class="sch-card card-magenta" data-id="habitat-inclusif" style="width: 165px; flex-shrink: 0;">Habitat inclusif</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- SOUS-CATÉGORIE 3 : PHV                           -->
+                  <!-- ------------------------------------------------ -->
+                  <div class="b4-tree-group">
+                    <div class="b4-profil-col">
+                      <div class="b4-profil-card">
+                        <div class="b4-profil-name">PHV</div>
+                      </div>
+                    </div>
+
+                    <div class="b4-eval-arrow-conn">
+                      <span class="b4-eval-tool-badge">Handicap et notif MDPH</span>
+                    </div>
+
+                    <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
+                      <svg width="24" height="100%" viewBox="0 0 24 304" preserveAspectRatio="none" fill="none">
+                        <path d="M2 152 H12 M12 32 V266 M12 32 H22 M12 90 H22 M12 168 H22 M12 266 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                        <polygon points="20,29 24,32 20,35" fill="#334155"/>
+                        <polygon points="20,87 24,90 20,93" fill="#334155"/>
+                        <polygon points="20,165 24,168 20,171" fill="#334155"/>
+                        <polygon points="20,263 24,266 20,269" fill="#334155"/>
+                      </svg>
+                    </div>
+
+                    <div class="b4-branches-col" style="flex: 1;">
+                      <!-- 3.1 : Foyer d'hébergement -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie assez préservée pour pouvoir travailler : hébergement lié à l'activité professionnelle</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Handicap</span>
+                        </div>
+                        <div class="sch-card card-magenta" data-id="foyer-vie-phv" style="width: 165px; flex-shrink: 0;">Foyer d'hébergement</div>
+                      </div>
+
+                      <!-- 3.2 : Foyer de vie -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie relative, impossibilité de travailler : besoin d'activités sociales</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Handicap</span>
+                        </div>
+                        <div class="sch-card card-magenta" data-id="foyer-vie-phv" style="width: 165px; flex-shrink: 0;">Foyer de vie</div>
+                      </div>
+
+                      <!-- 3.3 : EAM + EHPAD Pass'Âge -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie réduite : besoin régulier de soins et d'aides humaines</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Handicap</span>
+                        </div>
+                        <div class="dual-struct-block" style="width: 165px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px;">
+                          <div class="sch-card card-magenta" data-id="eam-phv">EAM</div>
+                          <div class="passage-container" style="display: flex; flex-direction: column; gap: 2px;">
+                            <span class="passage-tag" style="font-size: 0.62rem; background: #fef08a; color: #854d0e; padding: 1px 4px; border-radius: 3px; font-weight: 800; text-align: center;">APFH - Dispositif Pass'Âge</span>
+                            <div class="sch-card card-magenta" data-id="ehpad-section-phv">EHPAD</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- 3.4 : EHPAD PHV + MAS -->
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie très réduite : dépendance très importante et soins continus</div>
+                        <div class="b4-arrow-line-unified">
+                          <span class="vt-on-arrow">Via Trajectoire Handicap</span>
+                        </div>
+                        <div class="dual-struct-block" style="width: 165px; flex-shrink: 0; display: flex; flex-direction: column; gap: 4px;">
+                          <div class="sch-card card-magenta" data-id="ehpad-section-phv">EHPAD PHV</div>
+                          <div class="sch-card card-magenta" data-id="mas-phv">MAS</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ------------------------------------------------ -->
+                  <!-- SOUS-CATÉGORIE 4 : 65 ans et + PHV               -->
+                  <!-- ------------------------------------------------ -->
+                  <div class="b4-tree-group">
+                    <div class="b4-profil-col">
+                      <div class="b4-profil-card">
+                        <div class="b4-profil-name">65 ans et + PHV</div>
+                      </div>
+                    </div>
+
+                    <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
+                      <svg width="24" height="100%" viewBox="0 0 24 60" preserveAspectRatio="none" fill="none">
+                        <path d="M2 30 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                        <polygon points="20,27 24,30 20,33" fill="#334155"/>
+                      </svg>
+                    </div>
+
+                    <div class="b4-branches-col" style="flex: 1;">
+                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px;">
+                        <div class="b4-crit-tag wide">Autonomie pour vivre en collocation : handicap psychique, accompagnement social et médical</div>
+                        <div class="b4-arrow-line-unified"></div>
+                        <div class="sch-card card-magenta" data-id="habitat-inclusif" style="width: 165px; flex-shrink: 0;">Famille gouvernante</div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- COLONNE 3 : CARTE BLEUE SORTIE EHPAD (LITS & CRITÈRES)          -->
+
+            <!-- FLÈCHES PROVENANT DIRECTEMENT DE L'EHPAD UNIQUEMENT            -->
+
+            <!-- ============================================================== -->
+
+
+
+            <div class="b4-lits-slate-card" style="border: 2px solid #be185d; box-shadow: 0 4px 12px rgba(190, 24, 93, 0.15);">
+
+
+
+              <!-- En-tête avec médaillons -->
+
+              <div class="b4-slate-card-header">
+
+                <div class="hdr-subpart hdr-crit-side">
+
+                  <div class="medallion-badge badge-gray-sm">
+
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+
+                  </div>
+
+                  <div class="b4-hdr-pill" style="background: #9d174d;">CRITERES D'ORIENTATION</div>
+
+                </div>
+
+
+
+                <div class="hdr-subpart hdr-lits-side">
+
+                  <div class="medallion-badge badge-gray-sm">
+
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+
+                  </div>
+
+                  <div class="b4-hdr-pill" style="background: #9d174d;">TYPES DE LITS (EHPAD)</div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- Lignes de lits connectées depuis l'EHPAD uniquement -->
+
+              <div class="b4-lits-fork-container">
+
+                <div class="b4-lits-rows-group">
+
+                  <!-- 1 : Hébergement durable -> HP -->
+
+                  <div class="b4-lit-row-unified">
+
+                    <div class="b4-lit-crit-text">Besoin d'hébergement durable</div>
+
+                    <div class="b4-lit-arrow-conn"></div>
+
+                    <div class="sch-card card-magenta card-bed-pill" data-id="ehpad-permanent">HP</div>
+
+                  </div>
+
+
+
+                  <!-- 2 : Troubles psycho-comportementaux sévères -> UVP et UHR (sur décision médicale) -->
+
+                  <div class="b4-lit-row-unified">
+
+                    <div class="b4-lit-crit-text">Troubles psycho-comportementaux sévères</div>
+
+                    <div class="b4-lit-arrow-conn">
+                      <span class="b4-decision-med-badge">sur décision<br>médicale</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+
+                      <div class="sch-card card-magenta card-bed-pill" data-id="ehpad-uvp-uhr">UVP</div>
+
+                      <div class="sch-card card-magenta card-bed-pill" data-id="ehpad-uvp-uhr">UHR</div>
+
+                    </div>
+
+                  </div>
+
+
+
+                  <!-- 4 : Troubles cognitifs modérés -> PASA -->
+
+                  <div class="b4-lit-row-unified">
+
+                    <div class="b4-lit-crit-text">
+
+                      Troubles cognitifs avec troubles du comportement modérés<br>
+
+                      <span style="font-size: 0.74rem; font-weight: normal; color: #334155;">Besoin d'activités adaptées en journée</span>
+
+                    </div>
+
+                    <div class="b4-lit-arrow-conn"></div>
+
+                    <div class="sch-card card-magenta card-bed-pill" data-id="ehpad-pasa">PASA</div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div> <!-- fin block-besoin-4 -->
+
+
+
+
+
+
+
+      </div>
+
+      <!-- ============================================================================== -->
+          </div> <!-- fin poster-main-parcours-grid -->
+
+
+
+<!-- ======================================================== -->
+
+
+
+
+
+
+
+      <!-- LEGENDE DU SCHEMA (COULEURS SEULES)                      -->
+
+
+
+
+
+
+
+      <!-- ======================================================== -->
+
+
+
+
+
+
+
+            <!-- ======================================================== -->
+
+      <!-- LEGENDE DU SCHEMA (TYPOLOGIE DES ACTEURS PAR COULEUR)     -->
+
+      <!-- ======================================================== -->
+
+      <div class="pathway-legend-container" id="pathway-legend">
+
+        <div class="legend-header">
+
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+
+          <h3 class="legend-title">LÉGENDE</h3>
+
+        </div>
+
+
+
+        <div class="legend-items-grid">
+
+          <!-- 1. Acteurs de la prévention (Contour rouge) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-prev"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs de la prévention</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 2. Acteurs de l'information et aides (Contours jaunes) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-info"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs de l'information et aides</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 3. Acteurs de la mise en place des aides (Contours vert) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-aides"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs de la mise en place des aides</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 4. Acteurs effecteurs de soins (Contours rouges) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-soins"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs effecteurs de soins</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 5. Acteurs de la filière gériatrique (Contours bleu) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-geriatrie"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs de la filière gériatrique</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 6. Acteurs du médico-social (Contours rose) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-medico-social"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs du médico-social</span>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 7. Acteurs de la coordination (Contours violets) -->
+
+          <div class="legend-item">
+
+            <div class="legend-swatch swatch-coordination"></div>
+
+            <div class="legend-text-col">
+
+              <span class="legend-label">Acteurs de la coordination</span>
+
+            </div>
+
+          </div>
+
+          <!-- 8. Outils d'évaluation (Pastille vert sarcelle) -->
+          <div class="legend-item">
+            <div class="legend-swatch swatch-eval-tools"></div>
+            <div class="legend-text-col">
+              <span class="legend-label">Outils d'évaluation</span>
+            </div>
+          </div>
+
+          <!-- 9. Outils d'orientation/transmission (Pastille noire) -->
+          <div class="legend-item">
+            <div class="legend-swatch swatch-trans-tools"></div>
+            <div class="legend-text-col">
+              <span class="legend-label">Outils d'orientation/transmission</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      </div> <!-- fin poster-layout-wrapper -->
+
+    </div> <!-- fin poster-canvas -->
+
+  </div> <!-- fin poster-viewport -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- VOLET LATÉRAL (DRAWER) FICHE STRUCTURE CLIQUÉE -->
+
+
+
+
+
+
+
+  <aside id="structure-drawer" class="drawer">
+
+
+
+
+
+
+
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+
+
+
+
+
+
+    <div class="drawer-content">
+
+
+
+
+
+
+
+      <div class="dac-signature-bar"></div>
+
+
+
+
+
+
+
+      <div class="drawer-header">
+
+
+
+
+
+
+
+        <div class="drawer-badge" id="drawer-besoin-tag">BESOIN</div>
+
+
+
+
+
+
+
+        <button id="drawer-close" class="close-btn" title="Fermer le volet">&times;</button>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="drawer-body">
+
+
+
+
+
+
+
+        <h2 id="drawer-title">Nom de la structure</h2>
+
+
+
+
+
+
+
+        <div class="drawer-subtitle" id="drawer-subtitle">Rôle principal</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Emplacement dynamique de la bannière Carte CRT si applicable -->
+
+
+
+
+
+
+
+        <div id="drawer-crt-banner-slot"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="drawer-section">
+
+
+
+
+
+
+
+          <h3>Description détaillée</h3>
+
+
+
+
+
+
+
+          <p id="drawer-desc">-</p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="drawer-meta-grid">
+
+
+
+
+
+
+
+          <div class="meta-item">
+
+
+
+
+
+
+
+            <span class="meta-label">Public concerné</span>
+
+
+
+
+
+
+
+            <span class="meta-value" id="drawer-public">-</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="meta-item">
+
+
+
+
+
+
+
+            <span class="meta-label">Critères d'orientation</span>
+
+
+
+
+
+
+
+            <span class="meta-value" id="drawer-criteres">-</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="meta-item">
+
+
+
+
+
+
+
+            <span class="meta-label">Modalités d'accès</span>
+
+
+
+
+
+
+
+            <span class="meta-value" id="drawer-acces">-</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="meta-item">
+
+
+
+
+
+
+
+            <span class="meta-label">Outil d'orientation</span>
+
+
+
+
+
+
+
+            <span class="meta-value" id="drawer-outil">-</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="meta-item full">
+
+
+
+
+
+
+
+            <span class="meta-label">Contact / Référent</span>
+
+
+
+
+
+
+
+            <span class="meta-value" id="drawer-contact">-</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- SECTION PDF -->
+
+
+
+
+
+
+
+        <div class="drawer-pdf-box">
+
+
+
+
+
+
+
+          <div class="pdf-box-header">
+
+
+
+
+
+
+
+            <div class="pdf-icon">
+
+
+
+
+
+
+
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="pdf-info">
+
+
+
+
+
+
+
+              <h4>Fiche PDF de la structure</h4>
+
+
+
+
+
+
+
+              <p id="drawer-pdf-filename">document.pdf</p>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+          <div class="pdf-actions">
+
+
+
+
+
+
+
+            <button id="btn-open-pdf-viewer" class="btn btn-primary">
+
+
+
+
+
+
+
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+
+
+
+
+
+
+
+              Consulter le PDF
+
+
+
+
+
+
+
+            </button>
+
+
+
+
+
+
+
+            <a id="btn-open-pdf-tab" href="#" target="_blank" class="btn btn-outline" title="Ouvrir dans un nouvel onglet">
+
+
+
+
+
+
+
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+
+
+
+
+
+
+              Nouvel onglet
+
+
+
+
+
+
+
+            </a>
+
+
+
+
+
+
+
+            <a id="btn-download-pdf" href="#" download class="btn btn-outline" target="_blank">
+
+
+
+
+
+
+
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+
+
+
+
+
+
+
+              Télécharger
+
+
+
+
+
+
+
+            </a>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="custom-pdf-upload">
+
+
+
+
+
+
+
+            <label for="pdf-file-input" class="upload-label">
+
+
+
+
+
+
+
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+
+
+
+
+
+
+
+              Remplacer par votre propre PDF pour cette structure
+
+
+
+
+
+
+
+            </label>
+
+
+
+
+
+
+
+            <input type="file" id="pdf-file-input" accept="application/pdf">
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- MODAL VISIONNEUSE PDF -->
+
+
+
+
+
+
+
+  <div id="pdf-modal" class="modal">
+
+
+
+
+
+
+
+    <div class="modal-overlay" id="pdf-modal-overlay"></div>
+
+
+
+
+
+
+
+    <div class="modal-container">
+
+
+
+
+
+
+
+      <div class="dac-signature-bar"></div>
+
+
+
+
+
+
+
+      <div class="modal-header">
+
+
+
+
+
+
+
+        <h3 id="pdf-modal-title">Aperçu du PDF</h3>
+
+
+
+
+
+
+
+        <div class="modal-controls">
+
+
+
+
+
+
+
+          <a id="pdf-modal-newtab" href="#" target="_blank" class="btn btn-sm btn-outline">Ouvrir plein écran</a>
+
+
+
+
+
+
+
+          <button id="pdf-modal-close" class="close-btn">&times;</button>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="modal-body">
+
+
+
+
+
+
+
+        <iframe id="pdf-iframe" src="" frameborder="0"></iframe>
+
+        <img id="pdf-img" src="" alt="Flyer officiel" style="display:none; max-width:100%; max-height:85vh; object-fit:contain; margin:auto; box-shadow:0 4px 16px rgba(0,0,0,0.15); border-radius:6px;" />
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- BOUTON FLOTTANT D'ORIENTATION RAPIDE -->
+
+
+
+
+
+
+
+  <button id="btn-float-wizard" class="float-wizard-trigger" title="Lancer un parcours d'orientation" onclick="window.openWizard && window.openWizard()">
+
+
+
+
+
+
+
+    <span class="float-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+
+
+
+
+
+
+
+    <span class="float-text">Orientation &amp; Parcours pas-à-pas</span>
+
+
+
+
+
+
+
+  </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- WIDGET / GRANDE FLÈCHE DE PARCOURS UTILISATEUR -->
+
+
+
+
+
+
+
+  <div id="pathway-wizard" class="pathway-wizard">
+
+
+
+
+
+
+
+    <div class="wizard-header">
+
+
+
+
+
+
+
+      <div class="wizard-title-group">
+
+
+
+
+
+
+
+        <div class="wizard-icon-badge">
+
+
+
+
+
+
+
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+
+
+
+
+
+
+            <circle cx="12" cy="12" r="10"/>
+
+
+
+
+
+
+
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+
+
+
+
+
+
+
+          </svg>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div>
+
+
+
+
+
+
+
+          <h3 class="wizard-title">Assistant d'Orientation &amp; Parcours Utilisateur</h3>
+
+
+
+
+
+
+
+          <p class="wizard-subtitle">Cheminez de gauche à droite à travers les 4 besoins pour trouver la bonne structure</p>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="wizard-header-actions">
+
+
+
+
+
+
+
+        <button id="wizard-btn-reset" class="wizard-action-btn" title="Recommencer le parcours">
+
+
+
+
+
+
+
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+
+
+
+
+
+
+
+          Recommencer
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button id="wizard-btn-collapse" class="wizard-action-btn" title="Réduire / Agrandir">
+
+
+
+
+
+
+
+          <svg id="wizard-collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+        <button id="wizard-btn-close" class="wizard-action-btn btn-close" title="Fermer l'assistant">
+
+
+
+
+
+
+
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+
+
+
+
+
+
+
+        </button>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- LA GRANDE FLÈCHE DE PROGRESSION CHRONOLOGIQUE (DE GAUCHE À DROITE) -->
+
+
+
+
+
+
+
+    <div class="wizard-timeline-container">
+
+
+
+
+
+
+
+      <div class="wizard-arrow-steps">
+
+
+
+
+
+
+
+        <div class="wizard-step step-b3 active" data-step="1" data-target="besoin-3">
+
+
+
+
+
+
+
+          <span class="step-num">1</span>
+
+
+
+
+
+
+
+          <div class="step-info">
+
+
+
+
+
+
+
+            <span class="step-title">Maintien à domicile</span>
+
+
+
+
+
+
+
+            <span class="step-sub">Maintien à domicile</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="wizard-step step-b1" data-step="2" data-target="besoin-1">
+
+
+
+
+
+
+
+          <span class="step-num">2</span>
+
+
+
+
+
+
+
+          <div class="step-info">
+
+
+
+
+
+
+
+            <span class="step-title">Filière hospitalière</span>
+
+
+
+
+
+
+
+            <span class="step-sub">Offre de soin de la filière gériatrique</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="wizard-step step-b2" data-step="3" data-target="besoin-2">
+
+
+
+
+
+
+
+          <span class="step-num">3</span>
+
+
+
+
+
+
+
+          <div class="step-info">
+
+
+
+
+
+
+
+            <span class="step-title">Relais en ville</span>
+
+
+
+
+
+
+
+            <span class="step-sub">Relais en ville en sortie d'hospitalisation</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="wizard-step step-b4" data-step="4" data-target="besoin-4">
+
+
+
+
+
+
+
+          <span class="step-num">4</span>
+
+
+
+
+
+
+
+          <div class="step-info">
+
+
+
+
+
+
+
+            <span class="step-title">Établissement</span>
+
+
+
+
+
+
+
+            <span class="step-sub">Entrée en établissement</span>
+
+
+
+
+
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- ZONE DE QUESTIONS INTERACTIVES ET RÉSULTAT -->
+
+
+
+
+
+
+
+    <div class="wizard-body">
+
+
+
+
+
+
+
+      <div id="wizard-question-box" class="wizard-question-box"></div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <!-- MODAL PLEIN ÉCRAN / FOCUS SUR PLANCHE -->
+  <div id="board-focus-overlay" class="board-focus-overlay" aria-hidden="true">
+    <div class="bfo-backdrop" id="bfo-backdrop"></div>
+    <div class="bfo-dialog">
+      <div class="bfo-top-bar">
+        <div class="bfo-title-area">
+          <span class="bfo-badge">MODE FOCUS</span>
+          <span class="bfo-board-title" id="bfo-title-text">MAINTIEN À DOMICILE</span>
+        </div>
+        <div class="bfo-controls">
+          <div class="bfo-switcher">
+            <button class="bfo-tab-btn" data-target="block-besoin-3" type="button" title="Maintien à domicile">Maintien à domicile</button>
+            <button class="bfo-tab-btn" data-target="block-besoin-1" type="button" title="Offre de soin de la filière gériatrique">Offre de soin de la filière gériatrique</button>
+            <button class="bfo-tab-btn" data-target="block-besoin-2" type="button" title="Relais en ville en sortie d'hospitalisation">Relais en ville en sortie d'hospitalisation</button>
+            <button class="bfo-tab-btn" data-target="block-besoin-4" type="button" title="Entrée en établissement">Entrée en établissement</button>
+          </div>
+          <button class="bfo-close-btn" id="bfo-close-btn" type="button" title="Quitter le mode plein écran (Échap)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <span>Quitter le plein écran</span>
+            <kbd>Échap</kbd>
+          </button>
+        </div>
+      </div>
+      <div class="bfo-content-scroller" id="bfo-content-scroller">
+        <div class="bfo-board-wrapper" id="bfo-board-wrapper">
+          <!-- Le contenu de la planche ciblée est déplacé ici en haute définition sans zoom flou -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/structures_data.js"></script>
+
+
+
+
+
+
+
+  <script src="app.js"></script>
+
+
+
+
+
+
+
+  <script src="wizard.js"></script>
+
+
+
+
+
+
+
+  <script src="crt_module.js"></script>
+
+
+
+
+
+
+
+
+<script>
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    // exit synthetic mode like zoomOnBoard does
+    document.body.classList.remove('mode-synthetic-view');
+    
+    // expand b5 if collapsed
+    const b5 = document.getElementById('block-besoin-5');
+    b5.classList.remove('is-collapsed');
+    
+    setTimeout(() => {
+      const colLeft = document.querySelector('.parcours-col-left');
+      const colRight = document.querySelector('.parcours-col-right');
+      const colFarRight = document.querySelector('.parcours-col-far-right');
+      const grid = document.querySelector('.poster-main-parcours-grid');
+      const canvas = document.getElementById('poster-canvas');
+      const b5 = document.getElementById('block-besoin-5');
+      const matrix = document.querySelector('.b5-matrix-layout');
+      
+      const info = {
+        colLeft_w: colLeft ? colLeft.offsetWidth : 0,
+        colRight_w: colRight ? colRight.offsetWidth : 0,
+        colFarRight_w: colFarRight ? colFarRight.offsetWidth : 0,
+        grid_w: grid ? grid.offsetWidth : 0,
+        grid_scroll_w: grid ? grid.scrollWidth : 0,
+        canvas_w: canvas ? canvas.offsetWidth : 0,
+        b5_w: b5 ? b5.offsetWidth : 0,
+        b5_scroll_w: b5 ? b5.scrollWidth : 0,
+        matrix_w: matrix ? matrix.offsetWidth : 0,
+        matrix_scroll_w: matrix ? matrix.scrollWidth : 0
+      };
+      
+      document.title = "MEASURE:" + JSON.stringify(info);
+    }, 400);
+  }, 200);
+});
+</script>
+
+<script>
+function alignThematicsWithB3() {
+  const b3 = document.getElementById('block-besoin-3');
+  const b1 = document.getElementById('block-besoin-1');
+  if (!b3 || !b1) return;
+  if (b3.classList.contains('is-collapsed') || b1.classList.contains('is-collapsed')) return;
+
+  const b3Bars = Array.from(b3.querySelectorAll('.b5-section-bar'));
+  const b3Precarite = b3Bars.find(b => b.textContent.includes('PRÉCARITÉ'));
+  const b3Handicap = b3Bars.find(b => b.textContent.includes('HANDICAP'));
+  const b3Aidants = b3Bars.find(b => b.textContent.includes('AIDANTS'));
+  const b3Addicto = b3Bars.find(b => b.textContent.includes('ADDICTOLOGIE'));
+  const b3Psychiatrie = b3Bars.find(b => b.textContent.includes('PSYCHIATRIE'));
+
+  if (!b3Precarite) return;
+
+  // Set B1 overall min-height to match B3
+  b1.style.minHeight = b3.offsetHeight + 'px';
+
+  // 1. Align PRÉCARITÉ
+  const mainGroup = b1.querySelector('.b1-hospital-main-group');
+  const b1Precarite = b1.querySelector('.b1-theme-precarite .b1-section-bar');
+  if (mainGroup && b1Precarite) {
+    const diff = b3Precarite.getBoundingClientRect().top - b1Precarite.getBoundingClientRect().top;
+    if (Math.abs(diff) > 0.5) {
+      const curH = mainGroup.offsetHeight;
+      mainGroup.style.minHeight = Math.max(0, curH + diff) + 'px';
+    }
+  }
+
+  // 2. Align each subsequent section bar by setting the exact height of the previous theme block!
+  const themePairs = [
+    { el: b1.querySelector('.b1-theme-precarite'), from: b3Precarite, to: b3Handicap },
+    { el: b1.querySelector('.b1-theme-handicap'), from: b3Handicap, to: b3Aidants },
+    { el: b1.querySelector('.b1-theme-aidants'), from: b3Aidants, to: b3Addicto },
+    { el: b1.querySelector('.b1-theme-addicto'), from: b3Addicto, to: b3Psychiatrie }
+  ];
+
+  themePairs.forEach(p => {
+    if (p.el && p.from && p.to) {
+      const exactDistance = p.to.getBoundingClientRect().top - p.from.getBoundingClientRect().top;
+      // Subtract the gap between flex items if any
+      p.el.style.minHeight = exactDistance + 'px';
+      p.el.style.maxHeight = exactDistance + 'px';
+      p.el.style.height = exactDistance + 'px';
+      p.el.style.boxSizing = 'border-box';
+      p.el.style.overflow = 'hidden';
+    }
+  });
+}
+
+window.addEventListener('load', () => {
+  alignThematicsWithB3();
+  setTimeout(() => {
+    alignThematicsWithB3();
+    
+    // Measure results
+    const b3 = document.getElementById('block-besoin-3');
+    const b1 = document.getElementById('block-besoin-1');
+    const b3Bars = Array.from(b3.querySelectorAll('.b5-section-bar')).slice(2);
+    const b1Bars = Array.from(b1.querySelectorAll('.b1-thematics-group .b1-section-bar'));
+    
+    const results = b3Bars.map((b3b, i) => {
+      const b1b = b1Bars[i];
+      return {
+        name: b3b.textContent.trim(),
+        b3Top: b3b.getBoundingClientRect().top,
+        b1Top: b1b ? b1b.getBoundingClientRect().top : 0,
+        diff: b1b ? b1b.getBoundingClientRect().top - b3b.getBoundingClientRect().top : 999
+      };
+    });
+
+    const el = document.createElement('div');
+    el.id = 'align-results';
+    el.textContent = JSON.stringify({
+      b3H: b3.offsetHeight,
+      b1H: b1.offsetHeight,
+      bars: results
+    });
+    document.body.appendChild(el);
+  }, 1000);
+});
+</script>
+</body>
+
+
+
+
+
+
+
+</html>
