@@ -1628,8 +1628,6 @@ function setupReperageInteractivity() {
 
   const ALL_BOARD_IDS = [
 
-    'transversal-prevention',
-
     'transversal-reperage',
 
     'block-besoin-3',

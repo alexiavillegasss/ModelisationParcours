@@ -48,7 +48,7 @@
 
 
 
-  <link rel="stylesheet" href="styles.css?v=20261123_1600">
+  <link rel="stylesheet" href="styles.css?v=20261123_1700">
   <!-- Habillage aux couleurs du DAC (retirer cette ligne pour revenir à l'ancien visuel) -->
   <link rel="stylesheet" href="theme-dac.css?v=20261123_1600">
   <!-- Écran « Orienter par besoin » -->
@@ -1236,9 +1236,6 @@
         <button class="nav-planche-btn active" data-target="all" title="Vue d'ensemble de tout le schéma">
           <span class="nav-dot dot-all"></span> <span class="nav-btn-text">Vue d'ensemble</span>
         </button>
-        <button class="nav-planche-btn btn-nav-prev" data-target="transversal-prevention" title="Zoomer sur Agir en prévention">
-          <span class="nav-dot dot-prev"></span> <span class="nav-btn-text">Prévention</span>
-        </button>
         <button class="nav-planche-btn btn-nav-rep" data-target="transversal-reperage" title="Zoomer sur Repérer">
           <span class="nav-dot dot-rep"></span> <span class="nav-btn-text">Repérer</span>
         </button>
@@ -1411,474 +1408,7 @@
 
 
 
-        <section class="transversal-block transversal-prevention" id="transversal-prevention">
-
-
-
-
-
-
-
-          <div class="roof-arrow-bar roof-prevention">
-
-
-
-
-
-
-
-            <span class="arrow-left">&larr;</span>
-
-
-
-
-
-
-
-            <span class="roof-text">PRÉVENTION EN SANTÉ : SENSIBILISATION, DÉPISTAGE ET ATELIERS </span>
-
-
-
-
-
-
-
-            <button class="btn-roof-focus" data-target="transversal-prevention" title="Agrandir en plein écran (Focus)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg> <span class="focus-btn-text">Plein écran</span></button>
-            <button class="btn-roof-toggle" data-target="transversal-prevention" title="Fermer ou ouvrir cet encadré"><span class="toggle-text">Fermer</span> <svg class="toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
-
-
-
-
-
-
-
-            <span class="arrow-right">&rarr;</span>
-
-
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- VUE FERMÉE (Affichée quand l'encadré est replié) -->
-
-
-
-
-
-
-
-          <div class="board-collapsed-summary bcs-card-horizontal" data-target="transversal-prevention" title="Cliquer pour ouvrir cet encadré">
-
-            <div class="bcs-horiz-left">
-
-              <img src="assets/prevention.svg" alt="Prévention">
-
-              <div class="bcs-horiz-title">AGIR EN PRÉVENTION</div>
-
-            </div>
-
-            <button class="bcs-action-btn" type="button" aria-label="Ouvrir">
-
-              <span>Ouvrir</span>
-
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
-
-            </button>
-
-          </div>
-
-<!-- VUE OUVERTE (Détaillée) -->
-
-
-
-
-
-
-
-          <div class="board-collapsible-content">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <div class="prevention-main-layout">
-
-
-
-
-
-
-
-            <!-- 1. Colonne Titre / Hero Prévention avec le sigle officiel (comme la loupe pour le repérage) -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <!-- 2. Grille des 8 cartes d'acteurs de la prévention -->
-
-
-
-
-
-
-
-            <div style="display: flex; flex-direction: column;">
-
-
-
-
-
-
-
-              
-
-
-
-
-
-
-
-              <div class="prevention-cards-grid">
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="ccas-prev">
-
-
-
-
-
-
-
-                <div class="card-title">CCAS</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Mise en avant différentes campagnes de prévention</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="cpam-prev">
-
-
-
-
-
-
-
-                <div class="card-title">CPAM</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Programmes de prévention<br>Dépistages organisés<br>Centre d'examens de santé</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="pfr-repit">
-
-
-
-
-
-
-
-                <div class="card-title">PFR</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Évènements, conférence, forum</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="sad-mixte-rep">
-
-
-
-
-
-
-
-                <div class="card-title">SAD Mixte (Varef)</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Utilisation d'outils pour la prévention et le repérage : Présage, ICOPE, mini ZARIT et APA</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="clic-niv1-prev">
-
-
-
-
-
-
-
-                <div class="card-title">CLIC (niveau1)</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Ateliers collectifs</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="aa83">
-
-
-
-
-
-
-
-                <div class="card-title">Activité physique adaptée</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Ateliers APA sport-santé, équilibre et mobilité</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="crt-prev" title="Cliquer pour afficher la carte interactive des CRT du territoire et leurs flyers">
-
-
-
-
-
-
-
-                <div class="card-title">CRT:</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Forum de prévention &bull; <em>Carte &amp; Flyers interactifs</em></div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-              <div class="sch-card card-pink" data-id="cpts-prev" onclick="window.openCptsMapModal && window.openCptsMapModal()" title="Cliquer pour afficher la carte interactive des CPTS du Var">
-
-
-
-
-
-
-
-                <div class="card-title">CPTS:</div>
-
-
-
-
-
-
-
-                <div class="card-detail">Sensibilisation au dépistage, réalisation de bilans et ateliers de prévention</div>
-
-
-
-
-
-
-
-              </div>
-
-
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-
-          </div>
-
-
-
-
-
-
-
-        </section>
+        <!-- Planche « Prévention en santé » retirée le 23/11/2026 (voir historique Git pour la récupérer) -->
 
 
 
@@ -4968,12 +4498,13 @@
                   </div>
 
                   <!-- ------------------------------------------------ -->
-                  <!-- SOUS-CATÉGORIE 3 : PHV                           -->
+                  <!-- SOUS-CATÉGORIE 3 : PHV 50 ans et +                -->
+                  <!-- (les autres PHV suivent désormais le circuit PA)  -->
                   <!-- ------------------------------------------------ -->
                   <div class="b4-tree-group">
                     <div class="b4-profil-col">
                       <div class="b4-profil-card">
-                        <div class="b4-profil-name">PHV</div>
+                        <div class="b4-profil-name">PHV<br>50&nbsp;ans&nbsp;et&nbsp;+</div>
                         <div class="b4-profil-sub">Handicap et notif MDPH</div>
                       </div>
                     </div>
@@ -4983,27 +4514,17 @@
                     </div>
 
                     <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
-                      <svg width="24" height="100%" viewBox="0 0 24 304" preserveAspectRatio="none" fill="none">
-                        <path d="M2 152 H12 M12 32 V266 M12 32 H22 M12 90 H22 M12 168 H22 M12 266 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
-                        <polygon points="20,29 24,32 20,35" fill="#334155"/>
-                        <polygon points="20,87 24,90 20,93" fill="#334155"/>
-                        <polygon points="20,165 24,168 20,171" fill="#334155"/>
-                        <polygon points="20,263 24,266 20,269" fill="#334155"/>
+                      <svg width="24" height="100%" viewBox="0 0 24 150" preserveAspectRatio="none" fill="none">
+                        <path d="M2 75 H12 M12 22 V128 M12 22 H22 M12 75 H22 M12 128 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
+                        <polygon points="20,19 24,22 20,25" fill="#334155"/>
+                        <polygon points="20,72 24,75 20,78" fill="#334155"/>
+                        <polygon points="20,125 24,128 20,131" fill="#334155"/>
                       </svg>
                     </div>
 
                     <div class="b4-branches-col" style="flex: 1;">
-                      <!-- 3.1 : Foyer d'hébergement -->
+                      <!-- 3.1 : Foyer de vie -->
                       <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px;">
-                        <div class="b4-crit-tag wide">Autonomie assez préservée pour pouvoir travailler : hébergement lié à l'activité professionnelle</div>
-                        <div class="b4-arrow-line-unified">
-                          <span class="vt-on-arrow">Via Trajectoire Handicap</span>
-                        </div>
-                        <div class="sch-card card-magenta" data-id="foyer-vie-phv" >Foyer d'hébergement</div>
-                      </div>
-
-                      <!-- 3.2 : Foyer de vie -->
-                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
                         <div class="b4-crit-tag wide">Autonomie relative, impossibilité de travailler : besoin d'activités sociales</div>
                         <div class="b4-arrow-line-unified">
                           <span class="vt-on-arrow">Via Trajectoire Handicap</span>
@@ -5011,61 +4532,22 @@
                         <div class="sch-card card-magenta" data-id="foyer-vie-phv" >Foyer de vie</div>
                       </div>
 
-                      <!-- 3.3 : EAM + EHPAD Pass'Âge -->
+                      <!-- 3.2 : FAM -->
                       <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
                         <div class="b4-crit-tag wide">Autonomie réduite : besoin régulier de soins et d'aides humaines</div>
                         <div class="b4-arrow-line-unified">
                           <span class="vt-on-arrow">Via Trajectoire Handicap</span>
                         </div>
-                        <div class="dual-struct-block" style="display: flex; flex-direction: column; gap: 4px;">
-                          <div class="sch-card card-magenta" data-id="eam-phv">EAM</div>
-                          <div class="passage-container" style="display: flex; flex-direction: column; gap: 2px;">
-                            <span class="passage-tag" style="font-size: 0.74rem; background: #eff6ff; color: #1e40af; border: 1.5px solid #bfdbfe; padding: 2px 6px; border-radius: 5px; font-weight: 800; text-align: center; box-shadow: 0 1px 2px rgba(30,64,175,0.06);">APFH — Dispositif Pass'Âge</span>
-                            <div class="sch-card card-magenta" data-id="ehpad-section-phv">EHPAD</div>
-                          </div>
-                        </div>
+                        <div class="sch-card card-magenta" data-id="eam-phv">FAM</div>
                       </div>
 
-                      <!-- 3.4 : EHPAD PHV + MAS -->
+                      <!-- 3.3 : MAS -->
                       <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
                         <div class="b4-crit-tag wide">Autonomie très réduite : dépendance très importante et soins continus</div>
                         <div class="b4-arrow-line-unified">
                           <span class="vt-on-arrow">Via Trajectoire Handicap</span>
                         </div>
-                        <div class="dual-struct-block" style="display: flex; flex-direction: column; gap: 4px;">
-                          <div class="sch-card card-magenta" data-id="ehpad-section-phv">EHPAD PHV</div>
-                          <div class="sch-card card-magenta" data-id="mas-phv">MAS</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- ------------------------------------------------ -->
-                  <!-- SOUS-CATÉGORIE 4 : 65 ans et + PHV               -->
-                  <!-- ------------------------------------------------ -->
-                  <div class="b4-tree-group">
-                    <div class="b4-profil-col">
-                      <div class="b4-profil-card">
-                        <div class="b4-profil-name">65 ans et + PHV</div>
-                      </div>
-                    </div>
-
-                    <div class="b4-eval-arrow-conn b4-eval-spacer">
-                      <div class="b4-spacer-line"></div>
-                    </div>
-
-                    <div class="b4-fork-icon" style="width: 24px; flex-shrink: 0;">
-                      <svg width="24" height="100%" viewBox="0 0 24 60" preserveAspectRatio="none" fill="none">
-                        <path d="M2 30 H22" stroke="#334155" stroke-width="2.5" stroke-linecap="round"/>
-                        <polygon points="20,27 24,30 20,33" fill="#334155"/>
-                      </svg>
-                    </div>
-
-                    <div class="b4-branches-col" style="flex: 1;">
-                      <div class="b4-branch-row single-dest" style="display: flex; align-items: center; gap: 8px;">
-                        <div class="b4-crit-tag wide">Autonomie pour vivre en collocation : handicap psychique, accompagnement social et médical</div>
-                        <div class="b4-arrow-line-unified"></div>
-                        <div class="sch-card card-magenta" data-id="habitat-inclusif" >Famille gouvernante</div>
+                        <div class="sch-card card-magenta" data-id="mas-phv">MAS</div>
                       </div>
                     </div>
                   </div>
@@ -6808,7 +6290,6 @@
             <button class="bfo-zoom-btn" id="bfo-zoom-in" type="button" title="Agrandir (+)">+</button>
           </div>
           <div class="bfo-switcher">
-            <button class="bfo-tab-btn" data-target="transversal-prevention" type="button" title="Zoomer sur Prévention">Prévention</button>
             <button class="bfo-tab-btn" data-target="transversal-reperage" type="button" title="Zoomer sur Repérer">Repérer</button>
             <button class="bfo-tab-btn" data-target="block-besoin-3" type="button" title="Zoomer sur le Maintien à domicile">Maintien à domicile</button>
             <button class="bfo-tab-btn" data-target="block-besoin-1" type="button" title="Zoomer sur l'Offre de soins de la filière gériatrique">Offre de soins de la filière gériatrique</button>
@@ -6905,7 +6386,7 @@
   </div>
 
   <script src="data/structures_data.js?v=20261123_0955"></script>
-  <script src="app.js?v=20261123_1500"></script>
+  <script src="app.js?v=20261123_1700"></script>
   <script src="wizard.js?v=20261123_1620"></script>
   <script src="crt_module.js?v=20261118_1022"></script>
   <script src="cpts_module.js?v=20261118_1022"></script>
