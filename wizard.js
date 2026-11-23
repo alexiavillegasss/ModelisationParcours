@@ -22,6 +22,7 @@
     {
       blockId: 'block-besoin-3',
       titre: 'Maintien à domicile',
+      image: 'assets/illustrations/domicile.svg',   // illustration de l'animation Parcours PA
       phrase: 'La personne vit chez elle et souhaite y rester.',
       icone: 'house',
       couleur: '#f8b52f',   // jaune DAC
@@ -32,6 +33,7 @@
     {
       blockId: 'block-besoin-1',
       titre: 'Filière gériatrique',
+      image: 'assets/illustrations/filiere.svg',   // illustration de l'animation Parcours PA
       phrase: "La personne a besoin d'un avis, d'un bilan ou de soins à l'hôpital.",
       icone: 'cross',
       couleur: '#3766ae',   // bleu foncé DAC
@@ -42,6 +44,7 @@
     {
       blockId: 'block-besoin-2',
       titre: 'Relais en ville',
+      image: 'assets/illustrations/relais.svg',   // illustration de l'animation Parcours PA
       phrase: "La personne sort de l'hôpital et rentre à domicile.",
       icone: 'house',
       couleur: '#ea5f45',   // rouge DAC
@@ -52,6 +55,7 @@
     {
       blockId: 'block-besoin-4',
       titre: 'Entrée en établissement',
+      image: 'assets/illustrations/etablissement.svg',   // illustration de l'animation Parcours PA
       phrase: "Rester à domicile n'est plus possible.",
       icone: 'building',
       couleur: '#24467a',   // bleu nuit (dérivé du bleu DAC)
@@ -492,9 +496,11 @@
           <div class="ob-tiles">
             ${catalogue().map((b, i) => `
               <button class="ob-tile" data-gb="${i}" style="${varsCss(b)}">
-                <span class="ob-tile-icon">${picto(b.icone)}</span>
-                <span class="ob-tile-title">${echapper(b.titre)}</span>
-                <span class="ob-tile-text">${echapper(b.phrase)}</span>
+                <span class="ob-tile-illu"><img src="${b.image}" alt=""></span>
+                <span class="ob-tile-texts">
+                  <span class="ob-tile-title">${echapper(b.titre)}</span>
+                  <span class="ob-tile-text">${echapper(b.phrase)}</span>
+                </span>
               </button>
             `).join('')}
           </div>
@@ -539,7 +545,7 @@
       ${filAriane()}
       <div class="ob-screen" style="${varsCss(besoin)}">
         <div class="ob-screen-head">
-          <span class="ob-head-icon">${picto(besoin.icone)}</span>
+          <span class="ob-head-illu"><img src="${besoin.image}" alt=""></span>
           <div>
             <h2 class="ob-question">Quel est le besoin précis ?</h2>
             <p class="ob-hint">${echapper(besoin.titre)} · ${echapper(besoin.phrase)}</p>
