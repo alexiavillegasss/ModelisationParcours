@@ -602,7 +602,7 @@ html body .rep-ordre-v2 .crit-card-list li::marker { color: #3766ae; }
 html body .rep-ordre-v2 .reperage-profil-card[id^="rep-profil-"] { border-left: 5px solid #f8b52f !important; border-radius: 12px !important; }
 html body .rep-ordre-v2 .reperage-profil-card .rep-p-tag { color: #3766ae !important; }
 /* pastille PRIOCA : on laisse la place au titre de la planche Repérer */
-html body #transversal-reperage .roof-arrow-bar .roof-text { padding-left: 170px; }
+html body #transversal-reperage .roof-arrow-bar .roof-text { padding-left: 60px; }
 html body .rep-ordre-v2 #rep-profil-1, html body .rep-ordre-v2 #rep-profil-2,
 html body .rep-ordre-v2 #rep-profil-3, html body .rep-ordre-v2 #rep-profil-4 { border-left: 5px solid #f8b52f !important; }
 html body .rep-ordre-v2 #rep-profil-1 .rep-p-tag, html body .rep-ordre-v2 #rep-profil-2 .rep-p-tag,

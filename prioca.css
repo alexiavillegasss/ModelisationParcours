@@ -134,3 +134,15 @@ html body .prioca-chip.prioca-chip-titre img { height: 34px; }
   flex-shrink: 0;
 }
 .prioca-frise-item img { height: 80px; }
+
+/* Sans titres sous les visuels (redondants avec les en-têtes de colonnes,
+   les titres de planches et les bandeaux) — seule la frise de la vue
+   synthétique garde ses libellés. Le nom reste visible au survol. */
+html body .prioca-bandeau .prioca-texte,
+html body .prioca-chip > span,
+html body .prioca-ob > span { display: none !important; }
+html body .prioca-bandeau { height: 78px; }
+html body .prioca-bandeau .prioca-legende { padding: 0; background: transparent; }
+html body .prioca-bandeau .prioca-item img { height: 62px; }
+html body .prioca-chip { padding: 2px 4px !important; }
+html body .prioca-ob { padding: 4px 8px; }
