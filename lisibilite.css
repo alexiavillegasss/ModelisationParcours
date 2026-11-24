@@ -155,3 +155,8 @@ html body #b5-autonomie-flow-container .b5-row-double > .sch-card {
 
 /* Le bouton flottant « Légende » fait doublon avec la bande : on le cache */
 html body.legende-en-bande #float-legend-trigger { display: none !important; }
+
+/* --------------------------------------------------------------------------
+   8. Planches toujours ouvertes : plus de bouton « Fermer » sur les planches
+   -------------------------------------------------------------------------- */
+html body .btn-roof-toggle { display: none !important; }

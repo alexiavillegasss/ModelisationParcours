@@ -177,12 +177,39 @@
   }
 
   // --------------------------------------------------------
+  // 4. Planches toujours ouvertes : plus de bouton « Fermer »
+  //    (le bouton est masqué dans lisibilite.css ; ici on rouvre toute
+  //    planche restée repliée, par exemple en quittant la vue synthétique)
+  // --------------------------------------------------------
+  function toutDeplier() {
+    if (document.body.classList.contains('mode-synthetic-view')) return;
+    const repliees = document.querySelectorAll('.block-besoin.is-collapsed, .transversal-block.is-collapsed');
+    if (!repliees.length) return;
+    repliees.forEach(el => {
+      if (typeof window.toggleBoardCollapse === 'function') window.toggleBoardCollapse(el.id, false);
+      else el.classList.remove('is-collapsed');
+    });
+    setTimeout(apresChangement, 120);
+  }
+
+  function garderPlanchesOuvertes() {
+    toutDeplier();
+    let etaitSynthese = document.body.classList.contains('mode-synthetic-view');
+    new MutationObserver(() => {
+      const estSynthese = document.body.classList.contains('mode-synthetic-view');
+      if (etaitSynthese && !estSynthese) setTimeout(toutDeplier, 50);
+      etaitSynthese = estSynthese;
+    }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // --------------------------------------------------------
   // Démarrage
   // --------------------------------------------------------
   function init() {
     appliquerSigles();
     installerThemes();
     brancherRecherche();
+    garderPlanchesOuvertes();
     setTimeout(apresChangement, 300);
   }
 
