@@ -151,8 +151,8 @@
       <div class="prioca-frise-ligne">
         ${Object.keys(ETAPES).map(n => vignette(+n, 'prioca-frise-item')).join('')}
       </div>`;
-    // en haut de la vue synthétique, à la place de l'ancien bandeau « Repérer »
-    carte.insertBefore(frise, carte.querySelector('.synth-map-head') || carte.firstChild);
+    // sous la carte de la vue synthétique
+    carte.appendChild(frise);
     // l'étape 1 (Repérer) ouvre la planche Repérer
     const etape1 = frise.querySelector('.prioca-frise-item');
     if (etape1) {
