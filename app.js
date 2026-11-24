@@ -1581,6 +1581,7 @@ function setupReperageInteractivity() {
     'rep-profil-2': document.querySelector('.card-crit-2'),
 
     'rep-profil-3': document.querySelector('.card-crit-3'),
+    'rep-profil-4': document.querySelector('.card-crit-4'),
 
   };
 
