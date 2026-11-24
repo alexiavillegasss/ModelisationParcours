@@ -51,9 +51,9 @@
   const norm = s => (s || '').replace(/\s+/g, ' ').trim().toUpperCase();
 
   function vignette(n, classe, court) {
-    return `<div class="prioca-item ${classe || ''}" title="Étape ${n} du PRIOCA : ${ETAPES[n]}">
+    return `<div class="prioca-item ${classe || ''}" title="PRIOCA : ${ETAPES[n]}">
       <img src="${img(n)}" alt="">
-      <div class="prioca-legende"><span class="prioca-num">${n}</span><span class="prioca-texte">${court || ETAPES[n]}</span></div>
+      <div class="prioca-legende"><span class="prioca-texte">${court || ETAPES[n]}</span></div>
     </div>`;
   }
 
@@ -118,8 +118,8 @@
       const n = ETAPE_DE_PLANCHE[boardId];
       const chip = document.createElement('span');
       chip.className = 'prioca-chip prioca-chip-titre';
-      chip.title = `Étape ${n} du PRIOCA : ${ETAPES[n]}`;
-      chip.innerHTML = `<img src="${img(n)}" alt=""><span><b>${n}</b> ${ETAPES[n]}</span>`;
+      chip.title = `PRIOCA : ${ETAPES[n]}`;
+      chip.innerHTML = `<img src="${img(n)}" alt=""><span>${ETAPES[n]}</span>`;
       barre.appendChild(chip);
     });
   }
@@ -132,8 +132,8 @@
       if (!/^AIDANTS/.test(norm(bar.textContent)) || bar.querySelector('.prioca-chip')) return;
       const chip = document.createElement('span');
       chip.className = 'prioca-chip';
-      chip.title = `Étape 10 du PRIOCA : ${ETAPES[10]}`;
-      chip.innerHTML = `<img src="${img(10)}" alt=""><span><b>10</b> ${ETAPES[10]}</span>`;
+      chip.title = `PRIOCA : ${ETAPES[10]}`;
+      chip.innerHTML = `<img src="${img(10)}" alt=""><span>${ETAPES[10]}</span>`;
       bar.insertBefore(chip, bar.firstChild);
     });
   }
@@ -165,7 +165,7 @@
       if (!accueil || accueil.querySelector('.prioca-ob')) return;
       const el = document.createElement('div');
       el.className = 'prioca-ob';
-      el.innerHTML = `<img src="${img(4)}" alt=""><span><b>Étape 4 du PRIOCA</b> · Orienter</span>`;
+      el.innerHTML = `<img src="${img(4)}" alt=""><span><b>PRIOCA</b> · Orienter</span>`;
       accueil.insertBefore(el, accueil.firstChild);
     };
     new MutationObserver(ajouter).observe(box, { childList: true });

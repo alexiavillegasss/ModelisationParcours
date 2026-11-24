@@ -87,7 +87,7 @@ html body .prioca-chip b { font-weight: 800; }
   content: "";
   position: absolute;
   left: 5%; right: 5%;
-  top: 83px;
+  top: 92px;
   height: 2px;
   background: #c9d6ec;
 }
@@ -121,3 +121,16 @@ html body .prioca-chip.prioca-chip-titre {
 }
 html body .prioca-chip.prioca-chip-titre img { height: 34px; }
 .prioca-bandeau .prioca-texte { white-space: nowrap; }
+
+/* Sans numéros : la légende porte un petit point bleu à la place */
+.prioca-texte { text-align: center; }
+.prioca-bandeau .prioca-legende::before,
+.prioca-frise-item .prioca-legende::before {
+  content: "";
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid #3766ae;
+  background: #fff;
+  flex-shrink: 0;
+}
+.prioca-frise-item img { height: 80px; }
