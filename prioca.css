@@ -1,0 +1,123 @@
+/* ==========================================================================
+   ÉTAPES DU PRIOCA (voir prioca.js)
+   ========================================================================== */
+.prioca-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.prioca-item img { height: 58px; width: auto; max-width: 100%; object-fit: contain; }
+.prioca-legende { display: flex; align-items: center; gap: 6px; justify-content: center; }
+.prioca-num {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid #3766ae;
+  background: #fff;
+  color: #3766ae;
+  font: 800 0.72rem/18px 'Open Sans', -apple-system, sans-serif;
+  text-align: center;
+}
+.prioca-texte {
+  font: 700 0.66rem/1.15 'Open Sans', -apple-system, sans-serif;
+  color: #3766ae;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+
+/* --- Bandeau au-dessus des colonnes d'une planche --- */
+html body .prioca-bandeau {
+  position: relative;
+  height: 96px;
+  margin: 4px 0 2px;
+  pointer-events: none;
+}
+/* ligne fine qui relie les étapes, comme sur la frise PRIOCA */
+html body .prioca-bandeau::before {
+  content: "";
+  position: absolute;
+  left: 2%; right: 2%;
+  bottom: 12px;
+  height: 2px;
+  background: #c9d6ec;
+}
+html body .prioca-bandeau .prioca-item {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+html body .prioca-bandeau .prioca-legende { background: #f4f8fd; padding: 0 6px; border-radius: 999px; }
+
+/* --- Bandeau « Aidants » : étape 10 --- */
+html body .prioca-chip {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: #3766ae;
+  border-radius: 999px;
+  padding: 1px 10px 1px 2px;
+  font: 600 0.66rem/1 'Open Sans', -apple-system, sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+html body .prioca-chip img { height: 26px; width: auto; }
+html body .prioca-chip b { font-weight: 800; }
+
+/* --- Vue synthétique : frise complète --- */
+.prioca-frise {
+  margin: 10px auto 0;
+  padding: 16px 18px 14px;
+  max-width: 1500px;
+  background: #ffffff;
+  border: 2px solid #d9e3f0;
+  border-radius: 20px;
+  font-family: 'Open Sans', -apple-system, sans-serif;
+}
+.prioca-frise-titre { margin: 0 0 8px 4px; font-size: 1.1rem; font-weight: 800; color: #24467a; }
+.prioca-frise-ligne {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+}
+.prioca-frise-ligne::before {
+  content: "";
+  position: absolute;
+  left: 5%; right: 5%;
+  top: 83px;
+  height: 2px;
+  background: #c9d6ec;
+}
+.prioca-frise-item img { height: 72px; }
+.prioca-frise-item .prioca-legende { flex-direction: column; gap: 4px; position: relative; }
+.prioca-frise-item .prioca-num { width: 26px; height: 26px; line-height: 22px; font-size: 0.8rem; }
+.prioca-frise-item .prioca-texte { text-align: center; font-size: 0.68rem; }
+
+/* --- Orienter par besoin : étape 4 sur l'accueil --- */
+.prioca-ob {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 14px;
+  padding: 4px 16px 4px 6px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #3766ae;
+}
+.prioca-ob img { height: 44px; width: auto; }
+
+/* Pastille d'étape dans le bandeau-titre d'une planche (Repérer, Entrée en établissement) */
+html body .roof-arrow-bar { position: relative; }
+html body .prioca-chip.prioca-chip-titre {
+  left: 64px;
+  font-size: 0.8rem;
+  padding: 2px 14px 2px 4px;
+  box-shadow: 0 2px 6px rgba(29, 43, 69, 0.18);
+}
+html body .prioca-chip.prioca-chip-titre img { height: 34px; }
+.prioca-bandeau .prioca-texte { white-space: nowrap; }
