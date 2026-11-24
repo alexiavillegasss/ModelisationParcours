@@ -147,11 +147,21 @@
     const frise = document.createElement('section');
     frise.className = 'prioca-frise';
     frise.innerHTML = `
-      <h3 class="prioca-frise-titre">Les étapes du PRIOCA</h3>
+      <h3 class="prioca-frise-titre">Les étapes du parcours (PRIOCA)</h3>
       <div class="prioca-frise-ligne">
         ${Object.keys(ETAPES).map(n => vignette(+n, 'prioca-frise-item')).join('')}
       </div>`;
-    carte.appendChild(frise);
+    // en haut de la vue synthétique, à la place de l'ancien bandeau « Repérer »
+    carte.insertBefore(frise, carte.querySelector('.synth-map-head') || carte.firstChild);
+    // l'étape 1 (Repérer) ouvre la planche Repérer
+    const etape1 = frise.querySelector('.prioca-frise-item');
+    if (etape1) {
+      etape1.dataset.board = 'transversal-reperage';
+      etape1.classList.add('prioca-cliquable');
+      etape1.setAttribute('role', 'button');
+      etape1.setAttribute('tabindex', '0');
+      etape1.title = 'Ouvrir la planche Repérer';
+    }
   }
 
   // --------------------------------------------------------

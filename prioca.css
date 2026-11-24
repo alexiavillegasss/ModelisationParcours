@@ -146,3 +146,8 @@ html body .prioca-bandeau .prioca-legende { padding: 0; background: transparent;
 html body .prioca-bandeau .prioca-item img { height: 62px; }
 html body .prioca-chip { padding: 2px 4px !important; }
 html body .prioca-ob { padding: 4px 8px; }
+
+/* Frise en haut de la vue synthétique */
+.prioca-frise { margin: 6px auto 10px; }
+.prioca-cliquable { cursor: pointer; border-radius: 12px; transition: background 0.15s; }
+.prioca-cliquable:hover, .prioca-cliquable:focus-visible { background: #eaf1fa; outline: none; }

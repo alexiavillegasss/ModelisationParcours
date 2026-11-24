@@ -50,13 +50,13 @@
 
   <link rel="stylesheet" href="styles.css?v=20261123_1700">
   <!-- Habillage aux couleurs du DAC (retirer cette ligne pour revenir à l'ancien visuel) -->
-  <link rel="stylesheet" href="theme-dac.css?v=20261124_1600">
+  <link rel="stylesheet" href="theme-dac.css?v=20261124_1700">
   <!-- Écran « Orienter par besoin » -->
   <link rel="stylesheet" href="orienter.css?v=20261123_1620">
   <!-- Lisibilité des planches (en-têtes fixes, thèmes repliables, survol, légende compacte) -->
   <link rel="stylesheet" href="lisibilite.css?v=20261123_2020">
   <!-- Étapes du PRIOCA -->
-  <link rel="stylesheet" href="prioca.css?v=20261124_1600">
+  <link rel="stylesheet" href="prioca.css?v=20261124_1700">
 
 
 
@@ -1336,58 +1336,67 @@
     <!-- VUE SYNTHÉTIQUE : carte d'ensemble reprise de l'animation « Parcours Personnes âgées » -->
     <div class="synth-map" id="synth-map">
       <div class="synth-map-head">
-        <h2>Les 4 grands besoins de la personne âgée</h2>
         <p>Cliquez sur une planche pour l'ouvrir en détail.</p>
       </div>
       <div class="synth-map-art">
-<svg viewBox="110 80 1700 820" role="img" aria-label="Vue d'ensemble des grands besoins du parcours Personnes âgées"><defs><symbol id="sm-i-loupe" viewBox="0 0 48 48"><circle cx="20" cy="20" r="12.5" fill="none" stroke="currentColor" stroke-width="4"/><path d="M29.5 29.5 43 43" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol></defs>
-      <!-- Repérer -->
-      <g class="sm-click" data-board="transversal-reperage" tabindex="0" role="button" aria-label="Ouvrir la planche Repérer">
-        <rect x="140" y="100" width="1640" height="76" rx="38" class="b-card"></rect>
-        <use href="#sm-i-loupe" x="166" y="115" width="46" height="46" style="color:#3766AE"></use>
-        <text x="228" y="139" class="t-box ta-s">REPÉRER</text>
-        <text x="404" y="139" class="t-sub ta-s">à tout moment, dans toutes les situations</text>
-        <rect x="846" y="117" width="180" height="42" rx="21" class="chip"></rect>
-        <text x="936" y="139" class="t-chip" style="font-size:19px">Qui repère&nbsp;?</text>
-        <text x="1043" y="137" class="t-chip" style="font-size:26px">›</text>
-        <rect x="1060" y="117" width="180" height="42" rx="21" class="chip"></rect>
-        <text x="1150" y="139" class="t-chip" style="font-size:19px">Quel profil&nbsp;?</text>
-        <text x="1257" y="137" class="t-chip" style="font-size:26px">›</text>
-        <rect x="1274" y="117" width="206" height="42" rx="21" class="chip"></rect>
-        <text x="1377" y="139" class="t-chip" style="font-size:19px">Quels critères&nbsp;?</text>
-        <text x="1497" y="137" class="t-chip" style="font-size:26px">›</text>
-        <rect x="1514" y="117" width="124" height="42" rx="21" fill="#3766AE"></rect>
-        <text x="1576" y="139" class="t-chip" style="font-size:19px;fill:#fff">J’oriente</text>
-      </g>
-
-      <!-- Les quatre lieux (illustrations dessinées en JS) -->
-      <g class="sm-click" data-board="block-besoin-3" tabindex="0" role="button" aria-label="Ouvrir la planche Maintien à domicile" id="sm-card-dom"><rect x="140" y="205" width="480" height="250" rx="24" class="b-card card"></rect><g transform="translate(146,250) scale(.95)"><ellipse cx="130" cy="200" rx="138" ry="9" fill="#DFE7F2"></ellipse><circle cx="197" cy="14" r="7" fill="#E3E9F2"></circle><circle cx="210" cy="3" r="9" fill="#E3E9F2"></circle><rect x="178" y="28" width="24" height="44" rx="3" fill="#C9493A"></rect><rect x="24" y="94" width="212" height="106" fill="#fff" stroke="#D5DEEC" stroke-width="2"></rect><rect x="166" y="95" width="69" height="104" fill="#EEF3FA"></rect><path d="M8 102 130 20 252 102Z" fill="#EA5F45" stroke="#C9493A" stroke-width="8" stroke-linejoin="round"></path><circle cx="130" cy="70" r="14" fill="#73BED7" stroke="#fff" stroke-width="4"></circle><rect x="44" y="124" width="46" height="40" rx="5" fill="#73BED7"></rect><path d="M67 124V164M44 144H90" stroke="#fff" stroke-width="4"></path><rect x="40" y="162" width="54" height="6" rx="3" fill="#C9D6EC"></rect><rect x="172" y="124" width="46" height="40" rx="5" fill="#73BED7"></rect><path d="M195 124V164M172 144H218" stroke="#fff" stroke-width="4"></path><rect x="168" y="162" width="54" height="6" rx="3" fill="#C9D6EC"></rect><rect x="106" y="136" width="48" height="64" rx="7" fill="#3766AE"></rect><circle cx="144" cy="170" r="3.5" fill="#F8B52F"></circle><circle cx="12" cy="188" r="15" fill="#73BED7"></circle><circle cx="30" cy="193" r="10" fill="#5AA7C6"></circle><circle cx="248" cy="188" r="15" fill="#73BED7"></circle><circle cx="230" cy="193" r="10" fill="#5AA7C6"></circle></g><text x="502" y="282" font-size="28" font-weight="800" fill="#3766AE"><tspan x="502" y="266">MAINTIEN</tspan><tspan x="502" y="298">À DOMICILE</tspan></text><text x="502" y="346" font-size="18" font-weight="400" fill="#43506A"><tspan x="502" y="335">Elle vit chez elle et</tspan><tspan x="502" y="357">a besoin de soutien</tspan></text></g>
-      <g class="sm-click" data-board="block-besoin-1" tabindex="0" role="button" aria-label="Ouvrir la planche Offre de soins de la filière gériatrique" id="sm-card-hop"><rect x="1300" y="205" width="480" height="250" rx="24" class="b-card card"></rect><g transform="translate(1306,266) scale(.82)"><ellipse cx="140" cy="210" rx="150" ry="9" fill="#DFE7F2"></ellipse><rect x="0" y="96" width="62" height="114" rx="4" fill="#EEF3FA" stroke="#D5DEEC" stroke-width="2"></rect><rect x="0" y="96" width="62" height="12" rx="4" fill="#9DB3D6"></rect><rect x="12" y="124" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="34" y="124" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="12" y="162" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="34" y="162" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="218" y="96" width="62" height="114" rx="4" fill="#EEF3FA" stroke="#D5DEEC" stroke-width="2"></rect><rect x="218" y="96" width="62" height="12" rx="4" fill="#9DB3D6"></rect><rect x="230" y="124" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="252" y="124" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="230" y="162" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="252" y="162" width="16" height="22" rx="3" fill="#73BED7"></rect><rect x="52" y="52" width="176" height="158" rx="4" fill="#fff" stroke="#D5DEEC" stroke-width="2"></rect><rect x="52" y="52" width="176" height="16" rx="4" fill="#3766AE"></rect><rect x="66" y="82" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="106" y="82" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="146" y="82" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="186" y="82" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="66" y="110" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="106" y="110" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="146" y="110" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="186" y="110" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="66" y="138" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="106" y="138" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="146" y="138" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="186" y="138" width="26" height="18" rx="3" fill="#73BED7"></rect><rect x="100" y="166" width="80" height="10" rx="3" fill="#3766AE"></rect><rect x="112" y="176" width="56" height="34" fill="#73BED7"></rect><path d="M140 176V210" stroke="#fff" stroke-width="3"></path><rect x="112" y="6" width="56" height="56" rx="14" fill="#EA5F45" stroke="#fff" stroke-width="4"></rect><path d="M140 19V49M125 34H155" stroke="#fff" stroke-width="9" stroke-linecap="round"></path></g><text x="1662" y="250" font-size="14" font-weight="800" fill="#EA5F45"><tspan x="1662" y="250">OFFRE DE SOINS DE LA</tspan></text><text x="1662" y="290" font-size="27" font-weight="800" fill="#3766AE"><tspan x="1662" y="274">FILIÈRE</tspan><tspan x="1662" y="306">GÉRIATRIQUE</tspan></text><text x="1662" y="352" font-size="18" font-weight="400" fill="#43506A"><tspan x="1662" y="341">Elle a besoin de</tspan><tspan x="1662" y="363">soins gériatriques</tspan></text></g>
-      <g class="sm-click" data-board="block-besoin-2" tabindex="0" role="button" aria-label="Ouvrir la planche Sortie d'hospitalisation" id="sm-card-rel"><rect x="720" y="485" width="480" height="205" rx="24" class="b-card card"></rect><g transform="translate(732,514) scale(.95)"><g transform="translate(0,46) scale(.62)"><ellipse cx="130" cy="200" rx="138" ry="9" fill="#DFE7F2"></ellipse><circle cx="197" cy="14" r="7" fill="#E3E9F2"></circle><circle cx="210" cy="3" r="9" fill="#E3E9F2"></circle><rect x="178" y="28" width="24" height="44" rx="3" fill="#C9493A"></rect><rect x="24" y="94" width="212" height="106" fill="#fff" stroke="#D5DEEC" stroke-width="2"></rect><rect x="166" y="95" width="69" height="104" fill="#EEF3FA"></rect><path d="M8 102 130 20 252 102Z" fill="#EA5F45" stroke="#C9493A" stroke-width="8" stroke-linejoin="round"></path><circle cx="130" cy="70" r="14" fill="#73BED7" stroke="#fff" stroke-width="4"></circle><rect x="44" y="124" width="46" height="40" rx="5" fill="#73BED7"></rect><path d="M67 124V164M44 144H90" stroke="#fff" stroke-width="4"></path><rect x="40" y="162" width="54" height="6" rx="3" fill="#C9D6EC"></rect><rect x="172" y="124" width="46" height="40" rx="5" fill="#73BED7"></rect><path d="M195 124V164M172 144H218" stroke="#fff" stroke-width="4"></path><rect x="168" y="162" width="54" height="6" rx="3" fill="#C9D6EC"></rect><rect x="106" y="136" width="48" height="64" rx="7" fill="#3766AE"></rect><circle cx="144" cy="170" r="3.5" fill="#F8B52F"></circle><circle cx="12" cy="188" r="15" fill="#73BED7"></circle><circle cx="30" cy="193" r="10" fill="#5AA7C6"></circle><circle cx="248" cy="188" r="15" fill="#73BED7"></circle><circle cx="230" cy="193" r="10" fill="#5AA7C6"></circle></g><g transform="translate(150,112) scale(.8)"><ellipse cx="60" cy="70" rx="58" ry="6" fill="#DFE7F2"></ellipse><path d="M114 58V22a10 10 0 0 0-10-10H42L20 32h-8a6 6 0 0 0-6 6v20z" fill="#fff" stroke="#3766AE" stroke-width="4" stroke-linejoin="round"></path><path d="M40 17 25 31h15z" fill="#73BED7"></path><rect x="8" y="44" width="104" height="5" fill="#EA5F45"></rect><path d="M80 21v18M71 30h18" stroke="#EA5F45" stroke-width="6" stroke-linecap="round"></path><circle cx="32" cy="60" r="10" fill="#1E2A44"></circle><circle cx="32" cy="60" r="4" fill="#fff"></circle><circle cx="92" cy="60" r="10" fill="#1E2A44"></circle><circle cx="92" cy="60" r="4" fill="#fff"></circle></g><path d="M226 100C220 62 184 50 160 62" fill="none" stroke="#F8B52F" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 10"></path><polygon points="148,68 160,54 166,70" fill="#F8B52F"></polygon></g><text x="1085" y="540" font-size="28" font-weight="800" fill="#3766AE"><tspan x="1085" y="524">SORTIE</tspan><tspan x="1085" y="556" class="sm-long">D’HOSPITALISATION</tspan></text><text x="1085" y="600" font-size="18" font-weight="400" fill="#43506A"><tspan x="1085" y="589">Retour à domicile</tspan><tspan x="1085" y="611">après l’hôpital</tspan></text></g>
-      <g class="sm-click" data-board="block-besoin-4" tabindex="0" role="button" aria-label="Ouvrir la planche Entrée en établissement" id="sm-card-etab"><rect x="600" y="706" width="720" height="150" rx="24" class="b-card card"></rect><g transform="translate(612,717) scale(.92)"><ellipse cx="120" cy="140" rx="128" ry="7" fill="#DFE7F2"></ellipse><rect x="11" y="106" width="6" height="34" rx="2" fill="#9AA9C2"></rect><circle cx="14" cy="98" r="18" fill="#73BED7"></circle><circle cx="20" cy="104" r="9" fill="#5AA7C6"></circle><rect x="223" y="106" width="6" height="34" rx="2" fill="#9AA9C2"></rect><circle cx="226" cy="98" r="18" fill="#73BED7"></circle><circle cx="232" cy="104" r="9" fill="#5AA7C6"></circle><rect x="34" y="18" width="172" height="122" rx="4" fill="#fff" stroke="#D5DEEC" stroke-width="2"></rect><rect x="121" y="19" width="84" height="120" fill="#EEF3FA"></rect><rect x="28" y="8" width="184" height="16" rx="5" fill="#3766AE"></rect><rect x="48" y="36" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="45" y="54" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="84" y="36" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="81" y="54" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="132" y="36" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="129" y="54" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="168" y="36" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="165" y="54" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="48" y="64" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="45" y="82" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="84" y="64" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="81" y="82" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="132" y="64" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="129" y="82" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="168" y="64" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="165" y="82" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="48" y="92" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="45" y="110" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="168" y="92" width="24" height="18" rx="3" fill="#73BED7"></rect><rect x="165" y="110" width="30" height="4" rx="2" fill="#C9D6EC"></rect><rect x="92" y="104" width="56" height="8" rx="3" fill="#EA5F45"></rect><rect x="100" y="112" width="40" height="28" fill="#73BED7"></rect><path d="M120 112V140" stroke="#fff" stroke-width="3"></path></g><text x="1075" y="748" font-size="26" font-weight="800" fill="#3766AE"><tspan x="1075" y="748">ENTRÉE EN ÉTABLISSEMENT</tspan></text><text x="1075" y="784" font-size="18" font-weight="400" fill="#43506A"><tspan x="1075" y="784">Quand le domicile n’est plus possible</tspan></text></g>
-
-      <!-- Flèches -->
-      <g><path class="arrow" d="M622 330H1296"></path><path class="flow" d="M622 330H1296"></path><text x="958" y="309" class="t-arrow">hospitalisation</text><polygon points="1299.0,330.0 1280.0,339.9 1280.0,320.1" class="head arrowhead"></polygon></g>
-      <g><path class="arrow" d="M1420 457C1420 560 1330 590 1204 590"></path><path class="flow" d="M1420 457C1420 560 1330 590 1204 590"></path><text x="1436" y="528" class="t-arrow ta-s">sortie d’hospitalisation</text><polygon points="1201.0,590.0 1219.9,580.0 1220.1,599.8" class="head arrowhead"></polygon></g>
-      <g><path class="arrow" d="M718 590C560 590 480 540 480 459"></path><path class="flow" d="M718 590C560 590 480 540 480 459"></path><text x="598" y="625" class="t-arrow">retour à domicile</text><polygon points="479.9,456.0 490.4,474.7 470.6,475.3" class="head arrowhead"></polygon></g>
-      <g><path class="arrow" d="M240 457V767Q240 782 255 782H596"></path><path class="flow" d="M240 457V767Q240 782 255 782H596"></path><text x="420" y="762" class="t-arrow sm">quand le domicile n’est plus possible</text><polygon points="599.0,782.0 580.0,791.9 580.0,772.1" class="head arrowhead"></polygon></g>
-      <g><path class="arrow" d="M1720 457V767Q1720 782 1705 782H1324"></path><path class="flow" d="M1720 457V767Q1720 782 1705 782H1324"></path><text x="1520" y="762" class="t-arrow">après une hospitalisation</text><polygon points="1321.0,782.0 1340.0,772.1 1340.0,791.9" class="head arrowhead"></polygon></g>
-
-      <!-- Portes d'entrée (pas de porte pour la sortie d'hospitalisation : on y arrive après l'hôpital) -->
-      
-      
-      
-
-      <!-- Boutons Ouvrir (fin) -->
-      <g class="sm-click open-btn" data-board="transversal-reperage" aria-hidden="true"><rect x="1652" y="118" width="116" height="40" rx="20"></rect><text x="1710" y="138">Ouvrir ›</text></g>
-      <g class="sm-click open-btn" data-board="block-besoin-3" aria-hidden="true"><rect x="442" y="385" width="120" height="40" rx="20"></rect><text x="502" y="405">Ouvrir ›</text></g>
-      <g class="sm-click open-btn" data-board="block-besoin-1" aria-hidden="true"><rect x="1602" y="385" width="120" height="40" rx="20"></rect><text x="1662" y="405">Ouvrir ›</text></g>
-      <g class="sm-click open-btn" data-board="block-besoin-2" aria-hidden="true"><rect x="1025" y="630" width="120" height="40" rx="20"></rect><text x="1085" y="650">Ouvrir ›</text></g>
-      <g class="sm-click open-btn" data-board="block-besoin-4" aria-hidden="true"><rect x="1015" y="806" width="120" height="40" rx="20"></rect><text x="1075" y="826">Ouvrir ›</text></g>
-
-      <g id="traj-layer"></g>
-      <g id="pastille" transform="translate(-100,-100)"><g class="pin"><circle r="25" fill="#EA5F45" stroke="#fff" stroke-width="5"></circle><use href="#i-person" x="-14" y="-15" width="28" height="28" style="color:#fff"></use></g></g>
-    </svg>
+<svg viewBox="40 30 1306 566" role="img" aria-label="Vue d'ensemble des 4 grands contextes du parcours Personnes âgées">
+  <path class="arrow" d="M432 150 H945"/>
+  <path class="flow" d="M432 150 H945"/>
+  <polygon class="arrowhead" points="945,142 959,150 945,158"/>
+  <text class="t-arrow" x="692" y="133">hospitalisation</text>
+  <path class="arrow" d="M482 352 C 380 352 322 330 322 262"/>
+  <path class="flow" d="M482 352 C 380 352 322 330 322 262"/>
+  <polygon class="arrowhead" points="314,264 322,249 330,264"/>
+  <text class="t-arrow" x="402" y="384">retour à domicile</text>
+  <path class="arrow" d="M1048 249 C 1048 322 1000 350 932 350"/>
+  <path class="flow" d="M1048 249 C 1048 322 1000 350 932 350"/>
+  <polygon class="arrowhead" points="934,342 918,350 934,358"/>
+  <path class="arrow" d="M700 432 V462"/>
+  <path class="flow" d="M700 432 V462"/>
+  <polygon class="arrowhead" points="692,460 700,474 708,460"/>
+  <path class="arrow" d="M135 249 V528 H400"/>
+  <path class="flow" d="M135 249 V528 H400"/>
+  <polygon class="arrowhead" points="398,520 412,528 398,536"/>
+  <text class="t-arrow" x="292" y="513">quand le domicile n’est plus possible</text>
+  <path class="arrow" d="M1281 249 V528 H988"/>
+  <path class="flow" d="M1281 249 V528 H988"/>
+  <polygon class="arrowhead" points="990,520 974,528 990,536"/>
+  <text class="t-arrow" x="1126" y="513">après une hospitalisation</text>
+  <g class="sm-click" data-board="block-besoin-3" tabindex="0" role="button" aria-label="Ouvrir la planche Maintien à domicile">
+    <rect class="b-card card" x="58" y="53" width="372" height="194" rx="18"/>
+    <image href="assets/illustrations/domicile.svg" x="62" y="72" width="200" height="168" preserveAspectRatio="xMidYMax meet"/>
+    <text class="t-box" x="343" y="102">MAINTIEN</text>
+    <text class="t-box" x="343" y="127">À DOMICILE</text>
+    <text class="t-sub" x="343" y="156">Elle vit chez elle et</text>
+    <text class="t-sub" x="343" y="174">a besoin de soutien</text>
+    <g class="open-btn" aria-hidden="true"><rect x="292" y="194" width="92" height="30" rx="15"/><text x="338" y="209">Ouvrir ›</text></g>
+  </g>
+  <g class="sm-click" data-board="block-besoin-1" tabindex="0" role="button" aria-label="Ouvrir la planche Filière gériatrique">
+    <rect class="b-card card" x="957" y="53" width="371" height="194" rx="18"/>
+    <image href="assets/illustrations/filiere.svg" x="960" y="98" width="190" height="142" preserveAspectRatio="xMidYMax meet"/>
+    <text class="t-box" x="1237" y="102">FILIÈRE</text>
+    <text class="t-box" x="1237" y="127">GÉRIATRIQUE</text>
+    <text class="t-sub" x="1237" y="156">Elle a besoin</text>
+    <text class="t-sub" x="1237" y="174">d’une offre de soins</text>
+    <g class="open-btn" aria-hidden="true"><rect x="1191" y="194" width="92" height="30" rx="15"/><text x="1237" y="209">Ouvrir ›</text></g>
+  </g>
+  <g class="sm-click" data-board="block-besoin-2" tabindex="0" role="button" aria-label="Ouvrir la planche Sortie d’hospitalisation">
+    <rect class="b-card card" x="484" y="270" width="433" height="160" rx="18"/>
+    <image href="assets/illustrations/ambulance.svg" x="505" y="322" width="170" height="76" preserveAspectRatio="xMidYMax meet"/>
+    <text class="t-box t-box-sm" x="797" y="301">SORTIE</text>
+    <text class="t-box t-box-sm" x="797" y="326">D’HOSPITALISATION</text>
+    <text class="t-sub" x="797" y="352">Vers le domicile</text>
+    <text class="t-sub" x="797" y="370">ou un établissement</text>
+    <g class="open-btn" aria-hidden="true"><rect x="751" y="383" width="92" height="30" rx="15"/><text x="797" y="398">Ouvrir ›</text></g>
+  </g>
+  <g class="sm-click" data-board="block-besoin-4" tabindex="0" role="button" aria-label="Ouvrir la planche Entrée en établissement">
+    <rect class="b-card card" x="414" y="475" width="557" height="108" rx="18"/>
+    <image href="assets/illustrations/etablissement.svg" x="420" y="482" width="180" height="98" preserveAspectRatio="xMidYMax meet"/>
+    <text class="t-box" x="782" y="509">ENTRÉE EN ÉTABLISSEMENT</text>
+    <text class="t-sub" x="782" y="536">Quand le domicile n’est plus possible</text>
+    <g class="open-btn" aria-hidden="true"><rect x="736" y="550" width="92" height="30" rx="15"/><text x="782" y="565">Ouvrir ›</text></g>
+  </g>
+</svg>
       </div>
     </div>
 
@@ -5728,7 +5737,7 @@
   <script src="app.js?v=20261124_1530"></script>
   <script src="lisibilite.js?v=20261123_2000"></script>
   <script src="fleches.js?v=20261123_1945"></script>
-  <script src="prioca.js?v=20261124_1500"></script>
+  <script src="prioca.js?v=20261124_1700"></script>
   <script src="synth-map.js?v=20261123_1800"></script>
   <script src="wizard.js?v=20261123_2000"></script>
   <script src="crt_module.js?v=20261118_1022"></script>

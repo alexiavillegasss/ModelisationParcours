@@ -607,3 +607,13 @@ html body .rep-ordre-v2 #rep-profil-1, html body .rep-ordre-v2 #rep-profil-2,
 html body .rep-ordre-v2 #rep-profil-3, html body .rep-ordre-v2 #rep-profil-4 { border-left: 5px solid #f8b52f !important; }
 html body .rep-ordre-v2 #rep-profil-1 .rep-p-tag, html body .rep-ordre-v2 #rep-profil-2 .rep-p-tag,
 html body .rep-ordre-v2 #rep-profil-3 .rep-p-tag, html body .rep-ordre-v2 #rep-profil-4 .rep-p-tag { color: #3766ae !important; }
+
+/* Vue synthétique v2 (carte redessinée) */
+.synth-map svg text.t-box { font-size: 23px; font-weight: 800; }
+.synth-map svg text.t-box-sm { font-size: 19px; }
+.synth-map svg text.t-sub { font-size: 14.5px; }
+.synth-map svg text.t-arrow { font-size: 15px; font-weight: 700; }
+.synth-map .open-btn text { font-size: 15px; }
+.synth-map .arrow { stroke-width: 3; }
+.synth-map-head { margin: 0; }
+.synth-map-head p { margin: 2px 0 0; }
