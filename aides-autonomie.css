@@ -5,8 +5,8 @@
 html body .b5-row.b5-row-aides {
   position: relative;
   grid-template-rows: auto auto auto;
-  row-gap: 50px !important;
-  padding: 28px 0 46px;
+  row-gap: 66px !important;
+  padding: 28px 0 70px;
   align-items: stretch;
   background: rgba(255, 255, 255, 0.45);
   border-radius: 12px;
@@ -186,8 +186,9 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
   content: attr(data-gir);
   position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
   padding: 1px 7px; border-radius: 999px;
-  background: #1d2b45; color: #fff;
+  background: #0f766e; color: #fff;
   font: 800 0.52rem/1.4 'Inter', -apple-system, sans-serif;
   white-space: nowrap;
 }
 .b5-row-aides .aides-lbl.aides-lbl-gauche { transform: translate(0, -100%); }
+.b5-row-aides .aides-lbl.aides-lbl-vert { background: #0f766e; color: #fff; border-color: #0f766e; font-size: 0.55rem; }

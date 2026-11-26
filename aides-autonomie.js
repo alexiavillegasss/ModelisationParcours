@@ -19,13 +19,14 @@
     ['aides-eval-struct', 'aides-pap'],
     // Circuit GIR 1 à 4
     ['aides-rec-apad', 'aides-eval-ems'],
-    ['aides-eval-ems', 'aides-apa', { label: 'GIR 1 à 4' }],
+    ['aides-eval-ems', 'aides-inst-apad'],   // GIR 1 à 4 : étiquette posée sur la carte (data-gir)
+    ['aides-inst-apad', 'aides-apa'],
     ['aides-apa', 'aides-ss-apa'],
     ['aides-eval-ems', 'aides-rec-caisses', { label: 'GIR 5-6', retour: true }],
     // Circuit CLIC
     ['aides-rec-clic', 'aides-eval-clic3'],
     ['aides-eval-clic3', 'aides-inst-struct'],   // étiquette GIR posée sur la carte (data-gir)
-    ['aides-eval-clic3', 'aides-inst-apad']
+    ['aides-eval-clic3', 'aides-inst-apad', { rejoint: true }]   // remonte rejoindre la flèche de l'équipe médico-sociale
   ];
 
   const COULEUR = '#24467a';
@@ -111,12 +112,20 @@
       const a = R(de), b = R(vers);
       if (!a || !b) return;
       let d;
+      if (o.rejoint) {
+        // remonte dans l'espace entre les colonnes et rejoint la flèche qui arrive déjà sur la carte
+        const y = dans(arrivee[de] != null ? arrivee[de] : a.cy, a, a);
+        const xm = (a.r + b.l) / 2, yb = arrivee[vers] != null ? arrivee[vers] : b.cy;
+        morceaux.push(`<path d="M${a.r} ${y} H${xm} V${yb}"/>`);
+        point(xm, y); point(xm, yb);
+        return;
+      }
       if (o.retour) {
         // remonte de l'évaluation vers la réception du circuit du dessus, dans l'espace entre les colonnes
         const xm = (b.r + a.l) / 2;
         const y1 = a.t + 10, y2 = Math.min(b.b - 8, b.cy + 12);
         d = `M${a.l} ${y1} H${xm} V${y2} H${b.r + 2}`;
-        if (o.label) etiquettes.push({ x: xm, y: (y1 + y2) / 2, t: o.label, cls: 'aides-lbl-retour aides-lbl-sombre' });
+        if (o.label) etiquettes.push({ x: xm, y: (y1 + y2) / 2, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
       } else if (recouvre(a, b)) {
         // même ligne : flèche bien droite
         const y = dans(arrivee[de] != null ? arrivee[de] : a.cy, a, b);
