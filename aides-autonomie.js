@@ -19,13 +19,13 @@
     ['aides-eval-struct', 'aides-pap'],
     // Circuit GIR 1 à 4
     ['aides-rec-apad', 'aides-eval-ems'],
-    ['aides-eval-ems', 'aides-inst-apad'],   // GIR 1 à 4 : étiquette posée sur la carte (data-gir)
+    ['aides-eval-ems', 'aides-inst-apad', { label: 'GIR 1 à 4', vert: true }],
     ['aides-inst-apad', 'aides-apa'],
     ['aides-apa', 'aides-ss-apa'],
     ['aides-eval-ems', 'aides-rec-caisses', { label: 'GIR 5-6', retour: true }],
     // Circuit CLIC
     ['aides-rec-clic', 'aides-eval-clic3'],
-    ['aides-eval-clic3', 'aides-inst-struct'],   // étiquette GIR posée sur la carte (data-gir)
+    ['aides-eval-clic3', 'aides-inst-struct', { label: 'GIR 5-6', vert: true }],
     ['aides-eval-clic3', 'aides-inst-apad', { rejoint: true }]   // remonte rejoindre la flèche de l'équipe médico-sociale
   ];
 
@@ -132,7 +132,7 @@
         d = `M${a.r} ${y} H${b.l - 2}`;
         arrivee[vers] = y;
         if (de === 'aides-info-clic') point((Math.max(...sources.map(s => s.r)) + cerfa.l) / 2, y);
-        if (o.label) etiquettes.push({ x: (a.r + b.l) / 2, y, t: o.label, cls: 'aides-lbl-sombre' });
+        if (o.label) etiquettes.push({ x: (a.r + b.l) / 2, y, t: o.label, cls: o.vert ? 'aides-lbl-vert' : 'aides-lbl-sombre' });
       } else {
         // fourche à angle droit
         const xm = a.r + Math.min(16, (b.l - a.r) / 2);

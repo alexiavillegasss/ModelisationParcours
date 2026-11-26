@@ -192,3 +192,6 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
 }
 .b5-row-aides .aides-lbl.aides-lbl-gauche { transform: translate(0, -100%); }
 .b5-row-aides .aides-lbl.aides-lbl-vert { background: #0f766e; color: #fff; border-color: #0f766e; font-size: 0.55rem; }
+/* un peu plus d'espace entre les cartes pour les étiquettes GIR sur les flèches */
+.b5-row-aides .aides-cell { padding: 0 13px !important; }
+.b5-row-aides .aides-lbl.aides-lbl-vert { padding: 0 4px; font-size: 0.5rem; }
