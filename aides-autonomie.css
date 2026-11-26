@@ -208,3 +208,48 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
 .b5-row-aides .aides-cell.aides-cell-eval { padding: 0 24px 0 6px !important; }
 .b5-row-aides .aides-cell-eval .aides-sous { left: 0; right: 0; }
 .b5-row-aides svg.aides-fleches path.pont { stroke: #edf5e8; stroke-width: 8; marker-end: none; }
+
+/* ---- Lisibilité maximale : textes plus grands ---- */
+.b5-row-aides .sch-card { font-size: 0.7rem !important; line-height: 1.2 !important; }
+.b5-row-aides .sch-card small { font-size: 0.82em !important; }
+.b5-row-aides .aides-lbl,
+.b5-row-aides .aides-lbl.aides-lbl-vert,
+.b5-row-aides .aides-lbl.aides-lbl-sombre { font-size: 0.6rem !important; line-height: 1.55; padding: 0 6px; }
+.b5-row-aides .aides-outil { font-size: 0.6rem; }
+.b5-row-aides .aides-note { font-size: 0.58rem; color: #0b5a54; }
+.b5-row-aides .aides-question { font-size: 0.66rem; color: #2c3a52; }
+.b5-row-aides .aides-cerfa { font-size: 0.8rem; }
+html body .b5-row-aides .aides-crit { font-size: 0.82rem; }
+.b5-row-aides .aides-cell { padding: 0 7px !important; }
+.b5-row-aides .aides-cell.aides-cell-eval { padding: 0 18px 0 3px !important; }
+html body #block-besoin-3 .b5-row,
+html body #block-besoin-3 .b5-col-headers,
+html body #block-besoin-3 .b5-bg-columns {
+  grid-template-columns: 175px 100px 335px 125px 123px 122px 135px 130px 120px 115px !important;
+}
+html body #block-besoin-3.in-focus-mode .b5-row,
+html body #block-besoin-3.in-focus-mode .b5-col-headers,
+html body #block-besoin-3.in-focus-mode .b5-bg-columns {
+  grid-template-columns: 175px 96px 330px 120px 117px 117px 130px 125px 110px 110px !important;
+}
+.b5-row-aides .aides-sous .sch-card { font-size: 0.66rem !important; }
+.b5-row-aides .aides-cell.aides-cell-eval { padding: 0 34px 0 3px !important; }
+.b5-row-aides .aides-cell.aides-cell-eval { padding: 0 29px 0 2px !important; }
+/* cartes Évaluation calées à gauche : place pour la montée GIR 5-6 et l'étiquette GIR 1 à 4 */
+.b5-row-aides .aides-cell.aides-cell-eval { padding: 0 6px 0 4px !important; align-items: flex-start; }
+.b5-row-aides .aides-cell-eval .aides-ancre { width: 80px; }
+.b5-row-aides .aides-cell-eval .sch-card { width: 100% !important; margin: 0 !important; }
+.b5-row-aides .aides-cell-eval .aides-sous { left: -2px; right: -2px; }
+html body #b5-row-aides .aides-cell-eval .sch-card { max-width: none !important; margin: 0 !important; }
+.b5-row-aides .aides-cell.aides-cell-eval { padding: 0 6px 0 2px !important; }
+.b5-row-aides .aides-cell-eval .aides-ancre { width: 78px; }
+html body #block-besoin-3 .b5-row,
+html body #block-besoin-3 .b5-col-headers,
+html body #block-besoin-3 .b5-bg-columns {
+  grid-template-columns: 175px 100px 335px 125px 130px 122px 128px 130px 120px 115px !important;
+}
+html body #block-besoin-3.in-focus-mode .b5-row,
+html body #block-besoin-3.in-focus-mode .b5-col-headers,
+html body #block-besoin-3.in-focus-mode .b5-bg-columns {
+  grid-template-columns: 175px 96px 330px 120px 124px 117px 123px 125px 110px 110px !important;
+}

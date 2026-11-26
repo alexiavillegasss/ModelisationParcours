@@ -116,7 +116,7 @@
         // depuis le CLIC niveau 3 : une sortie à droite, puis deux branches à angle droit
         // (la montée longe l'équipe médico-sociale et enjambe sa flèche avec un petit pont)
         const ems = R('aides-eval-ems');
-        const xv = (ems ? ems.r : a.r) + 8;
+        const xv = (ems ? ems.r : a.r) + 7;
         const y0 = a.cy;
         if (o.biais === 'haut') {
           morceaux.push(`<path d="M${a.r} ${y0} H${xv}"/>`);
@@ -145,14 +145,16 @@
         const xm = (b.r + a.l) / 2;
         const y1 = a.t + 10, y2 = Math.min(b.b - 8, b.cy + 12);
         d = `M${a.l} ${y1} H${xm} V${y2} H${b.r + 2}`;
-        if (o.label) etiquettes.push({ x: xm, y: (y1 + y2) / 2, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
+        const compl = R('aides-rec-compl');
+        const yl = compl && compl.b < a.t ? (compl.b + a.t) / 2 : (y1 + y2) / 2;   // entre les cartes, jamais dessus
+        if (o.label) etiquettes.push({ x: xm, y: yl, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
       } else if (recouvre(a, b)) {
         // même ligne : flèche bien droite
         const y = dans(arrivee[de] != null ? arrivee[de] : a.cy, a, b);
         d = `M${a.r} ${y} H${b.l - 2}`;
         arrivee[vers] = y;
         if (de === 'aides-info-clic') point((Math.max(...sources.map(s => s.r)) + cerfa.l) / 2, y);
-        if (o.label) etiquettes.push(o.vert ? { x: b.l - 9, y, t: o.label, cls: 'aides-lbl-vert aides-lbl-droite' } : { x: (a.r + b.l) / 2, y, t: o.label, cls: 'aides-lbl-sombre' });
+        if (o.label) etiquettes.push(o.vert ? { x: b.l - 8, y, t: o.label, cls: 'aides-lbl-vert aides-lbl-droite' } : { x: (a.r + b.l) / 2, y, t: o.label, cls: 'aides-lbl-sombre' });
       } else {
         // fourche à angle droit
         const xm = a.r + Math.min(16, (b.l - a.r) / 2);
