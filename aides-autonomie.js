@@ -25,8 +25,8 @@
     ['aides-eval-ems', 'aides-rec-caisses', { label: 'GIR 5-6', retour: true }],
     // Circuit CLIC
     ['aides-rec-clic', 'aides-eval-clic3'],
-    ['aides-eval-clic3', 'aides-inst-struct', { label: 'GIR 5-6', vert: true }],
-    ['aides-eval-clic3', 'aides-inst-apad', { rejoint: true }]   // remonte rejoindre la flèche de l'équipe médico-sociale
+    ['aides-eval-clic3', 'aides-eval-struct', { label: 'GIR 5-6', biais: 'haut' }],   // flèches en biais, comme le brouillon
+    ['aides-eval-clic3', 'aides-inst-apad', { label: 'GIR 1 à 4', biais: 'cote' }]
   ];
 
   const COULEUR = '#24467a';
@@ -112,6 +112,23 @@
       const a = R(de), b = R(vers);
       if (!a || !b) return;
       let d;
+      if (o.biais) {
+        // flèche en biais depuis le CLIC niveau 3 (comme sur le brouillon)
+        const ems = R('aides-eval-ems'), inst = R('aides-inst-apad');
+        let x1, y1, x2, y2;
+        if (o.biais === 'haut') {
+          // vers le bas de la carte du dessus, en passant entre l'équipe médico-sociale et l'instruction APAD
+          x1 = a.r - 3; y1 = a.t;
+          x2 = a.r + 9; y2 = b.b + 2;
+        } else {
+          x1 = a.r; y1 = a.cy;
+          x2 = b.l + 10; y2 = b.b + 2;
+        }
+        morceaux.push(`<path d="M${x1} ${y1} L${x2} ${y2}"  marker-end="url(#aides-pointe)"/>`);
+        const k = o.biais === 'haut' ? 0.78 : 0.5;
+        etiquettes.push({ x: x1 + (x2 - x1) * k, y: y1 + (y2 - y1) * k, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
+        return;
+      }
       if (o.rejoint) {
         // remonte dans l'espace entre les colonnes et rejoint la flèche qui arrive déjà sur la carte
         const y = dans(arrivee[de] != null ? arrivee[de] : a.cy, a, a);
@@ -132,7 +149,7 @@
         d = `M${a.r} ${y} H${b.l - 2}`;
         arrivee[vers] = y;
         if (de === 'aides-info-clic') point((Math.max(...sources.map(s => s.r)) + cerfa.l) / 2, y);
-        if (o.label) etiquettes.push({ x: (a.r + b.l) / 2, y, t: o.label, cls: o.vert ? 'aides-lbl-vert' : 'aides-lbl-sombre' });
+        if (o.label) etiquettes.push(o.vert ? { x: b.l - 9, y, t: o.label, cls: 'aides-lbl-vert aides-lbl-droite' } : { x: (a.r + b.l) / 2, y, t: o.label, cls: 'aides-lbl-sombre' });
       } else {
         // fourche à angle droit
         const xm = a.r + Math.min(16, (b.l - a.r) / 2);
