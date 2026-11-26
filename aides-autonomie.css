@@ -253,3 +253,4 @@ html body #block-besoin-3.in-focus-mode .b5-col-headers,
 html body #block-besoin-3.in-focus-mode .b5-bg-columns {
   grid-template-columns: 175px 96px 330px 120px 124px 117px 123px 125px 110px 110px !important;
 }
+.b5-row-aides .aides-cerfa-col { grid-row: 1 / 4 !important; align-self: center; margin-top: 8px; }
