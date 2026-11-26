@@ -5,8 +5,8 @@
 html body .b5-row.b5-row-aides {
   position: relative;
   grid-template-rows: auto auto auto;
-  row-gap: 14px !important;
-  padding: 14px 0 12px;
+  row-gap: 34px !important;
+  padding: 26px 0 24px;
   align-items: stretch;
   background: rgba(255, 255, 255, 0.45);
   border-radius: 12px;
@@ -29,26 +29,27 @@ html body .b5-row-aides .aides-crit {
   color: #5b6b85;
 }
 
-/* Colonne Informations : les 4 lieux + le Cerfa */
+/* Colonne Informations : les 4 lieux (à gauche) et le Cerfa (à droite) */
 .b5-row-aides .aides-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 7px;
-  padding-right: 22px;          /* place pour les flèches qui se rejoignent */
+  display: grid;
+  grid-template-columns: 1fr 74px;
+  column-gap: 44px;
+  align-items: center;
+  padding: 0 4px 0 8px;
 }
+.b5-row-aides .aides-info-cards { display: flex; flex-direction: column; gap: 22px; }
 .b5-row-aides .aides-cerfa {
-  margin-top: 6px;
-  margin-right: -18px;
-  padding: 6px 8px;
+  padding: 7px 6px;
   border-radius: 8px;
-  background: #24467a;
+  background: #1d2b45;
   color: #fff;
-  font: 800 0.62rem/1.2 'Inter', -apple-system, sans-serif;
+  font: 800 0.6rem/1.2 'Inter', -apple-system, sans-serif;
   text-align: center;
   box-shadow: 0 3px 8px rgba(36, 70, 122, 0.25);
+  position: relative;
+  z-index: 4;
 }
-.b5-row-aides .aides-cerfa small { display: block; font-weight: 600; opacity: 0.9; margin-top: 2px; }
+.b5-row-aides .aides-cerfa small { display: block; font-weight: 600; opacity: 0.9; margin-top: 3px; font-size: 0.92em; }
 
 /* Cellules des circuits */
 .b5-row-aides .aides-cell {
@@ -119,3 +120,36 @@ html body .b5-row-aides .aides-crit {
   pointer-events: none;
 }
 .b5-row-aides .aides-lbl.aides-lbl-retour { transform: translate(-50%, -50%); margin-top: 0; }
+
+.b5-row-aides .aides-lbl.aides-lbl-sombre { background: #1d2b45; color: #fff; border-color: #1d2b45; font-size: 0.55rem; }
+
+/* Colonne « Informations » élargie (et 1re colonne réduite d'autant) sur les
+   planches Maintien à domicile et Sortie d'hospitalisation, en-têtes compris */
+html body #block-besoin-3 .b5-row,
+html body #block-besoin-3 .b5-col-headers,
+html body #block-besoin-3 .b5-bg-columns,
+html body #block-besoin-2 .b5-row,
+html body #block-besoin-2 .b5-col-headers,
+html body #block-besoin-2 .b5-bg-columns {
+  grid-template-columns: 220px 115px 205px 125px 115px 115px 135px 130px 160px 160px !important;
+}
+html body #block-besoin-3.in-focus-mode .b5-row,
+html body #block-besoin-3.in-focus-mode .b5-col-headers,
+html body #block-besoin-3.in-focus-mode .b5-bg-columns,
+html body #block-besoin-2.in-focus-mode .b5-row,
+html body #block-besoin-2.in-focus-mode .b5-col-headers,
+html body #block-besoin-2.in-focus-mode .b5-bg-columns {
+  grid-template-columns: 220px 110px 200px 120px 110px 110px 130px 125px 150px 150px !important;
+}
+
+/* Étiquette GIR au-dessus de la première carte de chaque circuit */
+.b5-row-aides .aides-gir {
+  align-self: flex-start;
+  margin-bottom: -2px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: #1d2b45;
+  color: #fff;
+  font: 800 0.58rem/1.4 'Inter', -apple-system, sans-serif;
+  white-space: nowrap;
+}

@@ -8,15 +8,12 @@
 
   // [de, vers, options]  (options.label = petit texte sur la flèche, options.pointilles = flèche en pointillés)
   const FLECHES = [
-    // Les 4 lieux d'information mènent à la demande (Cerfa)
-    ['aides-info-caisses', 'aides-cerfa', { bus: true }],
-    ['aides-info-ccas', 'aides-cerfa', { bus: true }],
-    ['aides-info-uts', 'aides-cerfa', { bus: true }],
-    ['aides-info-clic', 'aides-cerfa', { bus: true }],
-    // La demande est orientée selon le GIR
-    ['aides-cerfa', 'aides-rec-caisses', { depart: 'droite' }],
-    ['aides-cerfa', 'aides-rec-apad', { depart: 'droite' }],
-    ['aides-cerfa', 'aides-rec-clic', { depart: 'droite' }],
+    // (le crochet « besoin → 4 lieux » et l'éventail « 4 lieux → Cerfa » sont dessinés à part)
+    // Le Cerfa est orienté selon le GIR
+    ['aides-cerfa', 'aides-rec-caisses', { label: 'GIR 5-6', diag: true }],
+    ['aides-cerfa', 'aides-rec-apad', { label: 'GIR 1 à 4', diag: true }],
+    // Le CLIC reçoit aussi directement les demandes
+    ['aides-info-clic', 'aides-rec-clic'],
     // Circuit GIR 5-6
     ['aides-rec-caisses', 'aides-eval-struct'],
     ['aides-eval-struct', 'aides-pap'],
@@ -67,14 +64,23 @@
     const etiquettes = [];
     const cerfa = R('aides-cerfa');
 
-    // « Bus » vertical qui rassemble les 4 lieux d'information vers le Cerfa
     const sources = ['aides-info-caisses', 'aides-info-ccas', 'aides-info-uts', 'aides-info-clic'].map(R).filter(Boolean);
-    if (cerfa && sources.length) {
-      const xBus = Math.max(...sources.map(s => s.r)) + 9;
-      sources.forEach(s => morceaux.push(`<path d="M${s.r} ${s.cy} H${xBus}"/>`));
-      const yMin = Math.min(...sources.map(s => s.cy), cerfa.t), yMax = Math.max(...sources.map(s => s.cy));
-      morceaux.push(`<path d="M${xBus} ${yMin} V${yMax}"/>`);
-      morceaux.push(`<path d="M${xBus} ${cerfa.t + 2} V${cerfa.t + 2}" />`);
+    // Crochet : le besoin (1re colonne) mène aux 4 lieux d'information
+    const crit = R('b5-crit-aides');
+    if (crit && sources.length) {
+      const x0 = crit.r + 10;
+      const y0 = Math.min(...sources.map(s => s.cy)), y1 = Math.max(...sources.map(s => s.cy));
+      const yc = Math.min(Math.max(crit.cy, y0), y1);
+      morceaux.push(`<path d="M${crit.r + 2} ${yc} H${x0 - 5} M${x0} ${y0} V${y1}"/>`);
+      morceaux.push(`<path d="M${x0 - 5} ${yc} L${x0} ${yc - 5} M${x0 - 5} ${yc} L${x0} ${yc + 5}"/>`);
+      sources.forEach(s => morceaux.push(`<path d="M${x0} ${s.cy} H${s.l - 2}" marker-end="url(#aides-pointe)"/>`));
+    }
+    // Éventail : chaque lieu d'information mène au Cerfa
+    if (cerfa) {
+      sources.forEach((s, i) => {
+        const yArr = cerfa.t + 8 + (cerfa.b - cerfa.t - 16) * (sources.length > 1 ? i / (sources.length - 1) : 0.5);
+        morceaux.push(`<path d="M${s.r} ${s.cy} L${cerfa.l - 2} ${yArr}" marker-end="url(#aides-pointe)"/>`);
+      });
     }
 
     FLECHES.forEach(([de, vers, o = {}]) => {
@@ -89,6 +95,13 @@
         const y1 = a.t + 10, y2 = Math.min(b.b - 8, b.cy + 14);
         d = `M${a.l} ${y1} H${xm} V${y2} H${b.r + 2}`;
         if (o.label) etiquettes.push({ x: xm, y: y1 - 22, t: o.label, cls: 'aides-lbl-retour' });
+      } else if (o.diag) {
+        // ligne droite du Cerfa vers le circuit, étiquette au milieu
+        const ys = Math.min(Math.max(b.cy, a.t + 8), a.b - 8);
+        d = `M${a.r} ${ys} L${b.l - 2} ${b.cy}`;
+        // (l'étiquette GIR est posée au-dessus de la carte d'arrivée, dans index.html)
+        morceaux.push(`<path d="${d}" marker-end="url(#aides-pointe)"/>`);
+        return;
       } else if (o.depart === 'droite') {
         // du Cerfa vers chaque circuit : sort à droite, puis à l'horizontale
         const xs = a.r, xm = a.r + Math.max(6, (b.l - a.r) / 2);
