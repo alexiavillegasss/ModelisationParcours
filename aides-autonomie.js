@@ -9,9 +9,9 @@
   // [de, vers, options]  (options.label = petit texte sur la flèche, options.pointilles = flèche en pointillés)
   const FLECHES = [
     // (le crochet « besoin → 4 lieux » et l'éventail « 4 lieux → Cerfa » sont dessinés à part)
-    // Le Cerfa est orienté selon le GIR
-    ['aides-cerfa', 'aides-rec-caisses', { label: 'OUI', diag: true }],
-    ['aides-cerfa', 'aides-rec-apad', { label: 'NON', diag: true }],
+    // Le Cerfa est orienté selon les réponses à la question (se lever, s'habiller…)
+    ['aides-cerfa', 'aides-rec-caisses', { label: 'OUI : 3 fois ou +', diag: true }],
+    ['aides-cerfa', 'aides-rec-apad', { label: 'NON : 2 fois ou +', diag: true }],
     // Le CLIC reçoit aussi directement les demandes
     ['aides-info-clic', 'aides-rec-clic'],
     // Circuit GIR 5-6
@@ -94,12 +94,12 @@
         const xm = (b.r + a.l) / 2 - 4;
         const y1 = a.t + 10, y2 = Math.min(b.b - 8, b.cy + 14);
         d = `M${a.l} ${y1} H${xm} V${y2} H${b.r + 2}`;
-        if (o.label) etiquettes.push({ x: xm, y: y1 - 22, t: o.label, cls: 'aides-lbl-retour' });
+        if (o.label) etiquettes.push({ x: xm, y: y1 - 22, t: o.label, cls: 'aides-lbl-retour aides-lbl-sombre' });
       } else if (o.diag) {
         // ligne droite du Cerfa vers le circuit, étiquette au milieu
         const ys = Math.min(Math.max(b.cy, a.t + 8), a.b - 8);
         d = `M${a.r} ${ys} L${b.l - 2} ${b.cy}`;
-        etiquettes.push({ x: a.r + (b.l - a.r) * 0.45, y: ys + (b.cy - ys) * 0.45 - 1, t: o.label, cls: 'aides-lbl-sombre' });
+        etiquettes.push({ x: a.r + (b.l - a.r) * 0.5, y: ys + (b.cy - ys) * 0.5 - 1, t: o.label, cls: 'aides-lbl-sombre' });
         morceaux.push(`<path d="${d}" marker-end="url(#aides-pointe)"/>`);
         return;
       } else if (o.depart === 'droite') {
@@ -116,7 +116,7 @@
       morceaux.push(`<path class="${o.retour ? 'pointilles' : ''}" d="${d}" marker-end="url(#aides-pointe)"/>`);
       if (o.label && !o.retour) {
         const x = (a.r + b.l) / 2, y = (Math.abs(a.cy - b.cy) < 4 ? b.cy : b.cy) - 1;
-        etiquettes.push({ x, y, t: o.label });
+        etiquettes.push({ x, y, t: o.label, cls: 'aides-lbl-sombre' });
       }
     });
 

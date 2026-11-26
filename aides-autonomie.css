@@ -35,7 +35,7 @@ html body .b5-row-aides .aides-crit {
   grid-template-columns: 1fr 112px;
   column-gap: 22px;
   align-items: center;
-  padding: 0 34px 0 6px;
+  padding: 0 92px 0 6px;
 }
 .b5-row-aides .aides-info-cards { display: flex; flex-direction: column; gap: 22px; }
 .b5-row-aides .aides-cerfa {
@@ -128,12 +128,12 @@ html body .b5-row-aides .aides-crit {
 html body #block-besoin-3 .b5-row,
 html body #block-besoin-3 .b5-col-headers,
 html body #block-besoin-3 .b5-bg-columns {
-  grid-template-columns: 195px 115px 265px 125px 115px 115px 135px 130px 143px 142px !important;
+  grid-template-columns: 180px 115px 320px 125px 115px 115px 135px 130px 120px 125px !important;
 }
 html body #block-besoin-3.in-focus-mode .b5-row,
 html body #block-besoin-3.in-focus-mode .b5-col-headers,
 html body #block-besoin-3.in-focus-mode .b5-bg-columns {
-  grid-template-columns: 195px 110px 260px 120px 110px 110px 130px 125px 135px 135px !important;
+  grid-template-columns: 180px 110px 315px 120px 110px 110px 130px 125px 115px 115px !important;
 }
 
 /* Question sous le Cerfa (OUI / NON) */
@@ -143,3 +143,14 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
   color: #3b4a63;
   text-align: center;
 }
+
+/* Sous l'évaluation : ce que fait la grille AGGIR */
+.b5-row-aides .aides-note {
+  align-self: center;
+  max-width: 118px;
+  font: italic 600 0.52rem/1.25 'Inter', -apple-system, sans-serif;
+  color: #0f5f59;
+  text-align: center;
+  margin-top: -2px;
+}
+.b5-row-aides .aides-lbl.aides-lbl-sombre { white-space: nowrap; }
