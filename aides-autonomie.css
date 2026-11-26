@@ -207,3 +207,4 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
 .b5-row-aides .aides-lbl.aides-lbl-droite { transform: translate(-100%, -100%); }
 .b5-row-aides .aides-cell.aides-cell-eval { padding: 0 24px 0 6px !important; }
 .b5-row-aides .aides-cell-eval .aides-sous { left: 0; right: 0; }
+.b5-row-aides svg.aides-fleches path.pont { stroke: #edf5e8; stroke-width: 8; marker-end: none; }

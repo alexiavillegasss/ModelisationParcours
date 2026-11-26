@@ -25,7 +25,7 @@
     ['aides-eval-ems', 'aides-rec-caisses', { label: 'GIR 5-6', retour: true }],
     // Circuit CLIC
     ['aides-rec-clic', 'aides-eval-clic3'],
-    ['aides-eval-clic3', 'aides-eval-struct', { label: 'GIR 5-6', biais: 'haut' }],   // flèches en biais, comme le brouillon
+    ['aides-eval-clic3', 'aides-eval-struct', { label: 'GIR 5-6', biais: 'haut' }],   // deux branches depuis le CLIC niveau 3
     ['aides-eval-clic3', 'aides-inst-apad', { label: 'GIR 1 à 4', biais: 'cote' }]
   ];
 
@@ -113,20 +113,23 @@
       if (!a || !b) return;
       let d;
       if (o.biais) {
-        // flèche en biais depuis le CLIC niveau 3 (comme sur le brouillon)
-        const ems = R('aides-eval-ems'), inst = R('aides-inst-apad');
-        let x1, y1, x2, y2;
+        // depuis le CLIC niveau 3 : une sortie à droite, puis deux branches à angle droit
+        // (la montée longe l'équipe médico-sociale et enjambe sa flèche avec un petit pont)
+        const ems = R('aides-eval-ems');
+        const xv = (ems ? ems.r : a.r) + 8;
+        const y0 = a.cy;
         if (o.biais === 'haut') {
-          // vers le bas de la carte du dessus, en passant entre l'équipe médico-sociale et l'instruction APAD
-          x1 = a.r - 3; y1 = a.t;
-          x2 = a.r + 9; y2 = b.b + 2;
+          morceaux.push(`<path d="M${a.r} ${y0} H${xv}"/>`);
+          point(xv, y0);
+          morceaux.push(`<path class="pont" d="M${xv} ${y0} V${b.b + 2}"/>`);
+          morceaux.push(`<path d="M${xv} ${y0} V${b.b + 2}" marker-end="url(#aides-pointe)"/>`);
+          const inst = R('aides-inst-apad');
+          const yl = inst ? (b.b + inst.t) / 2 : (b.b + y0) / 2;
+          etiquettes.push({ x: xv, y: yl, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
         } else {
-          x1 = a.r; y1 = a.cy;
-          x2 = b.l + 10; y2 = b.b + 2;
+          morceaux.push(`<path d="M${xv} ${y0} H${b.cx} V${b.b + 2}" marker-end="url(#aides-pointe)"/>`);
+          etiquettes.push({ x: (xv + b.cx) / 2, y: y0, t: o.label, cls: 'aides-lbl-vert' });
         }
-        morceaux.push(`<path d="M${x1} ${y1} L${x2} ${y2}"  marker-end="url(#aides-pointe)"/>`);
-        const k = o.biais === 'haut' ? 0.78 : 0.5;
-        etiquettes.push({ x: x1 + (x2 - x1) * k, y: y1 + (y2 - y1) * k, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
         return;
       }
       if (o.rejoint) {
