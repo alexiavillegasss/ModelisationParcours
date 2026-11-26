@@ -5,8 +5,8 @@
 html body .b5-row.b5-row-aides {
   position: relative;
   grid-template-rows: auto auto auto;
-  row-gap: 34px !important;
-  padding: 26px 0 24px;
+  row-gap: 50px !important;
+  padding: 28px 0 46px;
   align-items: stretch;
   background: rgba(255, 255, 255, 0.45);
   border-radius: 12px;
@@ -33,9 +33,10 @@ html body .b5-row-aides .aides-crit {
 .b5-row-aides .aides-info {
   display: grid;
   grid-template-columns: 1fr 112px;
-  column-gap: 22px;
+  grid-template-rows: subgrid;
+  column-gap: 30px;
   align-items: center;
-  padding: 0 92px 0 6px;
+  padding: 0 100px 0 6px;
 }
 .b5-row-aides .aides-info-cards { display: flex; flex-direction: column; gap: 22px; }
 .b5-row-aides .aides-cerfa {
@@ -128,12 +129,12 @@ html body .b5-row-aides .aides-crit {
 html body #block-besoin-3 .b5-row,
 html body #block-besoin-3 .b5-col-headers,
 html body #block-besoin-3 .b5-bg-columns {
-  grid-template-columns: 180px 115px 320px 125px 115px 115px 135px 130px 120px 125px !important;
+  grid-template-columns: 175px 115px 335px 125px 115px 115px 135px 130px 120px 115px !important;
 }
 html body #block-besoin-3.in-focus-mode .b5-row,
 html body #block-besoin-3.in-focus-mode .b5-col-headers,
 html body #block-besoin-3.in-focus-mode .b5-bg-columns {
-  grid-template-columns: 180px 110px 315px 120px 110px 110px 130px 125px 115px 115px !important;
+  grid-template-columns: 175px 110px 330px 120px 110px 110px 130px 125px 110px 110px !important;
 }
 
 /* Question sous le Cerfa (OUI / NON) */
@@ -154,3 +155,39 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
   margin-top: -2px;
 }
 .b5-row-aides .aides-lbl.aides-lbl-sombre { white-space: nowrap; }
+
+/* ---- Mise en page harmonieuse : 3 lignes bien alignées ---- */
+.b5-row-aides .aides-info-cards { grid-column: 1; grid-row: 1 / 3; align-self: center; gap: 14px !important; }
+.b5-row-aides .aides-info-clic-wrap { grid-column: 1; grid-row: 3; align-self: center; }
+.b5-row-aides .aides-cerfa-col { grid-column: 2; grid-row: 1 / 3; align-self: center; position: relative; }
+.b5-row-aides .aides-question {
+  position: absolute; top: 100%; left: -6px; right: -6px; margin-top: 6px;
+}
+/* carte principale centrée sur sa ligne, les compléments pendent dessous */
+.b5-row-aides .aides-ancre { position: relative; width: 100%; }
+.b5-row-aides .aides-sous {
+  position: absolute; top: 100%; left: 0; right: 0; margin-top: 7px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+/* cartes de taille homogène */
+.b5-row-aides .aides-cell .sch-card,
+.b5-row-aides .aides-info .sch-card {
+  min-height: 46px;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.b5-row-aides .aides-sous .sch-card { min-height: 34px; }
+/* étiquette GIR posée sur la carte (fourche du CLIC niveau 3) */
+.b5-row-aides .aides-cell-split { gap: 18px !important; }
+.b5-row-aides .sch-card[data-gir]::after {
+  content: attr(data-gir);
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  padding: 1px 7px; border-radius: 999px;
+  background: #1d2b45; color: #fff;
+  font: 800 0.52rem/1.4 'Inter', -apple-system, sans-serif;
+  white-space: nowrap;
+}
+.b5-row-aides .aides-lbl.aides-lbl-gauche { transform: translate(0, -100%); }
