@@ -32,18 +32,18 @@ html body .b5-row-aides .aides-crit {
 /* Colonne Informations : les 4 lieux (à gauche) et le Cerfa (à droite) */
 .b5-row-aides .aides-info {
   display: grid;
-  grid-template-columns: 1fr 74px;
-  column-gap: 44px;
+  grid-template-columns: 1fr 112px;
+  column-gap: 22px;
   align-items: center;
-  padding: 0 4px 0 8px;
+  padding: 0 34px 0 6px;
 }
 .b5-row-aides .aides-info-cards { display: flex; flex-direction: column; gap: 22px; }
 .b5-row-aides .aides-cerfa {
-  padding: 7px 6px;
-  border-radius: 8px;
+  padding: 12px 8px;
+  border-radius: 10px;
   background: #1d2b45;
   color: #fff;
-  font: 800 0.6rem/1.2 'Inter', -apple-system, sans-serif;
+  font: 800 0.74rem/1.25 'Inter', -apple-system, sans-serif;
   text-align: center;
   box-shadow: 0 3px 8px rgba(36, 70, 122, 0.25);
   position: relative;
@@ -123,33 +123,23 @@ html body .b5-row-aides .aides-crit {
 
 .b5-row-aides .aides-lbl.aides-lbl-sombre { background: #1d2b45; color: #fff; border-color: #1d2b45; font-size: 0.55rem; }
 
-/* Colonne « Informations » élargie (et 1re colonne réduite d'autant) sur les
-   planches Maintien à domicile et Sortie d'hospitalisation, en-têtes compris */
+/* Colonne « Informations » élargie (1re et 2 dernières colonnes réduites
+   d'autant) sur la planche Maintien à domicile, en-têtes compris */
 html body #block-besoin-3 .b5-row,
 html body #block-besoin-3 .b5-col-headers,
-html body #block-besoin-3 .b5-bg-columns,
-html body #block-besoin-2 .b5-row,
-html body #block-besoin-2 .b5-col-headers,
-html body #block-besoin-2 .b5-bg-columns {
-  grid-template-columns: 220px 115px 205px 125px 115px 115px 135px 130px 160px 160px !important;
+html body #block-besoin-3 .b5-bg-columns {
+  grid-template-columns: 195px 115px 265px 125px 115px 115px 135px 130px 143px 142px !important;
 }
 html body #block-besoin-3.in-focus-mode .b5-row,
 html body #block-besoin-3.in-focus-mode .b5-col-headers,
-html body #block-besoin-3.in-focus-mode .b5-bg-columns,
-html body #block-besoin-2.in-focus-mode .b5-row,
-html body #block-besoin-2.in-focus-mode .b5-col-headers,
-html body #block-besoin-2.in-focus-mode .b5-bg-columns {
-  grid-template-columns: 220px 110px 200px 120px 110px 110px 130px 125px 150px 150px !important;
+html body #block-besoin-3.in-focus-mode .b5-bg-columns {
+  grid-template-columns: 195px 110px 260px 120px 110px 110px 130px 125px 135px 135px !important;
 }
 
-/* Étiquette GIR au-dessus de la première carte de chaque circuit */
-.b5-row-aides .aides-gir {
-  align-self: flex-start;
-  margin-bottom: -2px;
-  padding: 1px 8px;
-  border-radius: 6px;
-  background: #1d2b45;
-  color: #fff;
-  font: 800 0.58rem/1.4 'Inter', -apple-system, sans-serif;
-  white-space: nowrap;
+/* Question sous le Cerfa (OUI / NON) */
+.b5-row-aides .aides-cerfa-col { display: flex; flex-direction: column; gap: 6px; }
+.b5-row-aides .aides-question {
+  font: italic 600 0.6rem/1.3 'Inter', -apple-system, sans-serif;
+  color: #3b4a63;
+  text-align: center;
 }

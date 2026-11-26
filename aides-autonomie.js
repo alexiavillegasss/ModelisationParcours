@@ -10,8 +10,8 @@
   const FLECHES = [
     // (le crochet « besoin → 4 lieux » et l'éventail « 4 lieux → Cerfa » sont dessinés à part)
     // Le Cerfa est orienté selon le GIR
-    ['aides-cerfa', 'aides-rec-caisses', { label: 'GIR 5-6', diag: true }],
-    ['aides-cerfa', 'aides-rec-apad', { label: 'GIR 1 à 4', diag: true }],
+    ['aides-cerfa', 'aides-rec-caisses', { label: 'OUI', diag: true }],
+    ['aides-cerfa', 'aides-rec-apad', { label: 'NON', diag: true }],
     // Le CLIC reçoit aussi directement les demandes
     ['aides-info-clic', 'aides-rec-clic'],
     // Circuit GIR 5-6
@@ -99,7 +99,7 @@
         // ligne droite du Cerfa vers le circuit, étiquette au milieu
         const ys = Math.min(Math.max(b.cy, a.t + 8), a.b - 8);
         d = `M${a.r} ${ys} L${b.l - 2} ${b.cy}`;
-        // (l'étiquette GIR est posée au-dessus de la carte d'arrivée, dans index.html)
+        etiquettes.push({ x: a.r + (b.l - a.r) * 0.45, y: ys + (b.cy - ys) * 0.45 - 1, t: o.label, cls: 'aides-lbl-sombre' });
         morceaux.push(`<path d="${d}" marker-end="url(#aides-pointe)"/>`);
         return;
       } else if (o.depart === 'droite') {
