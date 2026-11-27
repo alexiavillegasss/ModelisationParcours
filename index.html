@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="lisibilite.css?v=20261124_1800">
   <!-- Étapes du PRIOCA -->
   <link rel="stylesheet" href="aides-autonomie.css?v=20261127_1100">
-  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1215">
+  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1240">
   <link rel="stylesheet" href="prioca.css?v=20261124_1730">
 
 
@@ -2854,10 +2854,11 @@
               </div>
 
               <!-- ==================== PARTIE 1 : RETOUR À DOMICILE SÉCURISÉ (propre à la sortie d'hospitalisation) ==================== -->
-              <!-- En-tête : pas de colonne Prévention dans cette partie ; la colonne HÔPITAL remplace Informations -->
+              <!-- En-tête unique de la planche : HÔPITAL (à la place de Prévention), INFORMATIONS, mise en place, accompagnement, coordination -->
               <div class="b5-col-headers rad-headers">
                 <div class="b5-ch-empty"></div>
                 <div class="b5-ch-pill ch-hopital">HÔPITAL</div>
+                <div class="b5-ch-pill ch-amber">BESOINS D'INFORMATIONS</div>
                 <div class="b5-ch-green-wrap">
                   <div class="b5-ch-pill ch-green">BESOIN DE MISE EN PLACE DES AIDES, SERVICES ET SOINS</div>
                   <div class="b5-ch-sub-row">
@@ -2879,27 +2880,22 @@
 
               <div class="rad-section">
                 <!-- fond bleu de la colonne Hôpital (cache Prévention + Informations dans cette partie) -->
-                <div class="rad-bg" aria-hidden="true"><div class="rad-bg-crit"></div><div class="rad-bg-hopital"></div></div>
                 <div class="b5-section-bar">RETOUR À DOMICILE SÉCURISÉ</div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Continuité des soins, organisation du suivi médical</div>
-                    <div class="rad-hopital rad-hopital-2col" style="grid-column: 3 / 4;">
-                      <div class="rad-hop-col">
-                        <div class="rad-note">Professionnels de santé libéraux déjà en place à contacter <strong>ou</strong> à mettre en place</div>
-                        <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Cadre de santé ou AS de l'hôpital</div>
-                      </div>
-                      <div class="rad-hop-col">
-                        <div class="rad-note">+ 75 ans : à mettre en place</div>
-                        <div class="sch-card b5-pill b5-pill-blue" data-id="prado-cpam">PRADO</div>
-                        <div class="rad-outil">Outil DMP</div>
-                      </div>
+                    <div class="rad-hopital" style="grid-column: 2 / 3;">
+                      <div class="rad-note">Professionnels de santé libéraux déjà en place à contacter <strong>ou</strong> à mettre en place</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Cadre de santé ou AS de l'hôpital</div>
+                      <div class="rad-note">+ 75 ans : à mettre en place</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="prado-cpam">PRADO</div>
+                      <div class="rad-outil">Outil DMP</div>
                     </div>
                     <div class="b5-arrow-cell" style="grid-column: 4 / 9;"><div class="b5-arrow-line"></div></div>
                     <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux" style="grid-column: 9 / 10;">Professionnels de santé libéraux</div>
                   </div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Adaptation du logement et matériel médical</div>
-                    <div class="rad-hopital" style="grid-column: 3 / 4;">
+                    <div class="rad-hopital" style="grid-column: 2 / 3;">
                       <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">AS de l'hôpital</div>
                     </div>
                     <div class="b5-col-stack" style="grid-column: 4 / 5;">
@@ -2928,9 +2924,9 @@
                   </div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Aides financières à activer</div>
-                    <div class="rad-hopital rad-hopital-ligne" style="grid-column: 3 / 4;">
-                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Service social de l'hôpital</div>
+                    <div class="rad-hopital" style="grid-column: 2 / 3;">
                       <div class="rad-outil">Outil DMP</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Service social de l'hôpital</div>
                     </div>
                     <div class="b5-col-stack" style="grid-column: 4 / 5;">
                       <div class="sch-card b5-pill b5-pill-green" data-id="service-apa">Conseil départemental : APA en urgence</div>
@@ -2959,28 +2955,6 @@
 
               <!-- ==================== PARTIE 2 : RELAIS À DOMICILE (idem Maintien à domicile) ==================== -->
               <div class="rad-titre-relais">RELAIS À DOMICILE <span>idem Maintien à domicile</span></div>
-              <div class="b5-col-headers rad-headers-relais">
-                <div class="b5-ch-empty"></div>
-                <div class="b5-ch-pill ch-pink">PRÉVENTION</div>
-                <div class="b5-ch-pill ch-amber">BESOINS D'INFORMATIONS</div>
-                <div class="b5-ch-green-wrap">
-                  <div class="b5-ch-pill ch-green">BESOIN DE MISE EN PLACE DES AIDES, SERVICES ET SOINS</div>
-                  <div class="b5-ch-sub-row">
-                    <div class="b5-sub-pill sub-green">Réception des demandes</div>
-                    <div class="b5-sub-pill sub-green">Évaluation</div>
-                    <div class="b5-sub-pill sub-green">Instruction</div>
-                    <div class="b5-sub-pill sub-green">Plan d'aides et préconisations</div>
-                  </div>
-                </div>
-                <div class="b5-ch-red-wrap">
-                  <div class="b5-ch-pill ch-red">BESOIN D'ACCOMPAGNEMENT ET DE SOINS</div>
-                  <div class="b5-ch-sub-row b5-ch-sub-2">
-                    <div class="b5-sub-pill sub-red">Accompagnement par des aides et services</div>
-                    <div class="b5-sub-pill sub-red">Prise en charge médicale</div>
-                  </div>
-                </div>
-                <div class="b5-ch-pill ch-purple">COORDINATION</div>
-              </div>
               <!-- Le contenu est recopié automatiquement depuis la planche Maintien à domicile (relais-domicile.js) :
                    toute modification faite sur Maintien à domicile apparaît aussi ici. -->
               <div class="rad-relais" id="rad-relais"></div>
@@ -2999,6 +2973,20 @@
                   // titres de sections : « Maintien à domicile » devient « Relais à domicile »
                   frag.querySelectorAll('.b5-section-bar').forEach(function (b) {
                     b.textContent = b.textContent.replace(/MAINTIEN À DOMICILE\s*—\s*/i, 'RELAIS À DOMICILE – ');
+                  });
+                  // Colonne Hôpital (à la place de Prévention) laissée vide pour l'instant :
+                  // les cartes de prévention sont remplacées par un simple trait de liaison
+                  frag.querySelectorAll('.b5-row:not(.b5-row-aides)').forEach(function (ligne) {
+                    Array.prototype.slice.call(ligne.children).forEach(function (el) {
+                      if (el.classList.contains('b5-crit') || el.classList.contains('b5-arrow-cell')) return;
+                      if (/grid-column:\s*2\s*\/\s*3\b/.test(el.getAttribute('style') || '')) {
+                        var trait = document.createElement('div');
+                        trait.className = 'b5-arrow-cell';
+                        trait.style.gridColumn = '2 / 3';
+                        trait.innerHTML = '<div class="b5-arrow-line"></div>';
+                        ligne.replaceChild(trait, el);
+                      }
+                    });
                   });
                   cible.appendChild(frag);
 
