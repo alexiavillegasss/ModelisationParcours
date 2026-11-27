@@ -20,7 +20,7 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 
 /* En-tête HÔPITAL */
 #block-besoin-2 .b5-ch-pill.ch-hopital {
-  grid-column: 2 / 4;
+  grid-column: 3 / 4;
   background: #e4f3f9 !important;
   border: 1.5px solid #73bed7 !important;
   color: #0b6f93 !important;
@@ -36,7 +36,7 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
   z-index: 0;
 }
 #block-besoin-2 .rad-bg-hopital {
-  grid-column: 2 / 4;
+  grid-column: 3 / 4;
   background: #e8f4fa;
   border: 1px solid rgba(115, 190, 215, 0.55);
   border-radius: 4px;
@@ -112,3 +112,22 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 
 /* Bloc aides autonomie dans Retour à domicile sécurisé : posé sur fond clair pour rester lisible sur la colonne Hôpital */
 #block-besoin-2 .rad-section > .b5-row-aides { margin: 6px 0; }
+
+/* ---- Partie Retour à domicile sécurisé : pas de colonne Prévention ----
+   La colonne Prévention a une largeur nulle ; la 1re colonne récupère sa place,
+   la colonne Hôpital reste exactement sous / sur la colonne Informations. */
+html body #block-besoin-2 .rad-section > .b5-row,
+html body #block-besoin-2 .rad-headers,
+html body #block-besoin-2 .rad-bg {
+  grid-template-columns: 275px 0px 335px 125px 130px 122px 128px 120px 115px 130px !important;
+}
+html body #block-besoin-2.in-focus-mode .rad-section > .b5-row,
+html body #block-besoin-2.in-focus-mode .rad-headers,
+html body #block-besoin-2.in-focus-mode .rad-bg {
+  grid-template-columns: 271px 0px 330px 120px 124px 117px 123px 110px 110px 125px !important;
+}
+/* on masque le fond rose de Prévention dans cette partie */
+#block-besoin-2 .rad-bg-crit { grid-column: 1 / 3; background: #edf4fc; }
+#block-besoin-2 .rad-headers .b5-ch-empty { grid-column: 1 / 3; }
+/* bloc aides autonomie dans cette partie : un peu d'air entre le besoin et le crochet */
+#block-besoin-2 .rad-section .b5-row-aides .aides-crit { margin-right: 38px; }

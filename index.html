@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="lisibilite.css?v=20261124_1800">
   <!-- Étapes du PRIOCA -->
   <link rel="stylesheet" href="aides-autonomie.css?v=20261127_1100">
-  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1200">
+  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1215">
   <link rel="stylesheet" href="prioca.css?v=20261124_1730">
 
 
@@ -2854,7 +2854,7 @@
               </div>
 
               <!-- ==================== PARTIE 1 : RETOUR À DOMICILE SÉCURISÉ (propre à la sortie d'hospitalisation) ==================== -->
-              <!-- En-tête : la colonne HÔPITAL remplace Prévention + Informations -->
+              <!-- En-tête : pas de colonne Prévention dans cette partie ; la colonne HÔPITAL remplace Informations -->
               <div class="b5-col-headers rad-headers">
                 <div class="b5-ch-empty"></div>
                 <div class="b5-ch-pill ch-hopital">HÔPITAL</div>
@@ -2879,11 +2879,11 @@
 
               <div class="rad-section">
                 <!-- fond bleu de la colonne Hôpital (cache Prévention + Informations dans cette partie) -->
-                <div class="rad-bg" aria-hidden="true"><div class="rad-bg-hopital"></div></div>
+                <div class="rad-bg" aria-hidden="true"><div class="rad-bg-crit"></div><div class="rad-bg-hopital"></div></div>
                 <div class="b5-section-bar">RETOUR À DOMICILE SÉCURISÉ</div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Continuité des soins, organisation du suivi médical</div>
-                    <div class="rad-hopital rad-hopital-2col" style="grid-column: 2 / 4;">
+                    <div class="rad-hopital rad-hopital-2col" style="grid-column: 3 / 4;">
                       <div class="rad-hop-col">
                         <div class="rad-note">Professionnels de santé libéraux déjà en place à contacter <strong>ou</strong> à mettre en place</div>
                         <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Cadre de santé ou AS de l'hôpital</div>
@@ -2899,7 +2899,7 @@
                   </div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Adaptation du logement et matériel médical</div>
-                    <div class="rad-hopital" style="grid-column: 2 / 4;">
+                    <div class="rad-hopital" style="grid-column: 3 / 4;">
                       <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">AS de l'hôpital</div>
                     </div>
                     <div class="b5-col-stack" style="grid-column: 4 / 5;">
@@ -2928,7 +2928,7 @@
                   </div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Aides financières à activer</div>
-                    <div class="rad-hopital rad-hopital-ligne" style="grid-column: 2 / 4;">
+                    <div class="rad-hopital rad-hopital-ligne" style="grid-column: 3 / 4;">
                       <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Service social de l'hôpital</div>
                       <div class="rad-outil">Outil DMP</div>
                     </div>
