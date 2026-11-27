@@ -288,6 +288,76 @@
     return Array.from(block.querySelectorAll('.eval-titre')).map(texte).filter(Boolean);
   }
 
+  // --------------------------------------------------------
+  // 4 bis. Classement des besoins du domicile par catégories
+  //    (Maintien à domicile, et partie « Relais à domicile » de la Sortie d'hospitalisation)
+  //    - besoins : début du libellé (sans accents ni ponctuation) des lignes du schéma
+  //    - sections : nom de la thématique du schéma dont on prend toutes les lignes
+  //    - fusion : besoins rattachés à un autre (leurs structures s'ajoutent)
+  //    - libellé/source : un même besoin du schéma affiché sous un autre nom
+  //    Pour changer le classement, modifier ce tableau.
+  // --------------------------------------------------------
+  const CATEGORIES_DOMICILE = [
+    { titre: 'Lien social', besoins: ["lutte contre l isolement"] },
+    { titre: 'Accès aux droits', besoins: ['problematiques sociales', 'sante acces aux droits', 'perte d autonomie demande d aide', 'aides financieres demande d aides'] },
+    { titre: 'Accès aux soins', besoins: ['recherche de medecin traitant', 'recherche de professionnels de sante', { libelle: 'Dépistage', source: 'bilan de sante' }, { libelle: 'Bilan de santé', source: 'bilan de sante' }, 'soins non programmes'] },
+    { titre: 'Aides et soins à domicile', besoins: ['securisation du domicile', 'renforcement des aides', 'hospitalisation a domicile'],
+      fusion: { 'renforcement des aides': ['aides et services a domicile', 'aides a domicile', 'aides et soins a domicile'] } },
+    { titre: "Maladie d'Alzheimer et apparentée", sections: ['maladie d alzheimer'] },
+    { titre: 'Addiction', sections: ['addictologie'] },
+    { titre: "Protection d'un majeur vulnérable", sections: ['protection d un majeur'] },
+    { titre: 'Précarité', sections: ['precarite'] },
+    { titre: 'Soins palliatifs', sections: ['soins palliatifs'] },
+    { titre: 'Oncogériatrie', sections: ['oncogeriatrie'] },
+    { titre: 'Handicap', sections: ['handicap'] },
+    { titre: 'Santé mentale', sections: ['sante mentale'] },
+    { titre: 'Aidants', sections: ['aidants'] }
+  ];
+
+  function classerParCategories(themes, aClasser) {
+    const gardes = [];
+    const pool = [];
+    themes.forEach(t => {
+      const reste = [];
+      t.sousBesoins.forEach(sb => (aClasser(sb) ? pool : reste).push(sb));
+      if (reste.length) gardes.push(Object.assign({}, t, { sousBesoins: reste }));
+    });
+    const commence = (sb, motif) => normaliser(sb.label).startsWith(motif);
+    const utilises = new Set();
+    const categories = CATEGORIES_DOMICILE.map(cat => {
+      const liste = [];
+      (cat.besoins || []).forEach(b => {
+        const motif = typeof b === 'string' ? b : b.source;
+        pool.filter(sb => commence(sb, motif)).forEach(sb => {
+          utilises.add(sb);
+          let copie = Object.assign({}, sb, { theme: cat.titre });
+          if (typeof b !== 'string') copie = Object.assign(copie, { label: b.libelle });
+          const aFusionner = (cat.fusion || {})[motif] || [];
+          aFusionner.forEach(f => pool.filter(x => commence(x, f) && !commence(x, motif)).forEach(x => {
+            utilises.add(x);
+            copie.lignes = copie.lignes.concat(x.lignes);
+            copie.structures = copie.structures.concat(x.structures.filter(s => !copie.structures.some(y => y.el === s.el)));
+            copie.outils = copie.outils.concat(x.outils.filter(o => !copie.outils.includes(o)));
+          }));
+          liste.push(copie);
+        });
+      });
+      (cat.sections || []).forEach(sec => {
+        pool.filter(sb => !utilises.has(sb) && normaliser(sb.theme).includes(sec)).forEach(sb => {
+          utilises.add(sb);
+          liste.push(Object.assign({}, sb, { theme: cat.titre }));
+        });
+      });
+      return { nom: cat.titre, sousBesoins: liste };
+    }).filter(c => c.sousBesoins.length);
+    // Besoins du schéma qui ne sont dans aucune catégorie : on les garde sous leur thématique d'origine
+    const autres = {};
+    pool.filter(sb => !utilises.has(sb)).forEach(sb => {
+      (autres[sb.theme] = autres[sb.theme] || { nom: sb.theme, sousBesoins: [] }).sousBesoins.push(sb);
+    });
+    return gardes.concat(categories, Object.values(autres));
+  }
+
   function construireCatalogue() {
     return GRANDS_BESOINS.map(gb => {
       const besoin = Object.assign({}, gb, { themes: [] });
@@ -299,6 +369,9 @@
           // Pour l'utilisateur, on ne montre que les besoins qui ont au moins une structure
           .map(t => Object.assign(t, { sousBesoins: t.sousBesoins.filter(sb => sb.structures.length > 0) }))
           .filter(t => t.sousBesoins.length > 0);
+        // Classement par catégories : tout le Maintien à domicile, et la partie Relais à domicile de la Sortie
+        if (gb.blockId === 'block-besoin-3') besoin.themes = classerParCategories(besoin.themes, () => true);
+        if (gb.blockId === 'block-besoin-2') besoin.themes = classerParCategories(besoin.themes, sb => (sb.lignes || []).some(l => l && l.closest('#rad-relais')));
       }
       return besoin;
     });
