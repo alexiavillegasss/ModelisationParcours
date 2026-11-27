@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="lisibilite.css?v=20261124_1800">
   <!-- Étapes du PRIOCA -->
   <link rel="stylesheet" href="aides-autonomie.css?v=20261127_1100">
-  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1330">
+  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1350">
   <link rel="stylesheet" href="prioca.css?v=20261124_1730">
 
 
@@ -2995,7 +2995,7 @@
               </div>
 
               <!-- ==================== PARTIE 2 : RELAIS À DOMICILE (idem Maintien à domicile) ==================== -->
-              <div class="rad-titre-relais">RELAIS À DOMICILE <span>idem Maintien à domicile</span></div>
+              <div class="rad-titre-relais">RELAIS À DOMICILE</div>
               <!-- Le contenu est recopié automatiquement depuis la planche Maintien à domicile (relais-domicile.js) :
                    toute modification faite sur Maintien à domicile apparaît aussi ici. -->
               <div class="rad-relais" id="rad-relais"></div>
@@ -3012,8 +3012,9 @@
                   // identifiants uniques dans la copie
                   frag.querySelectorAll('[id]').forEach(function (el) { el.id = el.id + '--rad'; });
                   // titres de sections : « Maintien à domicile » devient « Relais à domicile »
+                  // le bandeau « Maintien à domicile — volet social » n'est pas repris (le bandeau Relais à domicile suffit)
                   frag.querySelectorAll('.b5-section-bar').forEach(function (b) {
-                    b.textContent = b.textContent.replace(/MAINTIEN À DOMICILE\s*—\s*/i, 'RELAIS À DOMICILE – ');
+                    if (/MAINTIEN À DOMICILE/i.test(b.textContent)) b.remove();
                   });
                   // Colonne Hôpital (à la place de Prévention) laissée vide pour l'instant :
                   // les cartes de prévention sont remplacées par un simple trait de liaison

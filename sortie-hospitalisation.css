@@ -131,11 +131,11 @@ html body .block-besoin.block-b2:not(.is-collapsed):not(.in-focus-mode) {
 }
 
 /* Grandes séparations de la planche (Retour à domicile sécurisé / Relais à domicile) :
-   rouge DAC, pour les distinguer des bandeaux bleus des thématiques */
+   gris clair, pour les distinguer des bandeaux bleus des thématiques */
 html body #block-besoin-2 .rad-section > .b5-section-bar,
 html body #block-besoin-2 .rad-titre-relais {
-  background: #ea5f45 !important;
-  border-color: #ea5f45 !important;
-  color: #ffffff !important;
-  box-shadow: 0 2px 8px rgba(234, 95, 69, 0.25);
+  background: #e2e8f0 !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #334155 !important;
+  box-shadow: none;
 }
