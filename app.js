@@ -2845,7 +2845,7 @@ function syncThematicsAlignment() {
   const b2Group = (b2 && !b2.classList.contains('is-collapsed')) ? b2.querySelector('.b5-thematics-group') : null;
   if (!b5Group || !b1Group) return;
 
-  const themes = ['soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'santementale', 'aidants', 'alzheimer', 'protection'];
+  const themes = ['alzheimer', 'protection', 'soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'santementale', 'aidants'];
 
   // 1. Réinitialisation des styles temporaires pour mesurer les hauteurs naturelles
   themes.forEach(t => {
@@ -2926,9 +2926,9 @@ function syncThematicsAlignment() {
   if (b2) void b2.offsetHeight;
 
   // 4. Alignement par boucle de convergence au pixel écran près entre B3, B1 et B2
-  const bar5 = b5Group.querySelector('.b5-theme-soinspalliatifs .b5-section-bar');
-  const bar1 = b1Group.querySelector('.b1-theme-soinspalliatifs .b1-section-bar');
-  const bar2 = b2Group ? b2Group.querySelector('.b5-theme-soinspalliatifs .b5-section-bar') : null;
+  const bar5 = b5Group.querySelector('.b5-theme-alzheimer .b5-section-bar');
+  const bar1 = b1Group.querySelector('.b1-theme-alzheimer .b1-section-bar');
+  const bar2 = b2Group ? b2Group.querySelector('.b5-theme-alzheimer .b5-section-bar') : null;
 
   if (bar5 && bar1) {
     b5Group.style.removeProperty('margin-top');
