@@ -28,7 +28,7 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 }
 
 /* Partie 1 : fond bleu de la colonne Hôpital, posé sur le rose / orange */
-#block-besoin-2 .rad-section { position: relative; padding-bottom: 6px; }
+#block-besoin-2 .rad-section { position: relative; padding-bottom: 4px; }
 #block-besoin-2 .rad-bg {
   position: absolute; inset: 0;
   display: grid;
@@ -43,13 +43,12 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 }
 #block-besoin-2 .rad-section > .b5-row,
 #block-besoin-2 .rad-section > .b5-section-bar { position: relative; z-index: 1; }
-#block-besoin-2 .rad-section > .b5-row { padding: 10px 0; border-bottom: 1px solid rgba(55, 102, 174, 0.18); }
-#block-besoin-2 .rad-section > .b5-row:last-child { border-bottom: 0; }
+#block-besoin-2 .rad-section > .b5-row { padding: 4px 0 !important; border: 0 !important; min-height: 0 !important; }
 
 /* Colonne Hôpital : cartes, petites notes et outil */
 #block-besoin-2 .rad-hopital {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 5px; padding: 2px 16px;
+  gap: 3px; padding: 0 16px;
 }
 #block-besoin-2 .rad-hopital .sch-card { width: auto !important; min-width: 150px; max-width: 260px; }
 #block-besoin-2 .rad-note {
@@ -76,8 +75,8 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 /* Partie 2 : bandeau « Relais à domicile » */
 #block-besoin-2 .rad-titre-relais {
   position: relative; z-index: 2;
-  margin: 26px 0 10px;
-  padding: 10px 16px;
+  margin: 12px 0 6px;
+  padding: 7px 16px;
   border-radius: 10px;
   background: #3766ae; color: #fff;
   font: 800 1.05rem/1.2 'Open Sans', 'Inter', sans-serif;
@@ -94,6 +93,19 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
   border-radius: 6px !important; border: 1.5px solid #3766ae !important;
 }
 
-/* Vue d'ensemble : la Sortie d'hospitalisation est plus haute que les autres planches ;
-   on n'étire plus la Filière (ni, par ricochet, le Maintien à domicile) à sa hauteur */
-.b1-b2-row { align-items: start !important; }
+/* ---- Mise en forme plus harmonieuse ---- */
+/* piles de cartes resserrées, cartes de même largeur dans une colonne */
+#block-besoin-2 .rad-section .b5-col-stack { gap: 4px !important; justify-content: center; }
+#block-besoin-2 .rad-section .b5-col-stack .sch-card { width: 100% !important; }
+#block-besoin-2 .rad-section .sch-card { min-height: 30px; display: flex !important; align-items: center; justify-content: center; flex-direction: column; }
+#block-besoin-2 .rad-section .sch-card small { display: block; font-weight: 600; font-size: 0.8em; opacity: 0.85; }
+#block-besoin-2 .rad-section .b5-crit { font-size: 0.78rem; }
+#block-besoin-2 .rad-hopital .sch-card { min-width: 190px; }
+#block-besoin-2 .rad-note { font-size: 0.6rem; line-height: 1.25; }
+#block-besoin-2 .rad-headers-relais { margin-bottom: 4px; }
+
+/* Colonne Hôpital sur deux colonnes (moins haute) */
+#block-besoin-2 .rad-hopital-2col { flex-direction: row; align-items: center; gap: 14px; }
+#block-besoin-2 .rad-hop-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+#block-besoin-2 .rad-hopital-2col .sch-card { min-width: 0; width: 100% !important; }
+#block-besoin-2 .rad-hopital-ligne { flex-direction: row; gap: 8px; }

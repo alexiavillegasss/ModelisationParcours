@@ -2835,9 +2835,8 @@ function syncThematicsAlignment() {
   if (document.body.classList.contains('board-focus-active')) return;
   const b3 = document.getElementById('block-besoin-3');
   const b1 = document.getElementById('block-besoin-1');
-  // La planche Sortie d'hospitalisation a sa propre structure (Retour à domicile sécurisé puis Relais à domicile) :
-  // ses thématiques ne sont plus alignées sur celles des autres planches.
-  const b2 = null;
+  // Sortie d'hospitalisation : ses thématiques (dans la partie Relais à domicile) restent en face de celles des autres planches
+  const b2 = document.getElementById('block-besoin-2');
   if (!b3 || !b1) return;
   if (b3.classList.contains('is-collapsed') || b1.classList.contains('is-collapsed')) return;
 
