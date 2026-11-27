@@ -129,3 +129,13 @@ html body #block-besoin-2 .b5-bg-columns .b5-bg-col.bg-pink {
 html body .block-besoin.block-b2:not(.is-collapsed):not(.in-focus-mode) {
   min-width: 1680px !important; width: 1680px !important; max-width: 1680px !important;
 }
+
+/* Grandes séparations de la planche (Retour à domicile sécurisé / Relais à domicile) :
+   rouge DAC, pour les distinguer des bandeaux bleus des thématiques */
+html body #block-besoin-2 .rad-section > .b5-section-bar,
+html body #block-besoin-2 .rad-titre-relais {
+  background: #ea5f45 !important;
+  border-color: #ea5f45 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(234, 95, 69, 0.25);
+}
