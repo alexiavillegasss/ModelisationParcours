@@ -308,7 +308,7 @@ function setupZoomAndPan() {
       'block-besoin-1': ['geriatrie-amb', 'geriatrie-hosp', 'geriatrie-ssr'],
 
       // 5. Sortie d'hospitalisation
-      'block-besoin-2': ['prev', 'info', 'aides', 'coord', 'soins', 'eval', 'trans'],
+      'block-besoin-2': ['prev', 'info', 'aides', 'aides-plans', 'coord', 'soins', 'eval', 'trans'],
 
       // 6. Entrée en établissement
       'block-besoin-4': ['medico', 'coord', 'trans']
@@ -2835,7 +2835,9 @@ function syncThematicsAlignment() {
   if (document.body.classList.contains('board-focus-active')) return;
   const b3 = document.getElementById('block-besoin-3');
   const b1 = document.getElementById('block-besoin-1');
-  const b2 = document.getElementById('block-besoin-2');
+  // La planche Sortie d'hospitalisation a sa propre structure (Retour à domicile sécurisé puis Relais à domicile) :
+  // ses thématiques ne sont plus alignées sur celles des autres planches.
+  const b2 = null;
   if (!b3 || !b1) return;
   if (b3.classList.contains('is-collapsed') || b1.classList.contains('is-collapsed')) return;
 

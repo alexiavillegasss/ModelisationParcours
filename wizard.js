@@ -321,8 +321,14 @@
   // --------------------------------------------------------
   // 5. Étapes du parcours (colonnes du schéma) pour ranger la réponse
   // --------------------------------------------------------
-  function colonnesEtapes(block) {
-    const entete = block.querySelector('.b5-col-headers, .b1-col-headers');
+  function colonnesEtapes(block, ligne) {
+    // Une planche peut avoir plusieurs en-têtes (ex. Sortie d'hospitalisation) : on prend celui situé juste au-dessus de la ligne
+    const entetes = [...block.querySelectorAll('.b5-col-headers, .b1-col-headers')];
+    let entete = entetes[0];
+    if (ligne && entetes.length > 1) {
+      const y = ligne.getBoundingClientRect().top;
+      entetes.forEach(e => { const r = e.getBoundingClientRect(); if (r.height && r.top <= y) entete = e; });
+    }
     if (!entete) return [];
     const feuilles = [];
     entete.querySelectorAll('.b5-ch-pill, .b1-ch-pill, .b5-sub-pill, .b1-sub-pill').forEach(el => {
@@ -367,7 +373,7 @@
     if (block && block.classList.contains('is-collapsed') && typeof window.toggleBoardCollapse === 'function') {
       try { window.toggleBoardCollapse(sb.besoin.blockId, false); } catch (e) { /* sans gravité */ }
     }
-    const colonnes = block && sb.besoin.blockId !== 'block-besoin-4' ? colonnesEtapes(block) : [];
+    const colonnes = block && sb.besoin.blockId !== 'block-besoin-4' ? colonnesEtapes(block, (sb.lignes || [])[0]) : [];
     return sb.structures
       .map((s, ordreSchema) => {
         const idx = etapeDeCarte(s.el, colonnes);

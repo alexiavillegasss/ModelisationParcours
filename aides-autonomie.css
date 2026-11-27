@@ -240,7 +240,7 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
 .b5-row-aides .aides-cell-eval .aides-ancre { width: 80px; }
 .b5-row-aides .aides-cell-eval .sch-card { width: 100% !important; margin: 0 !important; }
 .b5-row-aides .aides-cell-eval .aides-sous { left: -2px; right: -2px; }
-html body #b5-row-aides .aides-cell-eval .sch-card { max-width: none !important; margin: 0 !important; }
+html body .b5-row-aides .aides-cell-eval .sch-card { max-width: none !important; margin: 0 !important; }
 .b5-row-aides .aides-cell.aides-cell-eval { padding: 0 6px 0 2px !important; }
 .b5-row-aides .aides-cell-eval .aides-ancre { width: 78px; }
 html body #block-besoin-3 .b5-row,

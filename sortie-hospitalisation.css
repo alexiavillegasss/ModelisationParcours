@@ -1,0 +1,99 @@
+/* ========================================================
+   SORTIE D'HOSPITALISATION
+   1) « Retour à domicile sécurisé » : colonne HÔPITAL (à la place de Prévention + Informations)
+   2) « Relais à domicile » : recopie de la planche Maintien à domicile
+   ======================================================== */
+
+/* Même grille que Maintien à domicile (la partie Relais en est la copie) */
+html body #block-besoin-2 .b5-row,
+html body #block-besoin-2 .b5-col-headers,
+html body #block-besoin-2 .b5-bg-columns,
+html body #block-besoin-2 .rad-bg {
+  grid-template-columns: 175px 100px 335px 125px 130px 122px 128px 120px 115px 130px !important;
+}
+html body #block-besoin-2.in-focus-mode .b5-row,
+html body #block-besoin-2.in-focus-mode .b5-col-headers,
+html body #block-besoin-2.in-focus-mode .b5-bg-columns,
+html body #block-besoin-2.in-focus-mode .rad-bg {
+  grid-template-columns: 175px 96px 330px 120px 124px 117px 123px 110px 110px 125px !important;
+}
+
+/* En-tête HÔPITAL */
+#block-besoin-2 .b5-ch-pill.ch-hopital {
+  grid-column: 2 / 4;
+  background: #e4f3f9 !important;
+  border: 1.5px solid #73bed7 !important;
+  color: #0b6f93 !important;
+  letter-spacing: 0.04em;
+}
+
+/* Partie 1 : fond bleu de la colonne Hôpital, posé sur le rose / orange */
+#block-besoin-2 .rad-section { position: relative; padding-bottom: 6px; }
+#block-besoin-2 .rad-bg {
+  position: absolute; inset: 0;
+  display: grid;
+  pointer-events: none;
+  z-index: 0;
+}
+#block-besoin-2 .rad-bg-hopital {
+  grid-column: 2 / 4;
+  background: #e8f4fa;
+  border: 1px solid rgba(115, 190, 215, 0.55);
+  border-radius: 4px;
+}
+#block-besoin-2 .rad-section > .b5-row,
+#block-besoin-2 .rad-section > .b5-section-bar { position: relative; z-index: 1; }
+#block-besoin-2 .rad-section > .b5-row { padding: 10px 0; border-bottom: 1px solid rgba(55, 102, 174, 0.18); }
+#block-besoin-2 .rad-section > .b5-row:last-child { border-bottom: 0; }
+
+/* Colonne Hôpital : cartes, petites notes et outil */
+#block-besoin-2 .rad-hopital {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 2px 16px;
+}
+#block-besoin-2 .rad-hopital .sch-card { width: auto !important; min-width: 150px; max-width: 260px; }
+#block-besoin-2 .rad-note {
+  font: italic 600 0.62rem/1.3 'Inter', -apple-system, sans-serif;
+  color: #335a74; text-align: center; max-width: 280px;
+}
+#block-besoin-2 .rad-outil {
+  padding: 2px 10px; border-radius: 999px;
+  background: #1d2b45; color: #fff;
+  font: 800 0.6rem/1.5 'Inter', -apple-system, sans-serif;
+}
+
+/* Lien « Idem Maintien à domicile » */
+#block-besoin-2 .rad-idem {
+  align-self: center; justify-self: center;
+  padding: 6px 14px; border-radius: 8px;
+  background: #788896; color: #fff !important; text-decoration: none;
+  font: 800 0.72rem/1.2 'Inter', -apple-system, sans-serif;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+  position: relative; z-index: 2;
+}
+#block-besoin-2 .rad-idem:hover { background: #3766ae; }
+
+/* Partie 2 : bandeau « Relais à domicile » */
+#block-besoin-2 .rad-titre-relais {
+  position: relative; z-index: 2;
+  margin: 26px 0 10px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #3766ae; color: #fff;
+  font: 800 1.05rem/1.2 'Open Sans', 'Inter', sans-serif;
+  letter-spacing: 0.06em; text-align: center;
+}
+#block-besoin-2 .rad-titre-relais span {
+  display: block; margin-top: 2px;
+  font-weight: 600; font-style: italic; font-size: 0.72rem; letter-spacing: 0; opacity: 0.9;
+}
+#block-besoin-2 .rad-headers-relais { margin-bottom: 8px; }
+/* les thématiques de la copie gardent la mise en page de Maintien à domicile */
+#block-besoin-2 .rad-relais .b5-thematics-group .b5-section-bar {
+  margin-left: 0 !important; width: 100% !important;
+  border-radius: 6px !important; border: 1.5px solid #3766ae !important;
+}
+
+/* Vue d'ensemble : la Sortie d'hospitalisation est plus haute que les autres planches ;
+   on n'étire plus la Filière (ni, par ricochet, le Maintien à domicile) à sa hauteur */
+.b1-b2-row { align-items: start !important; }

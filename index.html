@@ -56,7 +56,8 @@
   <!-- Lisibilité des planches (en-têtes fixes, thèmes repliables, survol, légende compacte) -->
   <link rel="stylesheet" href="lisibilite.css?v=20261124_1800">
   <!-- Étapes du PRIOCA -->
-  <link rel="stylesheet" href="aides-autonomie.css?v=20261126_1240">
+  <link rel="stylesheet" href="aides-autonomie.css?v=20261127_1100">
+  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1110">
   <link rel="stylesheet" href="prioca.css?v=20261124_1730">
 
 
@@ -2845,365 +2846,158 @@
               <!-- En-tête supérieur -->
               <div class="b5-top-medallions">
                 <div class="b5-top-crit-hdr">
-                  <div class="b5-hdr-dark-pill">CRITÈRES D'ORIENTATION</div>
+                  <div class="b5-hdr-dark-pill" style="background:#64748b; font-size:0.72rem; padding:4px 12px;">BESOINS IDENTIFIÉS À L'HÔPITAL</div>
                 </div>
                 <div class="b5-top-acteurs-hdr">
                   <div class="b5-hdr-dark-pill">ACTEURS DE LA SORTIE D'HOSPITALISATION</div>
                 </div>
               </div>
 
-              <!-- En-tête des 5 colonnes (et sous-colonnes) -->
-              <div class="b5-col-headers">
+              <!-- ==================== PARTIE 1 : RETOUR À DOMICILE SÉCURISÉ (propre à la sortie d'hospitalisation) ==================== -->
+              <!-- En-tête : la colonne HÔPITAL remplace Prévention + Informations -->
+              <div class="b5-col-headers rad-headers">
                 <div class="b5-ch-empty"></div>
-                <div class="b5-ch-pill ch-pink">PRÉVENTION</div>
-                <div class="b5-ch-pill ch-amber">BESOINS<br>INFORMATIONS</div>
+                <div class="b5-ch-pill ch-hopital">HÔPITAL</div>
                 <div class="b5-ch-green-wrap">
                   <div class="b5-ch-pill ch-green">BESOIN DE MISE EN PLACE DES AIDES, SERVICES ET SOINS</div>
                   <div class="b5-ch-sub-row">
-                    <div class="b5-sub-pill sub-green">Recherche de professionnels</div>
+                    <div class="b5-sub-pill sub-green">Réception des demandes</div>
                     <div class="b5-sub-pill sub-green">Évaluation</div>
                     <div class="b5-sub-pill sub-green">Instruction</div>
-                    <div class="b5-sub-pill sub-green">Plan d'aide et préconisation</div>
+                    <div class="b5-sub-pill sub-green">Plan d'aides et préconisations</div>
                   </div>
                 </div>
                 <div class="b5-ch-red-wrap">
-                  <div class="b5-ch-pill ch-red">BESOIN D'ACCOMPAGNEMENT ET DE PRISE EN CHARGE AIDES, SERVICES ET SOINS</div>
+                  <div class="b5-ch-pill ch-red">BESOIN D'ACCOMPAGNEMENT ET DE SOINS</div>
                   <div class="b5-ch-sub-row b5-ch-sub-2">
-                    <div class="b5-sub-pill sub-red">Accompagnement aides et services</div>
+                    <div class="b5-sub-pill sub-red">Accompagnement par des aides et services</div>
                     <div class="b5-sub-pill sub-red">Prise en charge médicale</div>
                   </div>
                 </div>
                 <div class="b5-ch-pill ch-purple">COORDINATION</div>
               </div>
 
-              
-              <!-- ==================== SECTION 1 : SORTIE D'HOSPITALISATION (VOLET SOCIAL) ==================== -->
-              <div class="b5-section-bar">SORTIE D'HOSPITALISATION — VOLET SOCIAL</div>
-              <div class="b5-row">
-                <div class="b5-crit">Problématiques sociales : logement, administratif, accès aux droits, budget, isolement, maltraitance</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="ccas-prev">CCAS</div>
-                  <div class="b5-arrow-out"></div>
-                </div>
-                <div class="b5-stack" style="grid-column: 3 / 4;">
-                  <div class="sch-card b5-pill b5-pill-amber" data-id="ccas-info">CCAS</div>
-                  <div class="sch-card b5-pill b5-pill-amber" data-id="uts-info">UTS</div>
-                </div>
-              </div>
-
-              <!-- Ligne 2 : APA -> Service instruction de l'APA -> Service social APA -->
-              <div class="b5-row">
-                <div class="b5-crit">Accompagnement social, coordination 60 ans et + / bénéficiaires de l'APA</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-green b5-pill-wide" data-id="service-instruction-apa" style="grid-column: 5 / 8;">Service instruction de l'APA</div>
-                
-                <div class="sch-card b5-pill b5-pill-red" data-id="service-social-apa" style="grid-column: 8 / 9;">Service social APA</div>
-              </div>
-
-              <!-- Ligne 3 : Personne vulnérable -> Département du Var / Tribunal judiciaire -->
-              <div class="b5-row">
-                <div class="b5-crit">Personne vulnérable nécessitant une protection juridique</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-green b5-pill-wide" data-id="protection-juridique" style="grid-column: 5 / 8;">Département du Var / Tribunal judiciaire</div>
-              </div>
-
-              <!-- Ligne 4 : Alzheimer -> SAD Mixte - ESA -->
-              <div class="b5-row">
-                <div class="b5-crit">Mesure de protection juridique</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-amber" data-id="protection-juridique" style="grid-column: 3 / 4;">ISTF</div>
-              </div>
-
-              <!-- Ligne 6 : Suivi évolution neurologique -> Neurologues libéraux -->
-              <div class="b5-row">
-                <div class="b5-crit">Soutien, aide et échanges et formations diverses</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-amber" data-id="reseau-monalisa" style="grid-column: 3 / 4;">Associations</div>
-              </div>
-
-              <!-- Ligne 9 : HTU-SH -> EHPAD - HTU-SH -->
-              <div class="b5-row">
-                <div class="b5-crit">Maintien à domicile 60 ans et +, bénéficiaires PCH</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="clic-niv1-prev">CLIC (niveau 1)</div>
-                  <div class="b5-arrow-out"></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-amber" data-id="clic-niv1-info" style="grid-column: 3 / 4;">CLIC</div>
-                <div class="b5-arrow-cell" style="grid-column: 4 / 5;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-green" data-id="clic-niv2-3" style="grid-column: 5 / 6;">CLIC</div>
-                <div class="b5-arrow-cell" style="grid-column: 6 / 8;"><div class="b5-arrow-line"></div></div><div class="sch-card b5-pill b5-pill-red" data-id="clic-niv2-3" style="grid-column: 8 / 9;">CLIC</div>
-                <div class="b5-arrow-cell" style="grid-column: 9 / 10;"><div class="b5-arrow-line"></div></div>
-                <div class="b5-pill-flow" style="grid-column: 10 / 11;">
-                  <div class="sch-card b5-pill b5-pill-purple" data-id="clic-niv2-3">CLIC</div>
-                </div>
-              </div>
-
-              <!-- Ligne 11 : Accompagnement renforcé -> CRT (Prévention) -> CRT -->
-              <div class="b5-row">
-                <div class="b5-crit">Accès aux droits de santé et aides financières</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="cpam-prev">CPAM</div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 3 / 4;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Espace partenaire</span></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-green" data-id="prado-cpam" style="grid-column: 4 / 5;">CPAM - MISAS</div>
-              </div>
-
-              <!-- Ligne 18 : Hospitalisation à domicile -> HAD -->
-              <div class="b5-row">
-                <div class="b5-crit">Intervention d'aides à domicile et/ou auxiliaires de vie / Évaluation sécurité du logement avant retour à domicile</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 8;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire Évaluation À Domicile</span></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-red" data-id="sad-aide-maintien" style="grid-column: 8 / 9;">SAD aide</div>
-              </div>
-
-              <!-- Ligne 14 : Réadaptation post-hospitalisation -> SMR -->
-              <div class="b5-row">
-                <div class="b5-crit">Situation complexe, besoin de coordination entre les acteurs</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 10;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp" style="grid-column: 10 / 11;">DAC</div>
-              </div>
-
-              <!-- Ligne 13 : Intervention aides à domicile -> SAD aide -->
-
-              <!-- ==================== SECTION 1 BIS : SORTIE D'HOSPITALISATION (VOLET SOINS) ==================== -->
-              <div class="b5-section-bar">SORTIE D'HOSPITALISATION — VOLET SOIN</div>
-              <div class="b5-row">
-                <div class="b5-crit">Stimulation des capacités physiques et cognitives</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="aa83">Activité physique adaptée</div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 3 / 8;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Grand Âge</span></div>
-                </div>
-                <div class="b5-col-stack" style="grid-column: 8 / 9;">
-                  <div class="sch-card b5-pill b5-pill-red" data-id="ehpad-adj-maintien">Accueil de jour</div>
-                  <div class="sch-card b5-pill b5-pill-pink" data-id="ehpad-adj-maintien">EHPAD AJ</div>
-                </div>
-              </div>
-
-              <!-- Ligne 8 : Soutien, aide et échanges -> Associations -->
-              <div class="b5-row">
-                <div class="b5-crit">Aides et soins à domicile 60 ans et + / PH</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="sad-mixte-rep">SAD Mixte (Varef)</div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 3 / 8;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire Évaluation À Domicile</span></div>
-                </div>
-                <div class="b5-pill-flow" style="grid-column: 8 / 9;">
-                  <div class="sch-card b5-pill b5-pill-red" data-id="sad-mixte-maintien">SAD mixte</div>
-                  <div class="b5-arrow-out"></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-red" data-id="sad-mixte-maintien" style="grid-column: 9 / 10;">SAD mixte</div>
-              </div>
-
-              <!-- Ligne 16 : Accès aux soins -> CPTS (Prévention) -> CPTS -->
-              <div class="b5-row">
-                <div class="b5-crit">Accompagnement renforcé au domicile 60 ans et + / GIR 1-4</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="crt-prev">CRT</div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 3 / 8;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-red" data-id="crt-volet2-maintien" style="grid-column: 8 / 9;">CRT</div>
-              </div>
-
-              <!-- Ligne 12 : Situation complexe -> DAC -->
-              <div class="b5-row">
-                <div class="b5-crit">Soins accompagnement et réhabilitation Maladie d'Alzheimer ou apparentée</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-red" data-id="sad-esa" style="grid-column: 9 / 10;">SAD Mixte - ESA</div>
-              </div>
-
-              <!-- Ligne 5 : Mesure de protection juridique -> ISTF -->
-              <div class="b5-row">
-                <div class="b5-crit">Suivi de l'évolution neurologique, adaptation des prescriptions</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux" style="grid-column: 9 / 10;">Neurologues libéraux</div>
-              </div>
-
-              <!-- Ligne 7 : Stimulation capacités physiques -> Activité physique adaptée -> Accueil de jour / EHPAD - Accueil de jour -->
-              <div class="b5-row">
-                <div class="b5-crit">Hébergement temporaire d'urgence 60 ans et +, sortie hospitalisation</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-pink" data-id="ehpad-temporaire-urgence" style="grid-column: 9 / 10;">EHPAD - HTU-SH</div>
-              </div>
-
-              <!-- Ligne 10 : Maintien à domicile 60 ans et +, bénéficiaires PCH -> CLIC (niveau 1) -> CLIC -> CLIC -> CLIC -> CLIC -->
-              <div class="b5-row">
-                <div class="b5-crit">Réadaptation et rééducation post-hospitalisation aiguë</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 9;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-pink" data-id="smr-geriatrique" style="grid-column: 9 / 10;">SMR</div>
-              </div>
-
-              <!-- Ligne 15 : Aides et soins à domicile 60 ans et + / PH -> SAD Mixte (Varef) -> SAD mixte -> SAD mixte -->
-              <div class="b5-row">
-                <div class="b5-crit">Accès aux soins</div>
-                <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                  <div class="b5-arrow-in"></div>
-                  <div class="sch-card b5-pill b5-pill-prev" data-id="cpts-prev" onclick="window.openCptsMapModal && window.openCptsMapModal()" title="Cliquer pour afficher la carte interactive des CPTS du Var">CPTS</div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 3 / 4;">
-                  <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Sanitaire</span></div>
-                </div>
-                <div class="sch-card b5-pill b5-pill-green" data-id="cpts-relais-hosp" style="grid-column: 4 / 5;" onclick="window.openCptsMapModal && window.openCptsMapModal()" title="Cliquer pour afficher la carte interactive des CPTS du Var">CPTS</div>
-              </div>
-
-              <!-- Ligne 17 : Accès aux droits de santé -> CPAM (Prévention) -> CPAM - MISAS -->
-              <div class="b5-row">
-                <div class="b5-crit"></div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 4;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-green" data-id="cpts-relais-hosp" style="grid-column: 4 / 5;" onclick="window.openCptsMapModal && window.openCptsMapModal()" title="Cliquer pour afficher la carte interactive des CPTS du Var">CPTS</div>
-                <div class="b5-arrow-cell" style="grid-column: 5 / 10;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp" style="grid-column: 10 / 11;">DAC</div>
-              </div>
-
-              <!-- ==================== SECTION 2 : ADDICTOLOGIE ==================== -->
-              <div class="b5-row">
-                <div class="b5-crit">Soins de premier recours Délai -48h</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
-                <div class="b5-inline-pills" style="grid-column: 10 / 11;">
-                  <div class="sch-card b5-pill b5-pill-purple" data-id="clic-niv2-3">CLIC</div>
-                  <div class="sch-card b5-pill b5-pill-purple" data-id="dac-relais-hosp">DAC</div>
-                </div>
-              </div>
-
-              <!-- Ligne 21 : Urgences / SAS83 / 1er recours -->
-              <div class="b5-row">
-                <div class="b5-crit">Hospitalisation à domicile</div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
-                <div class="sch-card b5-pill b5-pill-blue" data-id="had-relais-hosp" style="grid-column: 9 / 10;">HAD</div>
-              </div>
-
-              <!-- Ligne 20 : Soins de premier recours Délai -48h -> CLIC + DAC -->
-              <div class="b5-row">
-                <div class="b5-crit b5-crit-urg">
-                  <div>Prise en charge médicale urgente : <strong>Urgences &rarr; IGU</strong></div>
-                  <div>Conseil médical urgent et SNP : <strong>SAS83 &rarr; Médecin régulateur / OSNP</strong></div>
-                </div>
-                <div class="b5-arrow-cell" style="grid-column: 2 / 8;"><div class="b5-arrow-line"></div></div>
-                <div class="b5-col-stack" style="grid-column: 8 / 10;">
-                  <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux">Professionnels 1er recours (MG, IDEL, ...)</div>
-                  <div class="sch-card b5-pill b5-pill-red" data-id="sos-medecins">Centres de soins non programmés dont SOS Médecins</div>
-                </div>
-              </div>
-
-              <!-- ==================== THÉMATIQUES TRANSVERSALES ==================== -->
-              <!-- CONTINUITÉ EXACTE AVEC L'HÔPITAL (B1) SUR TOUTE LA LIGNE -->
-              <div class="b5-thematics-group">
-                <!-- 1. SOINS PALLIATIFS -->
-                <div class="b5-theme-soinspalliatifs">
-                  <div class="b5-section-bar">SOINS PALLIATIFS</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Accompagnement de fin de vie, soins palliatifs et soulagement de la douleur à domicile</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
-                    <div class="b5-inline-pills" style="grid-column: 9 / 10;">
-                      <div class="sch-card b5-pill b5-pill-blue" data-id="had-relais-hosp">HAD dont ERISP</div>
-                      <div class="sch-card b5-pill b5-pill-blue" data-id="etsp-relais">ETSP</div>
+              <div class="rad-section">
+                <!-- fond bleu de la colonne Hôpital (cache Prévention + Informations dans cette partie) -->
+                <div class="rad-bg" aria-hidden="true"><div class="rad-bg-hopital"></div></div>
+                <div class="b5-section-bar">RETOUR À DOMICILE SÉCURISÉ</div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Continuité des soins, organisation du suivi médical</div>
+                    <div class="rad-hopital" style="grid-column: 2 / 4;">
+                      <div class="rad-note">Professionnels de santé libéraux déjà en place à contacter <strong>ou</strong> à mettre en place</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Cadre de santé ou AS de l'hôpital</div>
+                      <div class="rad-note">+ 75 ans : à mettre en place</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="prado-cpam">PRADO</div>
+                      <div class="rad-outil">Outil DMP</div>
                     </div>
+                    <div class="b5-arrow-cell" style="grid-column: 4 / 9;"><div class="b5-arrow-line"></div></div>
+                    <div class="sch-card b5-pill b5-pill-red" data-id="pro-liberaux" style="grid-column: 9 / 10;">Professionnels de santé libéraux</div>
                   </div>
-                </div>
-
-                <!-- 2. ONCOGÉRIATRIE -->
-                <div class="b5-theme-oncogeriatrie">
-                  <div class="b5-section-bar">ONCOGÉRIATRIE</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Prise en charge oncogériatrique, accompagnement et suivi des fragilités à domicile</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 11;"><div class="b5-arrow-line"></div></div>
-                  </div>
-                </div>
-
-                <!-- 3. PRÉCARITÉ -->
-                <div class="b5-theme-precarite">
-                  <div class="b5-section-bar">PRÉCARITÉ</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Besoins liés à l'incurie et au syndrome de Diogène</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
-                    <div class="sch-card b5-pill b5-pill-green" data-id="compagnons-batisseurs" style="grid-column: 5 / 6;">Compagnons Bâtisseurs</div>
-                    <div class="b5-arrow-cell" style="grid-column: 6 / 8;"><div class="b5-arrow-line"></div></div>
-                    <div class="sch-card b5-pill b5-pill-red" data-id="compagnons-batisseurs" style="grid-column: 8 / 9;">Compagnons Bâtisseurs</div>
-                  </div>
-                </div>
-
-                <!-- 4. HANDICAP -->
-                <div class="b5-theme-handicap">
-                  <div class="b5-section-bar">HANDICAP</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Reconnaissance du handicap et accès aux droits et dispositifs</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 5;"><div class="b5-arrow-line"></div></div>
-                    <div class="sch-card b5-pill b5-pill-green" data-id="mdph" style="grid-column: 5 / 6;">MDPH</div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Adaptation du logement et matériel médical</div>
+                    <div class="rad-hopital" style="grid-column: 2 / 4;">
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">AS de l'hôpital</div>
+                    </div>
+                    <div class="b5-col-stack" style="grid-column: 4 / 5;">
+                      <div class="sch-card b5-pill b5-pill-green" data-id="service-apa">Équipes médico-sociales du Département</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="ccas-social">CCAS</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="clic-niv2-3">CLIC</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="ergotherapeutes-liberaux">Ergothérapeutes libéraux</div>
+                    </div>
+                    <div class="b5-col-stack" style="grid-column: 5 / 6;">
+                      <div class="sch-card b5-pill b5-pill-green" data-id="service-apa">Équipes médico-sociales du Département</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="clic-niv2-3">CLIC</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="ergotherapeutes-liberaux">Ergothérapeutes libéraux</div>
+                    </div>
                     <div class="b5-arrow-cell" style="grid-column: 6 / 7;"><div class="b5-arrow-line"></div></div>
-                    <div class="sch-card b5-pill b5-pill-green" data-id="mdph" style="grid-column: 7 / 8;">MDPH</div>
+                    <div class="sch-card b5-pill b5-pill-green" data-id="ma-prime-adapt" style="grid-column: 7 / 8;">Ma Prime Adapt'</div>
+                    <div class="sch-card b5-pill b5-pill-red" data-id="prestataires-materiel" style="grid-column: 8 / 9;">Prestataires</div>
                   </div>
-                  <div class="b5-row" style="min-height: 52px; align-items: center;">
-                    <div class="b5-crit" style="line-height: 1.25; font-size: 0.76rem;">Besoin d'information, d'orientation, de recherche de solutions et de coordination du parcours pour personne en situation de handicap en risque de rupture</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 10;"><div class="b5-arrow-line"></div></div>
-                    <div class="sch-card b5-pill b5-pill-purple" data-id="c360" style="grid-column: 10 / 11; position: relative; z-index: 10;">C360</div>
-                  </div>
-                </div>
-
-                <!-- 5. AIDANTS -->
-                <!-- 6. ADDICTOLOGIE -->
-                <div class="b5-theme-addicto">
-                  <div class="b5-section-bar">ADDICTOLOGIE</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Besoin d'information, d'orientation et de coordination du parcours de santé en addictologie afin de favoriser l'accès aux soins et la continuité de l'accompagnement</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 3;"><div class="b5-arrow-line"></div></div>
-                    <div class="b5-pill-flow" style="grid-column: 3 / 4;">
-                      <div class="sch-card b5-pill b5-pill-amber" data-id="arca-sud">ARCA SUD</div>
-                      <div class="b5-arrow-out"></div>
-                    </div>
-                    <div class="sch-card b5-pill b5-pill-green" data-id="arca-sud" style="grid-column: 4 / 5;">ARCA SUD</div>
-                    <div class="b5-arrow-cell" style="grid-column: 5 / 8;"><div class="b5-arrow-line"></div></div><div class="sch-card b5-pill b5-pill-red" data-id="arca-sud" style="grid-column: 8 / 9;">ARCA SUD</div>
-                    <div class="b5-arrow-cell" style="grid-column: 9 / 10;"><div class="b5-arrow-line"></div></div>
-                    <div class="b5-pill-flow" style="grid-column: 10 / 11;">
-                      <div class="sch-card b5-pill b5-pill-purple" data-id="arca-sud">ARCA SUD</div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Aides humaines et soutien social</div>
+                    <div class="b5-arrow-cell" style="grid-column: 2 / 8;"><div class="b5-arrow-line"></div></div>
+                    <div class="b5-col-stack" style="grid-column: 8 / 9;">
+                      <div class="sch-card b5-pill b5-pill-red" data-id="sad-aide-maintien">SAD Aide</div>
+                      <div class="sch-card b5-pill b5-pill-red" data-id="portage-repas">Portage de repas</div>
+                      <div class="sch-card b5-pill b5-pill-red" data-id="teleassistance">Téléassistance</div>
                     </div>
                   </div>
-                </div>
-
-                <!-- 7. PSYCHOGÉRIATRIE -->
-                <div class="b5-theme-psychogeriatrie">
-                  <div class="b5-section-bar">PSYCHOGÉRIATRIE</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Troubles psychogériatriques du sujet âgé, accompagnement psycho-comportemental à domicile</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 11;"><div class="b5-arrow-line"></div></div>
-                  </div>
-                </div>
-
-                <!-- 7. AIDANTS -->
-                <div class="b5-theme-aidants">
-                  <div class="b5-section-bar">AIDANTS</div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Solutions de répit pour les aidants</div>
-                    <div class="b5-arrow-cell" style="grid-column: 2 / 8;">
-                      <div class="b5-arrow-line"><span class="b5-vt-badge">Via Trajectoire Grand Âge</span></div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Aides financières à activer</div>
+                    <div class="rad-hopital" style="grid-column: 2 / 4;">
+                      <div class="rad-outil">Outil DMP</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="service-social-hosp">Service social de l'hôpital</div>
                     </div>
-                    <div class="sch-card b5-pill b5-pill-blue" data-id="pfr-repit" style="grid-column: 8 / 9;">PFR</div>
-                  </div>
-                  <div class="b5-row">
-                    <div class="b5-crit">Accompagnement aidants personnes Maladie d'Alzheimer ou apparentée</div>
-                    <div class="b5-pill-flow" style="grid-column: 2 / 3;">
-                      <div class="b5-arrow-in"></div>
-                      <div class="sch-card b5-pill b5-pill-prev" data-id="pfr-repit">PFR</div>
-                      <div class="b5-arrow-out"></div>
+                    <div class="b5-col-stack" style="grid-column: 4 / 5;">
+                      <div class="sch-card b5-pill b5-pill-green" data-id="service-apa">Conseil départemental : APA en urgence</div>
+                      <div class="sch-card b5-pill b5-pill-green" data-id="caisses-retraite-info">Caisse de retraite : ARDH <small>Aide au retour à domicile après hospitalisation</small></div>
                     </div>
-                    <div class="sch-card b5-pill b5-pill-amber" data-id="pfr-repit" style="grid-column: 3 / 4;">PFR</div>
+                    <div class="sch-card b5-pill b5-pill-green" data-id="service-instruction-apa" style="grid-column: 5 / 6;">Département du Var : Service instruction APA</div>
+                    <div class="sch-card b5-pill b5-pill-green" data-id="service-social-apa" style="grid-column: 6 / 7;">Département du Var : Équipe médico-sociale</div>
+                    <a class="rad-idem" href="#b5-row-aides--rad" style="grid-column: 7 / 9;" title="Voir le circuit complet des aides autonomie, plus bas dans cette planche">Idem Maintien à domicile <span aria-hidden="true">↓</span></a>
                   </div>
-                </div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Transport et retour à domicile</div>
+                    <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
+                    <div class="b5-col-stack" style="grid-column: 9 / 10;">
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="taxis-conventionnes">Taxis conventionnés</div>
+                      <div class="sch-card b5-pill b5-pill-blue" data-id="transporteurs-sanitaires">Transporteurs sanitaires <small>(VSL, ambulances)</small></div>
+                    </div>
+                  </div>
+                  <div class="b5-row rad-row">
+                    <div class="b5-crit">Solutions alternatives si le domicile n'est pas prêt</div>
+                    <div class="b5-arrow-cell" style="grid-column: 2 / 8;"><div class="b5-arrow-line"></div></div>
+                    <div class="sch-card b5-pill b5-pill-blue" data-id="residence-autonomie" style="grid-column: 8 / 9;">Résidence autonomie</div>
+                    <div class="sch-card b5-pill b5-pill-blue" data-id="smr-geriatrique" style="grid-column: 9 / 10;">SMR</div>
+                  </div>
               </div>
+
+              <!-- ==================== PARTIE 2 : RELAIS À DOMICILE (idem Maintien à domicile) ==================== -->
+              <div class="rad-titre-relais">RELAIS À DOMICILE <span>idem Maintien à domicile</span></div>
+              <div class="b5-col-headers rad-headers-relais">
+                <div class="b5-ch-empty"></div>
+                <div class="b5-ch-pill ch-pink">PRÉVENTION</div>
+                <div class="b5-ch-pill ch-amber">BESOINS D'INFORMATIONS</div>
+                <div class="b5-ch-green-wrap">
+                  <div class="b5-ch-pill ch-green">BESOIN DE MISE EN PLACE DES AIDES, SERVICES ET SOINS</div>
+                  <div class="b5-ch-sub-row">
+                    <div class="b5-sub-pill sub-green">Réception des demandes</div>
+                    <div class="b5-sub-pill sub-green">Évaluation</div>
+                    <div class="b5-sub-pill sub-green">Instruction</div>
+                    <div class="b5-sub-pill sub-green">Plan d'aides et préconisations</div>
+                  </div>
+                </div>
+                <div class="b5-ch-red-wrap">
+                  <div class="b5-ch-pill ch-red">BESOIN D'ACCOMPAGNEMENT ET DE SOINS</div>
+                  <div class="b5-ch-sub-row b5-ch-sub-2">
+                    <div class="b5-sub-pill sub-red">Accompagnement par des aides et services</div>
+                    <div class="b5-sub-pill sub-red">Prise en charge médicale</div>
+                  </div>
+                </div>
+                <div class="b5-ch-pill ch-purple">COORDINATION</div>
+              </div>
+              <!-- Le contenu est recopié automatiquement depuis la planche Maintien à domicile (relais-domicile.js) :
+                   toute modification faite sur Maintien à domicile apparaît aussi ici. -->
+              <div class="rad-relais" id="rad-relais"></div>
+              <script>
+                (function () {
+                  // Recopie de la planche Maintien à domicile (tout ce qui suit son en-tête de colonnes)
+                  var mad = document.querySelector('#block-besoin-3 .b5-matrix-layout');
+                  var cible = document.getElementById('rad-relais');
+                  if (!mad || !cible) return;
+                  var hdr = mad.querySelector(':scope > .b5-col-headers');
+                  var n = hdr ? hdr.nextSibling : null;
+                  var frag = document.createDocumentFragment();
+                  for (; n; n = n.nextSibling) frag.appendChild(n.cloneNode(true));
+                  // identifiants uniques dans la copie
+                  frag.querySelectorAll('[id]').forEach(function (el) { el.id = el.id + '--rad'; });
+                  // titres de sections : « Maintien à domicile » devient « Relais à domicile »
+                  frag.querySelectorAll('.b5-section-bar').forEach(function (b) {
+                    b.textContent = b.textContent.replace(/MAINTIEN À DOMICILE\s*—\s*/i, 'RELAIS À DOMICILE – ');
+                  });
+                  cible.appendChild(frag);
+                })();
+              </script>
 
             </div>
           </div>
@@ -5717,13 +5511,13 @@
   </div>
 
   <script src="data/structures_data.js?v=20261123_1900"></script>
-  <script src="app.js?v=20261124_1530"></script>
-  <script src="aides-autonomie.js?v=20261126_1240"></script>
+  <script src="app.js?v=20261127_1100"></script>
+  <script src="aides-autonomie.js?v=20261127_1100"></script>
   <script src="lisibilite.js?v=20261124_1800"></script>
   <script src="fleches.js?v=20261123_1945"></script>
   <script src="prioca.js?v=20261124_1730"></script>
   <script src="synth-map.js?v=20261123_1800"></script>
-  <script src="wizard.js?v=20261123_2000"></script>
+  <script src="wizard.js?v=20261127_1100"></script>
   <script src="crt_module.js?v=20261118_1022"></script>
   <script src="cpts_module.js?v=20261118_1022"></script>
 

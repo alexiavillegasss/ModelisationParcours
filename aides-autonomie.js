@@ -31,14 +31,20 @@
 
   const COULEUR = '#24467a';
 
+  // Le bloc existe sur Maintien à domicile et, recopié, dans « Relais à domicile » (Sortie d'hospitalisation) :
+  // chaque copie a les mêmes identifiants suivis d'un suffixe (ex. « --rad »).
   function dessiner() {
-    const bloc = document.getElementById('b5-row-aides');
-    if (!bloc) return;
+    document.querySelectorAll('.b5-row-aides').forEach(dessinerBloc);
+  }
+
+  function dessinerBloc(bloc) {
+    const suf = bloc.id.slice('b5-row-aides'.length);
+    const pointe = 'aides-pointe' + suf;
     const rb = bloc.getBoundingClientRect();
     if (!rb.width || !bloc.offsetWidth) return;
     const ech = rb.width / bloc.offsetWidth;
     const R = id => {
-      const el = document.getElementById(id);
+      const el = document.getElementById(id + suf);
       if (!el) return null;
       const r = el.getBoundingClientRect();
       if (!r.width) return null;
@@ -61,7 +67,7 @@
     svg.style.width = W + 'px';
     svg.style.height = H + 'px';
 
-    const morceaux = [`<defs><marker id="aides-pointe" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="${COULEUR}"/></marker></defs>`];
+    const morceaux = [`<defs><marker id="${pointe}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="${COULEUR}"/></marker></defs>`];
     const etiquettes = [];
     const cerfa = R('aides-cerfa');
 
@@ -74,7 +80,7 @@
       const yc = Math.min(Math.max(crit.cy, y0), y1);
       morceaux.push(`<path d="M${crit.r + 2} ${yc} H${x0 - 5} M${x0} ${y0} V${y1}"/>`);
       morceaux.push(`<path d="M${x0 - 5} ${yc} L${x0} ${yc - 5} M${x0 - 5} ${yc} L${x0} ${yc + 5}"/>`);
-      sources.forEach(s => morceaux.push(`<path d="M${x0} ${s.cy} H${s.l - 2}" marker-end="url(#aides-pointe)"/>`));
+      sources.forEach(s => morceaux.push(`<path d="M${x0} ${s.cy} H${s.l - 2}" marker-end="url(#${pointe})"/>`));
     }
     const point = (x, y) => morceaux.push(`<circle cx="${x}" cy="${y}" r="3" fill="${COULEUR}" stroke="none"/>`);
 
@@ -84,7 +90,7 @@
       const ys = sources.map(s => s.cy).concat(cerfa.cy);
       sources.forEach(s => morceaux.push(`<path d="M${s.r} ${s.cy} H${xb}"/>`));
       morceaux.push(`<path d="M${xb} ${Math.min(...ys)} V${Math.max(...ys)}"/>`);
-      morceaux.push(`<path d="M${xb} ${cerfa.cy} H${cerfa.l - 2}" marker-end="url(#aides-pointe)"/>`);
+      morceaux.push(`<path d="M${xb} ${cerfa.cy} H${cerfa.l - 2}" marker-end="url(#${pointe})"/>`);
     }
 
     // Hauteur de passage des flèches : on garde la même ligne d'une carte à l'autre (flèches droites)
@@ -101,7 +107,7 @@
       morceaux.push(`<path d="M${cerfa.r} ${cerfa.cy} H${xs} M${xs} ${Math.min(...ys)} V${Math.max(...ys)}"/>`);
       fourches.forEach(([, vers, o]) => {
         const b = R(vers); if (!b) return;
-        morceaux.push(`<path d="M${xs} ${b.cy} H${b.l - 2}" marker-end="url(#aides-pointe)"/>`);
+        morceaux.push(`<path d="M${xs} ${b.cy} H${b.l - 2}" marker-end="url(#${pointe})"/>`);
         arrivee[vers] = b.cy;
         etiquettes.push({ x: xs + 7, y: b.cy, t: o.label, cls: 'aides-lbl-sombre aides-lbl-gauche' });
       });
@@ -122,12 +128,12 @@
           morceaux.push(`<path d="M${a.r} ${y0} H${xv}"/>`);
           point(xv, y0);
           morceaux.push(`<path class="pont" d="M${xv} ${y0} V${b.b + 2}"/>`);
-          morceaux.push(`<path d="M${xv} ${y0} V${b.b + 2}" marker-end="url(#aides-pointe)"/>`);
+          morceaux.push(`<path d="M${xv} ${y0} V${b.b + 2}" marker-end="url(#${pointe})"/>`);
           const inst = R('aides-inst-apad');
           const yl = inst ? (b.b + inst.t) / 2 : (b.b + y0) / 2;
           etiquettes.push({ x: xv, y: yl, t: o.label, cls: 'aides-lbl-retour aides-lbl-vert' });
         } else {
-          morceaux.push(`<path d="M${xv} ${y0} H${b.cx} V${b.b + 2}" marker-end="url(#aides-pointe)"/>`);
+          morceaux.push(`<path d="M${xv} ${y0} H${b.cx} V${b.b + 2}" marker-end="url(#${pointe})"/>`);
           etiquettes.push({ x: (xv + b.cx) / 2, y: y0, t: o.label, cls: 'aides-lbl-vert' });
         }
         return;
@@ -161,7 +167,7 @@
         d = `M${a.r} ${a.cy} H${xm} V${b.cy} H${b.l - 2}`;
         arrivee[vers] = b.cy;
       }
-      morceaux.push(`<path class="${o.retour ? 'pointilles' : ''}" d="${d}" marker-end="url(#aides-pointe)"/>`);
+      morceaux.push(`<path class="${o.retour ? 'pointilles' : ''}" d="${d}" marker-end="url(#${pointe})"/>`);
     });
 
     svg.innerHTML = `<g fill="none" stroke="${COULEUR}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${morceaux.join('')}</g>`;
@@ -186,8 +192,10 @@
     setTimeout(dessiner, 1200);
     setTimeout(dessiner, 2500);
     window.addEventListener('resize', () => planifier(250));
-    const bloc = document.getElementById('b5-row-aides');
-    if (bloc && typeof ResizeObserver !== 'undefined') new ResizeObserver(() => planifier(80)).observe(bloc);
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => planifier(80));
+      document.querySelectorAll('.b5-row-aides').forEach(b => ro.observe(b));
+    }
     new MutationObserver(() => planifier(350)).observe(document.body, { attributes: true, attributeFilter: ['class'] });
     window.dessinerFlechesAides = dessiner;
   }
