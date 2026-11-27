@@ -13,7 +13,7 @@
   // --------------------------------------------------------
   // Thèmes repliés à l'ouverture (les volets social / soin et le parcours
   // hospitalier restent toujours ouverts)
-  const THEMES_REPLIES_PAR_DEFAUT = ['soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'psychogeriatrie', 'aidants'];
+  const THEMES_REPLIES_PAR_DEFAUT = ['soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'santementale', 'aidants', 'alzheimer', 'protection'];
 
   function cleTheme(wrapper) {
     const m = /(?:b5|b1)-theme-([a-z]+)/.exec(wrapper.className);

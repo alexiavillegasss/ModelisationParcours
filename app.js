@@ -2845,7 +2845,7 @@ function syncThematicsAlignment() {
   const b2Group = (b2 && !b2.classList.contains('is-collapsed')) ? b2.querySelector('.b5-thematics-group') : null;
   if (!b5Group || !b1Group) return;
 
-  const themes = ['soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'psychogeriatrie', 'aidants'];
+  const themes = ['soinspalliatifs', 'oncogeriatrie', 'precarite', 'handicap', 'addicto', 'santementale', 'aidants', 'alzheimer', 'protection'];
 
   // 1. Réinitialisation des styles temporaires pour mesurer les hauteurs naturelles
   themes.forEach(t => {

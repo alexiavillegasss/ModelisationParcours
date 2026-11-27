@@ -38,7 +38,7 @@
     },
     'block-besoin-2': {
       selecteur: '.b5-col-headers .b5-ch-pill',
-      liens: [['PRÉVENTION', 2], ['BESOINS', 3, "S'informer"], ['BESOIN DE MISE EN PLACE', 5], ['COORDINATION', 9, 'Coordonner'], ["BESOIN D'ACCOMPAGNEMENT", 7]]
+      liens: [['HÔPITAL', 9, 'Renforcer le lien ville-hôpital'], ['BESOINS', 3, "S'informer"], ['BESOIN DE MISE EN PLACE', 5], ['COORDINATION', 9, 'Coordonner'], ["BESOIN D'ACCOMPAGNEMENT", 7]]
     }
   };
 
