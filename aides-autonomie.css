@@ -254,3 +254,10 @@ html body #block-besoin-3.in-focus-mode .b5-bg-columns {
   grid-template-columns: 175px 96px 330px 120px 124px 117px 123px 110px 110px 125px !important;
 }
 .b5-row-aides .aides-cerfa-col { grid-row: 1 / 4 !important; align-self: center; margin-top: 8px; }
+
+/* Précarité : CPAM sur toute la mise en place, SIAO-115 infirmier sous la colonne Évaluation */
+.b5-row > .precarite-mise-en-place {
+  display: grid; grid-template-columns: subgrid; row-gap: 4px; align-self: center; align-content: center;
+}
+/* Précarité : accolade vers les dispositifs de soins */
+.b5-row > .precarite-accolade { border-left: 2px solid #94a3b8; padding-left: 5px; margin-left: 2px; }
