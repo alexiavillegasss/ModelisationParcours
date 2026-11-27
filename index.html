@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="lisibilite.css?v=20261124_1800">
   <!-- Étapes du PRIOCA -->
   <link rel="stylesheet" href="aides-autonomie.css?v=20261127_1100">
-  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1150">
+  <link rel="stylesheet" href="sortie-hospitalisation.css?v=20261127_1200">
   <link rel="stylesheet" href="prioca.css?v=20261124_1730">
 
 
@@ -2938,8 +2938,9 @@
                     </div>
                     <div class="sch-card b5-pill b5-pill-green" data-id="service-instruction-apa" style="grid-column: 5 / 6;">Département du Var : Service instruction APA</div>
                     <div class="sch-card b5-pill b5-pill-green" data-id="service-social-apa" style="grid-column: 6 / 7;">Département du Var : Équipe médico-sociale</div>
-                    <a class="rad-idem" href="#b5-row-aides--rad" style="grid-column: 7 / 9;" title="Voir le circuit complet des aides autonomie, plus bas dans cette planche">Idem Maintien à domicile <span aria-hidden="true">↓</span></a>
                   </div>
+                  <!-- Circuit complet des aides autonomie : recopié automatiquement depuis Maintien à domicile -->
+                  <div id="rad-aides-slot" hidden></div>
                   <div class="b5-row rad-row">
                     <div class="b5-crit">Transport et retour à domicile</div>
                     <div class="b5-arrow-cell" style="grid-column: 2 / 9;"><div class="b5-arrow-line"></div></div>
@@ -3000,6 +3001,16 @@
                     b.textContent = b.textContent.replace(/MAINTIEN À DOMICILE\s*—\s*/i, 'RELAIS À DOMICILE – ');
                   });
                   cible.appendChild(frag);
+
+                  // Le bloc « Aides financières : demande d'aides autonomie » est aussi placé dans Retour à domicile sécurisé
+                  var slot = document.getElementById('rad-aides-slot');
+                  var aides = document.getElementById('b5-row-aides');
+                  if (slot && aides) {
+                    var copie = aides.cloneNode(true);
+                    copie.id = copie.id + '--rad1';
+                    copie.querySelectorAll('[id]').forEach(function (el) { el.id = el.id + '--rad1'; });
+                    slot.replaceWith(copie);
+                  }
                 })();
               </script>
 

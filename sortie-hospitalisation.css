@@ -43,7 +43,7 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 }
 #block-besoin-2 .rad-section > .b5-row,
 #block-besoin-2 .rad-section > .b5-section-bar { position: relative; z-index: 1; }
-#block-besoin-2 .rad-section > .b5-row { padding: 4px 0 !important; border: 0 !important; min-height: 0 !important; }
+#block-besoin-2 .rad-section > .b5-row:not(.b5-row-aides) { padding: 4px 0 !important; border: 0 !important; min-height: 0 !important; }
 
 /* Colonne Hôpital : cartes, petites notes et outil */
 #block-besoin-2 .rad-hopital {
@@ -109,3 +109,6 @@ html body #block-besoin-2.in-focus-mode .rad-bg {
 #block-besoin-2 .rad-hop-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
 #block-besoin-2 .rad-hopital-2col .sch-card { min-width: 0; width: 100% !important; }
 #block-besoin-2 .rad-hopital-ligne { flex-direction: row; gap: 8px; }
+
+/* Bloc aides autonomie dans Retour à domicile sécurisé : posé sur fond clair pour rester lisible sur la colonne Hôpital */
+#block-besoin-2 .rad-section > .b5-row-aides { margin: 6px 0; }
